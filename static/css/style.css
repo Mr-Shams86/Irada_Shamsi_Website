@@ -1,0 +1,1197 @@
+/* === Base Styles === */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap');
+
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    text-decoration: none;
+    border: none;
+    outline: none;
+    scroll-behavior: smooth;
+    font-family: 'Poppins', sans-serif;
+}
+
+:root {
+    --header-height: 10rem; /* Высота шапки */
+    --bg-color: #1f242d;
+    --second-bg-color: #323946;
+    --text-color: #fff;
+    --main-color: rgb(235, 77, 208);
+}
+
+html {
+    font-size: 62.5%;
+    overflow-x: hidden;
+    scroll-behavior: smooth; /* Плавный скроллинг */
+}
+
+body {
+    background: var(--bg-color);
+    color: var(--text-color);
+    scroll-snap-type: y mandatory; /* Прокрутка по вертикали с привязкой */
+    overflow-y: scroll; /* Включаем вертикальную прокрутку */
+}
+
+section {
+    min-height: 100vh; /* Каждая секция занимает высоту экрана */
+    display: flex; /* Центрируем содержимое */
+    flex-direction: column; /* Элементы располагаются вертикально */
+    justify-content: center; /* Центрируем по вертикали */
+    padding: 10rem 9% 2rem; /* Сохраняем отступы */
+    scroll-snap-align: start; /* Привязываем секцию к началу экрана */
+    -webkit-scroll-snap-align: start;
+    position: relative; /* Убедитесь, что секции находятся в нормальном потоке */
+}
+
+/* === Header === */
+.header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    padding: 2rem 9%;
+    background: var(--bg-color);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: var(--header-height); /* Используем переменную для высоты шапки */
+    z-index: 1000;
+}
+
+.header.sticky {
+    border-bottom: .1rem solid rgba(0, 0, 0, .2);
+}
+
+.logo {
+    font-size: 2rem;
+    color: var(--text-color);
+    font-weight: 600;
+    cursor: default;
+}
+
+.navbar {
+    display: flex; /* Используем flexbox для выравнивания */
+    justify-content: center; /* Центрируем ссылки */
+    gap: 2rem; /* Расстояние между ссылками */
+}
+
+.navbar a {
+    font-size: 1.7rem;
+    color: var(--text-color);
+    padding: 0.5rem 1rem; /* Добавляем отступы для равномерного пространства */
+    transition: .3s;
+    white-space: nowrap; /* Предотвращаем перенос текста на следующую строку */
+    text-align: center; /* Центрируем текст внутри ссылки */
+    min-width: 100px; /* Устанавливаем минимальную ширину для каждой ссылки */
+}
+
+.navbar a:hover, 
+.navbar a.active {
+    color: var(--main-color);
+}
+
+/* Language Switcher */
+
+.language-switcher {
+    display: flex;
+    gap: 0.5rem; /* Расстояние между кнопками */
+    margin-left: 1.5rem; /* Отступ от навигации, совпадает с .navbar a */
+}
+
+.language-switcher a {
+    font-size: 1rem;
+    color: var(--main-color);
+    text-decoration: none;
+    padding: 0.5rem 1rem;
+    border: 0.1rem solid var(--main-color);
+    border-radius: 0.4rem;
+    transition: 0.3s ease;
+}
+
+.language-switcher a:hover {
+    background: var(--main-color);
+    color: var(--bg-color);
+}
+
+.language-switcher a.active {
+    background: var(--main-color);
+    color: var(--bg-color);
+}
+
+
+#menu-icon {
+    font-size: 2.5rem;
+    color: var(--text-color);
+    display: none;
+}
+
+/* === Home Section === */
+
+.home {
+    display: flex;
+    flex-direction: row; /* Элементы расположены в строку */
+    justify-content: space-between; /* Размещаем текст и фото на одной линии */
+    align-items: center;
+    text-align: left; /* Текст выравнивается по левому краю */
+    padding-top: var(--header-height); /* Добавляем отступ сверху для шапки */
+    gap: 1rem; /* Расстояние между текстом и фото */  
+}
+
+.home-img {
+    order: -1; /* Изображение справа */
+    flex: 1; /* Изображение занимает одну часть */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+
+.home-img img {
+    width: 100%; /* Уменьшаем размер изображения */
+    max-width: 30%; /* Ограничиваем ширину изображения */
+    max-height: 60vh; /* Ограничиваем высоту */
+    object-fit: contain; /* Подгоняем изображение */
+    margin: 0; /* Убираем лишний отступ сверху */
+    border-radius: 5%;
+    box-shadow: 0 0 15px 5px var(--main-color); /* Розовая подсветка */
+    animation: floatImage 4s ease-in-out infinite;
+    padding: 0; /* Убираем возможные внутренние отступы */
+    display: block; /* Убедитесь, что изображение корректно растянуто */
+}
+
+.home-img img:hover {
+    box-shadow: 0 0 20px 10px var(--main-color); /* Яркая подсветка при наведении */
+    transition: box-shadow 0.3s ease; /* Плавный эффект */
+}
+
+@keyframes floatImage {
+    0% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(-1rem); /* Меньше смещение на мобильных */
+    }
+
+    100% {
+        transform: translateY(0);
+    }
+}
+
+.home-content {
+    flex: 1; /* Текст занимает одну часть */
+    margin-top: 2rem; /* Дополнительный отступ для контента */
+    padding-right: 2rem; /* Добавляем отступ от изображения */
+    order: 1; /* Текст после изображения */
+}
+
+.home-content h3 {
+    font-size: clamp(2rem, 4vw, 3.2rem);
+    margin-bottom: 2rem;
+    font-weight: 700;
+}
+
+.home-content h3:nth-of-type(2) {
+    margin-bottom: 2rem;
+}
+
+span {
+    color: var(--main-color);
+}
+
+.home-content h1 {
+    font-size: clamp(3rem, 5vw, 5.6rem);
+    font-weight: 700;
+    line-height: 1.3;
+}
+
+.buttons-container {
+    display: flex;
+    flex-wrap: wrap; /* Перенос строк при необходимости */
+    gap: 1rem; /* Расстояние между кнопками */
+    margin-top: 1.5rem; /* Отступ сверху */
+}
+
+.buttons-container .btn {
+    padding: 1rem 2.8rem;
+    border-radius: 4rem;
+}
+
+
+.home-content p {
+    font-size: 1.6rem;
+    margin-bottom: 1rem; /* Отступ снизу */
+}
+
+.social-media {
+    order: 3; /* Социальные сети под текстом */
+    display: flex;
+    justify-content: flex-start; /* Выравниваем социальные сети по левому краю */
+    margin: 1rem; /* Отступы между иконками социальных сетей */
+}
+
+.social-media a {
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    width: 4rem;
+    height: 4rem;
+    background: transparent;
+    border: .2rem solid var(--main-color);
+    border-radius: 50%;
+    font-size: 2rem;
+    color: var(--main-color);
+    margin: 2rem 1rem; /* Оптимальные отступы для всех экранов */
+    transition: .5s ease;
+}
+
+.social-media a:hover {
+    background: var(--main-color);
+    color: var(--second-bg-color);
+    box-shadow: 0 0 1rem var(--main-color);
+}
+
+/* === Buttons === */
+.btn {
+    display: inline-block;
+    padding: 1rem 2.8rem;
+    background: var(--main-color);
+    border-radius: 4rem;
+    box-shadow: 0 0 1rem var(--main-color);
+    font-size: 1.6rem;
+    color: var(--second-bg-color);
+    letter-spacing: .1rem;
+    font-weight: 600;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.btn:hover {
+    transform: scale(1.1);
+    box-shadow: 0 0 1.5rem var(--main-color);
+}
+
+/* === About Section === */
+
+.about {
+    display: flex;
+    flex-direction: row; /* Фото справа, текст слева */
+    justify-content: space-between; /* Располагаем текст и фото на одной линии */
+    align-items: center; /* Центрируем элементы по вертикали */
+    text-align: left; /* Текст выравнивается по левому краю */
+    padding: 5rem 10%; /* Отступы от краев секции */
+    gap: 3rem; /* Расстояние между текстом и фото */
+    background: var(--second-bg-color); /* Фон секции */
+}
+
+.about-img {
+    order: 2; /* Фото справа */
+    flex: 1; /* Фото занимает одну часть */
+    display: flex;
+    justify-content: center; /* Центрируем фото горизонтально */
+    align-items: center; /* Центрируем фото вертикально */
+}
+
+.about-img img {
+    width: 100%; /* Ширина изображения */
+    max-width: 30%; /* Ограничиваем ширину на больших экранах */
+    max-height: 60vh; /* Ограничиваем высоту */
+    object-fit: contain; /* Сохраняем пропорции изображения */
+    border-radius: 5%; /* Закругляем углы */
+    box-shadow: 0 0 15px 5px var(--main-color); /* Добавляем подсветку */
+    transition: transform 0.3s ease, box-shadow 0.3s ease; /* Эффекты при наведении */
+}
+
+.about-img img:hover {
+    transform: scale(1.05); /* Лёгкое увеличение при наведении */
+    box-shadow: 0 0 20px 10px var(--main-color); /* Увеличение подсветки */
+}
+
+
+.heading {
+    text-align: center;
+    font-size: 4.5rem;
+}
+
+/* Контент (текст) */
+.about-content {
+    order: 1; /* Текст слева */
+    flex: 1; /* Текст занимает одну часть */
+    padding-right: 2rem; /* Отступ от фото */
+}
+
+.about-content h2 {
+    font-size: clamp(2.5rem, 4vw, 4rem); /* Адаптивный заголовок */
+    margin-bottom: 2rem; /* Отступ снизу */
+}
+
+.about-content h3 {
+    font-size: clamp(2rem, 3vw, 2.6rem); /* Адаптивный подзаголовок */
+    margin-bottom: 1rem; /* Отступ снизу */
+}
+
+.about-content p {
+    font-size: clamp(1.4rem, 2vw, 1.6rem); /* Адаптивный текст */
+    margin-bottom: 1.5rem; /* Отступ между абзацами */
+}
+
+
+/* === Services Section === */
+.services h2 {
+    margin-bottom: 5rem;
+}
+
+.services-container {
+    display: grid; /* Используем grid вместо flex */
+    grid-template-columns: repeat(auto-fit, minmax(30rem, 1fr)); /* Устанавливаем колонки */
+    gap: 2rem; /* Расстояние между колонками */
+}
+
+.services-container .services-box {
+    background: var(--second-bg-color);
+    padding: 3rem 2rem 4rem;
+    border-radius: 2rem;
+    text-align: center;
+    border: 0.2rem solid var(--bg-color);
+    transition: 0.5s ease;
+    display: flex; /* Используем flex внутри каждой коробки */
+    flex-direction: column; /* Растягиваем содержимое по вертикали */
+    justify-content: space-between; /* Равномерное распределение элементов */
+}
+
+.services-container .services-box:hover {
+    border-color: var(--main-color);
+    transform: scale(1.02);
+}
+
+.services-box i {
+    font-size: 7rem;
+    color: var(--main-color);
+}
+
+.services-box h3 {
+    font-size: 2.6rem;
+}
+
+.services-box p {
+    font-size: 1.6rem;
+    margin: 1rem 0 3rem;
+}
+
+
+/* === Portfolio Section (Desktop) === */
+
+.portfolio {
+    background: var(--second-bg-color);
+    padding: 4rem 2rem;
+}
+
+.portfolio h2 {
+    margin-bottom: 4rem;
+    text-align: center;
+    font-size: clamp(2rem, 4vw, 3rem); /* Адаптивный заголовок */
+}
+
+.portfolio-container {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr); /* Четыре колонки для ПК */
+    gap: 2rem; /* Отступы между рамками */
+    align-items: start; /* Рамки растягиваются только по содержимому */
+}
+
+.portfolio-box {
+    position: relative;
+    overflow: hidden; /* Убираем лишнее за рамками */
+    aspect-ratio: 2 / 2.3; /* Более широкое соотношение сторон */
+    border-radius: 1rem; /* Округлые углы */
+    box-shadow: 0 0 1rem var(--bg-color); /* Тень */
+    background: var(--bg-color); /* Цвет фона рамки */
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.portfolio-box:hover {
+    transform: translateY(-5px); /* Поднимаем рамку */
+    z-index: 1; /* Устанавливаем z-index */
+}
+
+.portfolio-box img {
+    width: 100%;
+    height: auto; /* Высота определяется пропорциями изображения */
+    display: block;
+    border-radius: 1rem; /* Закруглённые углы у изображения */
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.portfolio-box:hover img {
+    transform: scale(1.05); /* Легкое увеличение изображения */
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3); /* Увеличиваем тень */
+}
+
+/*.portfolio-box .portfolio-layer {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(rgba(0, 0, 0, .1), var(--main-color));
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    text-align: center;
+    padding: 0 4rem;
+    transform: translateY(100%);
+    transition: transform 0.5s ease;
+    pointer-events: none; 
+}
+
+.portfolio-box:hover .portfolio-layer {
+    transform: translateY(0); 
+}
+
+.portfolio-layer h4 {
+    font-size: 3rem;
+}
+
+.portfolio-layer p {
+    font-size: 1.6rem;
+    margin: .3rem 0 1rem;
+}
+
+.portfolio-layer a {
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    width: 5rem;
+    height: 5rem;
+    background: var(--text-color);
+    border-radius: 50%;
+}
+
+.portfolio-layer a i {
+    font-size: 2rem;
+    color: var(--second-bg-color);
+}*/
+
+
+/* === Contact Section === */
+
+.contact h2 {
+    margin-bottom: 3rem;
+}
+
+.contact form {
+    max-width: 70rem;
+    margin: 1rem auto;
+    text-align: center;
+    margin-bottom: 3rem;
+}
+
+.contact form .input-box {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+}
+
+.contact form .input-box input,
+.contact form textarea {
+    width: 100%;
+    padding: 1.5rem;
+    font-size: 1.6rem;
+    color: var(--text-color);
+    background: var(--second-bg-color);
+    border-radius: .8rem;
+    margin: .7rem 0;
+}
+
+.contact form .input-box input {
+    width: 49%;
+}
+
+.contact form textarea {
+    resize: none;
+}
+
+.contact form .btn {
+    margin-top: 2rem;
+    cursor: pointer;
+}
+
+/* === Footer === */
+
+.footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    padding: 2rem 9%;
+    background: var(--second-bg-color);
+}
+
+.footer-text p {
+    font-size: 1.6rem;
+}
+
+.footer-iconTop a {
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    padding: .8rem;
+    background: var(--main-color);
+    border-radius: .8rem;
+    transition: .5s ease;
+}
+
+.footer-iconTop a:hover {
+    box-shadow: 0 0 1rem var(--main-color);
+}
+
+.footer-iconTop a i {
+    font-size: 2.4rem;
+    color: var(--second-bg-color);
+}
+
+
+/* === Media Queries === */
+
+/* Мобильные устройства */
+
+/* === Для мобильных устройств (max-width: 991px) === */
+
+@media (max-width: 991px) {
+    .header {
+        padding: 2rem 3%;
+    }
+
+    section {
+        padding: 10rem 3% 2rem;
+    }
+
+    .services {
+        padding-bottom: 7rem;
+    }
+
+    .services-container {
+        gap: 3rem;
+    }
+
+    .about {
+        flex-direction: column; /* Фото сверху, текст снизу */
+        text-align: center; /* Центрирование текста */
+        padding: 3rem 1rem; /* Уменьшенные отступы для мобильных устройств */
+    }
+
+    .about-img {
+        order: -1; /* Фото становится первым */
+        margin-bottom: 2rem; /* Отступ снизу для изображения */
+    }
+
+    .about-img img {
+        width: 80%; /* Уменьшаем размер изображения */
+        max-width: none; /* Убираем ограничение ширины */
+        max-height: 40vh; /* Ограничение высоты для мобильных */
+        object-fit: contain; /* Сохраняем пропорции */
+        border-radius: 10px; /* Более плавные углы */
+        box-shadow: 0 0 15px 5px var(--main-color); /* Розовая подсветка */
+    }
+
+    .about-img img:hover {
+        box-shadow: 0 0 20px 10px var(--main-color);/* Увеличение подсветки */
+        transform: scale(1.05); /* Легкий эффект увеличения */
+    }
+        
+    .about-content {
+        order: 2; /* Текст снизу */
+        padding: 0; /* Убираем лишние отступы */
+    }
+
+    .about-content h2 {
+        font-size: 5rem; /* Уменьшаем размер заголовка */
+        margin-bottom: 1.5rem;
+    }
+
+    .about-content p {
+        font-size: 2rem; /* Уменьшаем размер текста */
+        line-height: 1.5;
+    }
+
+    .portfolio {
+        padding-bottom: 7rem;
+    }
+
+    .portfolio-container {
+        grid-template-columns: repeat(4, 1fr); /* Три колонки на больших экранах */
+        gap: 2.5rem; /* Расстояние между колонками */
+    }
+
+    .portfolio-box img {
+        width: 100%;
+        height: auto; /* Сохраняем пропорции изображений */
+        object-fit: cover; /* Изображение заполняет рамку */
+    }
+
+    .contact {
+        min-height: auto;
+    }
+
+    .footer {
+        padding: 2rem 3%;
+    }
+}
+
+@media (max-width: 768px) {
+    #menu-icon {
+        display: block;
+    }
+
+    .navbar {
+        position: absolute;
+        top: 100%;
+        left: 0;
+        width: 100%;
+        padding: 1rem 3%;
+        background: var(--bg-color);
+        border-top: .1rem solid rgba(0, 0, 0, .2);
+        box-shadow: 0 .5rem 1rem rgba(0, 0, 0, .2);
+        display: none;
+        gap: 2rem; /* Расстояние между ссылками */
+    }
+
+    .navbar.active {
+        display: block;
+    }
+
+    .navbar a {
+        display: block;
+        font-size: clamp(1.2rem, 2vw, 1.7rem); /* Динамическое уменьшение размера текста */
+        margin: 2rem 0;
+        white-space: normal; /* Разрешает перенос текста */
+        overflow-wrap: break-word; /* Перенос длинных слов */
+    }
+
+    /* === Добавляем стили для .language-switcher === */
+    .language-switcher {
+        display: flex;
+        justify-content: center; /* Центрируем элементы горизонтально */
+        gap: 0.5rem; /* Уменьшаем расстояние между кнопками */
+        margin: 0 auto; /* Убираем любые боковые отступы */
+        padding: 0.3rem 1rem; /* Добавляем внутренние отступы */
+        width: 100%; /* Задаем ширину на всю доступную область */
+        background: var(--bg-color); /* Задаем фон, чтобы выделить */
+    }
+
+    /* Стили для ссылок переключателя языка */
+
+    .language-switcher a {
+        font-size: 1.2rem; /* Уменьшаем размер текста */
+        padding: 0.3rem 0.8rem; /* Уменьшаем внутренние отступы */
+        text-align: center; /* Центрируем текст внутри кнопок */
+    }
+
+    .header {
+        padding-top: 2rem; /* Увеличиваем отступ для переключателя языков */
+        
+    }
+
+    .home {
+        flex-direction: column;
+        gap: 2rem; /* Увеличиваем расстояние между элементами */
+        align-items: center; /* Центрируем элементы */
+        text-align: center; /* Центрируем текст */
+        justify-content: center; /* Переопределение десктопного правила */
+        padding-top: calc(10rem + var(--header-height)); /* Добавляем отступ */
+    }
+
+    .home-img {
+        order: -1; /* Изображение становится первым */
+        flex: 1; /* Изображение занимает одну часть */
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .home-img img {
+        width: 100%; /* Размер изображения */
+        max-height: 60vh; /* Ограничиваем высоту */
+        object-fit: contain; /* Подгоняем изображение */
+        margin: 0; /* Убираем лишний отступ сверху */
+        border-radius: 5%;
+        box-shadow: 0 0 15px 5px var(--main-color); /* Розовая подсветка */
+        animation: floatImage 4s ease-in-out infinite;
+    }
+
+    .home-img img:hover {
+        box-shadow: 0 0 20px 10px var(--main-color); /* Яркая подсветка при наведении */
+        transition: box-shadow 0.3s ease; /* Плавный эффект */
+    }
+}    
+
+    .header {
+        border-bottom: 2px solid rgba(0, 0, 0, 0.2); /* Устанавливаем границу */
+        padding-bottom: 1rem; /* Сдвигаем границу вниз */
+    }
+
+    .social-media {
+        order: 2; /* Социальные сети после текста */
+        margin-top: 1rem; /* Отступ сверху для навигации */
+        display: flex;
+        justify-content: center; /* Центрируем на мобильных */
+    }
+
+    .social-media a {
+        margin: 1rem 0.5rem; /* Уменьшаем отступы для мобильных устройств */
+    }
+
+    section {
+        padding: 8rem 5%; /* Уменьшаем отступы для мобильных */
+        position: relative; /* Для управления внутренними элементами */
+        scroll-margin-top: var(--header-height); /* Отступ сверху равен высоте навигационного бара */
+        position: relative;
+        margin-top: -var(--header-height); /* Сдвигаем секцию обратно вверх */
+        padding-top: calc(var(--header-height) + 2rem); /* Добавляем отступ сверху */
+    }
+
+    .services h2 {
+        font-size: 3rem;
+        margin-bottom: 3rem;
+    }
+
+    .services-box i {
+        font-size: 5rem;
+    }
+
+    .services-box h3 {
+        font-size: 2rem;
+    }
+
+    .services-box p {
+        font-size: 1.4rem;
+    }
+
+    .contact form .input-box input {
+        width: 100%; /* Поля занимают всю ширину */
+    }
+
+    .contact form textarea {
+        width: 100%; /* Текстовая область также растягивается */
+    }
+
+    .contact form .input-box {
+        gap: 1rem; /* Расстояние между элементами */
+        flex-direction: column; /* Вертикальное расположение */
+    }
+
+    .footer {
+        flex-direction: column; /* Вертикальное расположение элементов */
+        text-align: center; /* Центрирование текста */
+        gap: 1.5rem; /* Увеличиваем расстояние между элементами */
+    }
+
+    .footer-text p {
+        margin-bottom: 1rem; /* Отступ снизу для текста */
+    }
+
+    .footer-iconTop {
+        margin-top: 1rem; /* Отступ сверху для иконок */
+    }
+
+    .footer-iconTop a {
+        width: 3rem;
+        height: 3rem;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .modal-content {
+        max-width: 80%; /* Сужаем окно на узких экранах */
+        padding: 1rem; /* Уменьшаем отступы */
+        font-size: 1.4rem; /* Уменьшаем шрифт на маленьких экранах */
+        transition: all 0.3s ease; /* Добавляем плавность для модальных окон */
+    }
+
+    #comments {
+        padding: 1rem;
+        margin-top: 100px; /* Уменьшаем отступ для мобильных */
+        padding-top: 50px; /* Уменьшаем внутренний отступ */
+    }
+
+    #comment-text {
+        max-width: 100%; /* Увеличиваем ширину на мобильных */
+    }
+
+    #comments-list .comment {
+        padding: 0.8rem; /* Уменьшаем внутренние отступы */
+        font-size: 1.4rem; /* Уменьшаем размер текста */
+    }
+
+    #comments-list .comment .rating {
+        font-size: 1.6rem; /* Уменьшаем размер рейтинга */
+    }
+
+    .no-comments {
+        font-size: 1.4rem;
+    }
+
+    .stars span {
+        font-size: 1.8rem; /* Уменьшаем размер звезд */
+    }
+
+    .rating-container {
+        gap: 0.5rem; /* Уменьшаем расстояние между элементами */
+    }
+
+    .close {
+        position: absolute;
+        width: 2rem; /* Размер кнопки */
+        height: 2rem; /* Размер кнопки */
+        font-size: 1.4rem; /* Размер текста "X" */
+        padding: 0; /* Убираем внутренние отступы */
+        top: 0.5rem; /* Сдвиг сверху */
+        right: 0.5rem; /* Сдвиг справа */
+        display: flex; /* Используем flexbox для выравнивания */
+        justify-content: center; /* Горизонтальное выравнивание текста */
+        align-items: center; /* Вертикальное выравнивание текста */
+        line-height: 1; /* Убираем лишнее пространство вокруг текста */
+        cursor: pointer; /* Удобство для пользователей */
+    }
+    
+
+@media (max-width: 617px) {
+    .portfolio-container {
+        grid-template-columns: 1fr; /* Одна колонка на экранах до 617px */
+    }
+}
+
+@media (max-width: 450px) {
+    html {
+        font-size: clamp(50%, 2.5vw, 62.5%);
+    }
+
+    .navbar a {
+        font-size: 1.5rem; /* Уменьшаем ссылки навигации */
+    }
+
+    .contact form .input-box input {
+        width: 100%;
+    }
+
+    .modal-content {
+        max-width: 100%;
+        padding: 1rem;
+        font-size: 1.2rem;  /* Ещё меньше шрифт для самых маленьких экранов */
+    }
+
+    .home-img img, .about-img img {
+        width: 100%;
+        max-height: 60vh;
+        animation: floatImage 5s ease-in-out infinite; /* Анимация включена по умолчанию */
+    }
+
+    .home-content h1 {
+        font-size: clamp(2.5rem, 5vw, 4rem); /* Уменьшаем размер текста */
+    }
+
+    .home-content p, .about-content p {
+        font-size: 1.4rem; /* Уменьшаем размер текста */
+    }
+
+    .about-img img {
+        max-width: 100%;
+        margin: 0 auto;
+    }
+
+    .about-content h2 {
+        font-size: 1.8rem;
+    }
+
+    .about-content p {
+        font-size: 1.2rem;
+    }
+
+    .portfolio-box {
+        border-radius: 1rem;
+        box-shadow: 0 0 0.3rem var(--bg-color);
+    }
+
+    .portfolio h2 {
+        font-size: 2rem;
+        margin-bottom: 2rem;
+    }
+
+    .close {
+        font-size: 1.6rem; /* Уменьшаем размер кнопки закрытия */
+        padding: 4px 8px; /* Уменьшаем отступы */
+    }
+}
+
+@media (max-width: 365px) { 
+    .home-img img {
+        width: 90vw;
+        max-height: 70vh;
+        object-fit: contain; /* Или cover, в зависимости от ваших требований */
+        margin-top: 2rem;
+    }
+
+    .about-img img {
+        width: 90vw;
+        width: 100%;
+        max-height: 60vh;
+    }
+
+    .footer {
+        flex-direction: column-reverse;
+    }
+
+    .footer p {
+        text-align: center;
+        margin-top: 2rem;
+    }
+
+    .portfolio-box img {
+        object-fit: cover; /* Оптимально для очень маленьких экранов */
+    }
+}
+
+
+/* Стили для модального окна */
+.modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(31, 36, 45, 0.9); /* Темный фон */
+    justify-content: center; /* Горизонтальная центровка */
+    align-items: center; /* Вертикальная центровка */
+    padding: 1rem; /* Отступ для предотвращения выхода за границы экрана */
+    z-index: 1000;
+}
+
+.modal.active {
+    display: flex; /* Показываем модальное окно */
+}
+
+.modal-content {
+    background: var(--second-bg-color);
+    padding: 2rem;
+    border-radius: 10px;
+    text-align: center;
+    max-width: 90%; /* Ограничиваем ширину на мобильных устройствах */
+    width: auto; /* Автоматическая ширина */
+    color: var(--text-color); /* Белый текст */
+    box-shadow: 0 0 20px rgba(235, 77, 208, 0.7);
+    position: relative; /* Относительное позиционирование для центровки */
+    border: 2px solid rgb(235, 77, 208); /* Розовая граница */
+    overflow: hidden; /* Убираем выходящий контент */
+    transition: font-size 0.3s ease, padding 0.3s ease;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    position: fixed;
+}
+
+.modal-content h2 {
+    margin-bottom: 1.5rem;
+    font-size: 2.4rem;
+    color: rgb(235, 77, 208); /* Розовый заголовок */
+}
+
+.modal-content p {
+    font-size: 1.6rem;
+    line-height: 1.6;
+    color: var(--text-color);
+    margin: 1.5rem 0; /* Отступ сверху и снизу */
+    font-size: 1.6rem; /* Подходящий размер шрифта */
+}
+
+.close {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    font-size: 2rem;
+    cursor: pointer;
+    color: #fff; /* Белый текст */
+    background: rgb(235, 77, 208); /* Розовый фон */
+    border-radius: 50%; /* Круглый крестик */
+    padding: 5px 10px; /* Padding для читаемости */
+    transition: background 0.3s ease, transform 0.3s ease; /* Плавный переход */
+}
+
+.close:hover {
+    background: #ff66cc; /* Более яркий розовый при наведении */
+    transform: scale(1.2); /* Легкое увеличение */
+    color: #fff; /* Белый текст остается */
+}
+
+
+/* Контейнер для снежинок */
+/*
+#snow-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none; /* Чтобы снег не мешал кликам 
+    z-index: 1000; /* Чтобы снег был поверх всего 
+}
+
+Снежинки 
+.snowflake {
+    position: fixed;
+    top: 0;
+    color: #0be1fd;
+    pointer-events: none;
+    animation: fall linear infinite;
+}
+
+ Анимация падения 
+@keyframes fall {
+    0% {
+        transform: translateY(-100%);
+    }
+    100% {
+        transform: translateY(100vh);  Снежинка падает на весь экран 
+    }
+}
+
+ Анимация покачивания 
+@keyframes sway {
+    0%, 100% {
+        transform: translateX(0);
+    }
+    50% {
+        transform: translateX(20px);
+    }
+}
+*/
+
+
+/* Форма комментариев */
+#comments {
+    margin: 2rem auto;
+    padding: 2rem;
+    background: var(--second-bg-color);
+    border-radius: 1rem;
+    color: var(--text-color);
+}
+
+#comments h2, #comments h3 {
+    text-align: center;
+    margin-bottom: 1rem;
+}
+
+#comment-form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+}
+
+#comment-text {
+    width: 100%;
+    max-width: 500px;
+    padding: 1rem;
+    border-radius: 0.5rem;
+    border: 1px solid var(--main-color);
+    background: var(--bg-color);
+    color: var(--text-color);
+    resize: none;
+}
+
+.rating-container {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.stars {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.stars span {
+    font-size: 2rem;
+    color: #ccc;
+    cursor: pointer;
+    transition: color 0.3s ease, transform 0.2s ease; /* Добавляем плавность */
+}
+
+.stars span:hover,
+.stars span.selected {
+    color: var(--main-color);
+}
+
+.stars span:active {
+    transform: scale(1.2); /* Легкое увеличение при нажатии */
+    transition: transform 0.1s ease;
+}
+
+.comment-message {
+    margin-top: 1rem;
+    font-size: 1.4rem;
+    color: var(--main-color); /* Цвет успеха */
+}
+
+.comment-error {
+    color: red; /* Цвет ошибки */
+}
+
+/* Отзывы */
+#comments {
+    margin-top: 150px; /* Увеличиваем отступ сверху */
+    padding-top: 100px; /* Увеличиваем внутренний отступ сверху */
+}
+
+#comments-list {
+    margin-top: 2rem;
+}
+
+#comments-list .comment {
+    background: var(--bg-color);
+    padding: 1rem;
+    border-radius: 0.5rem;
+    margin-bottom: 1rem;
+    opacity: 0;
+    transform: translateY(20px); /* Отзыв появляется снизу */
+    animation: fadeIn 0.5s ease forwards; /* Анимация появления */
+}
+
+/* Поочередное появление отзывов */
+#comments-list .comment:nth-child(1) {
+    animation-delay: 0s;
+}
+
+#comments-list .comment:nth-child(2) {
+    animation-delay: 0.2s;
+}
+
+#comments-list .comment:nth-child(3) {
+    animation-delay: 0.4s;
+}
+
+@keyframes fadeIn {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+#comments-list .comment .rating {
+    color: var(--main-color);
+    font-weight: bold; /* Делаем рейтинг жирным */
+    display: inline-block; /* Устанавливаем блочное отображение */
+    padding: 0.2rem 0.5rem; /* Добавляем отступы */
+    background: rgba(235, 77, 208, 0.1); /* Легкий фон для выделения */
+    border-radius: 0.3rem; /* Закругляем углы */
+}
+
+.no-comments {
+    text-align: center;
+    font-size: 1.6rem;
+    color: #ccc; /* Светло-серый текст */
+    margin-top: 2rem;
+}
+

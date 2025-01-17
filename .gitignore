@@ -1,0 +1,55 @@
+# Ignoring sensitive and environment-specific files
+.env
+
+# System and temporary files
+.DS_Store
+Thumbs.db
+*.tmp
+*.bak
+*.swp
+*.swo
+*.~*
+
+# Python cache and compiled files
+__pycache__/
+*.py[cod]
+*.pyo
+
+# Log files
+*.log
+
+# IDE and editor settings
+.idea/
+.vscode/
+
+# Virtual environment folder
+venv/
+
+# Database files
+*.db
+*.sqlite3
+
+# Static files cache (if applicable)
+static/cache/
+
+# Node.js and frontend dependencies (if applicable)
+node_modules/
+
+# Ignore certain images (optional, if large files are problematic)
+static/images/*
+!static/images/favicon.ico
+!static/images/preview.jpg
+!static/images/home.png
+!static/images/about.png
+!static/images/portfolio.png
+
+# Workspace settings
+*.code-workspace
+
+# Ignore generated documentation or notes
+README.md.bak
+TODO.md
+
+# Ignore project documentation
+"My project structure"
+

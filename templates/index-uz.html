@@ -1,0 +1,616 @@
+<!DOCTYPE html>
+<html lang="uz">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Irade Shamsi Portfolio - Professional Hairdresser and Colorist</title>
+    <meta name="description" content="Irade Shamsi - professional sartarosh va kolorit xizmatlari. Har xil murakkablikdagi soch kesish, bo'yash va uslublash xizmatlarini taklif etadi.">
+    <meta name="keywords" content="Irade Shamsi, sartarosh, kolorit, professional soch kesish, soch bo'yash, soch uslublash, go'zallik saloni, Toshkent, soch stilisti">
+
+    <!-- Title -->
+    <title>Irade Shamsi Portfeli - Professional Soch Ustasi va Kolorist</title>
+
+    <!-- Meta Description -->
+    <meta name="description" content="Irade Shamsi - professional soch ustasi va kolorist. Har xil murakkablikdagi soch kesish, bo'yash va tarash xizmatlari. Har bir mijozga individual yondashuv.">
+
+    <!-- Meta Keywords -->
+    <meta name="keywords" content="soch ustasi, kolorist, soch kesish, bo'yash, tarash, Toshkent soch ustasi, Toshkent kolorist, Irade Shamsi, professional, go'zallik xizmatlari">
+
+    <!-- Meta Author -->
+    <meta name="author" content="Irade Shamsi">
+
+    <!-- Favicon -->
+    <link rel="icon" href="/static/images/favicon.ico" type="image/x-icon">
+
+    <!-- Open Graph / Social Media -->
+    <meta property="og:title" content="Irade Shamsi Portfeli">
+    <meta property="og:description" content="Professional soch ustasi va kolorist. Toshkentda soch kesish, bo'yash va tarash xizmatlari.">
+    <meta property="og:image" content="/static/images/preview.jpg">
+    <meta property="og:url" content="https://irada-shamsi.com">
+    <meta property="og:type" content="website">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Irade Shamsi Portfeli">
+    <meta name="twitter:description" content="Irade Shamsi - Professional Soch Ustasi va Kolorist.">
+    <meta name="twitter:image" content="/static/images/preview.jpg">
+
+    <!-- box icons -->
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/static/css/style.css">
+
+    <script type="application/ld+json">
+        {
+        "@context": "http://schema.org",
+        "@type": "LocalBusiness",
+        "name": "Irade Shamsi",
+        "description": "Professional hairdresser and colorist in Tashkent. | Профессиональный парикмахер и колорист в Ташкенте. | Toshkentda professional sartarosh va kolerist.",
+        "url": "https://irada-shamsi.com",
+        "address": {
+        "@type": "PostalAddress",
+        "addressLocality": "Tashkent",
+        "addressCountry": "Uzbekistan"
+        },
+        "aggregateRating": {
+        "@type": "AggregateRating",
+        "ratingValue": "5",
+        "reviewCount": "27"
+        },
+        "image": "https://irada-shamsi.com/static/images/home.png"
+        }
+        </script>
+        
+        
+</head>
+
+<body>
+
+    <!-- header design -->
+    <header class="header">
+        <a href="#" class="logo">
+            <i class='bx bxs-magic-wand'></i>Irade Shamsi</a>
+            
+        <i class='bx bx-menu' id="menu-icon"></i>
+
+        <nav class="navbar">
+            <a href="#home" class="active">Bosh sahifa</a>
+            <a href="#about">Haqimda</a>
+            <a href="#services">Xizmatlar</a>
+            <a href="#portfolio">Portfolio</a>
+            <a href="#comments">Sharhlar</a> <!-- Новый пункт навигации -->
+            <!-- <a href="#contact">Bog‘lanish</a> -->
+        </nav>
+        
+        <!-- Language Switcher -->
+        <div class="language-switcher">
+            <a href="/?lang=en" {% if request.query_params.get('lang') == 'en' %}class="active"{% endif %}>English</a>
+            <a href="/?lang=ru" {% if request.query_params.get('lang') == 'ru' %}class="active"{% endif %}>Русский</a>
+            <a href="/?lang=uz" {% if request.query_params.get('lang') == 'uz' %}class="active"{% endif %}>O‘zbek</a>
+        </div>               
+        
+    </header>
+
+    <!-- home section design -->
+    <section class="home" id="home">
+        <div class="home-content">
+            <h3>Salom, men</h3>
+            <h1>Irade Shamsi</h1>
+            <h3>Va men <span class="multiple-text"></span></h3>
+            <p>Men har qanday murakkablikdagi soch olish, turmaklash va bo‘yash texnikalarini bajaraman.</p>
+            <p>Har bir mijozga individual yondashuv.</p>
+
+            <div class="social-media">
+                <!-- Telegram -->
+                <!-- Социальные сети -->
+                <a href="https://t.me/irash83" target="_blank" title="Telegram">
+                    <i class='bx bxl-telegram'></i>
+                </a>
+    
+                <!-- Facebook -->
+                <a href="https://www.facebook.com/profile.php?id=100079985679881&mibextid=LQQJ4d&mibextid=LQQJ4d" target="_blank" title="Facebook">
+                    <i class='bx bxl-facebook'></i>
+                </a>
+    
+                <!-- Instagram -->
+                <a href="https://www.instagram.com/irade_shamsi/profilecard/?igsh=Nm9qdnpvbXR6cGNy" target="_blank" title="Instagram">
+                    <i class='bx bxl-instagram-alt'></i>
+                </a>
+    
+                <!-- WhatsApp -->
+                <a href="https://wa.me/998909574960?text=Assalomu%20alaykum!%20Gaplashishga%20qulaymi?" target="_blank" title="WhatsApp">
+                    <i class='bx bxl-whatsapp'></i>
+                </a>
+
+                <!-- Gmail -->
+                <a href="mailto:shamsiiradeshemsulaevna@gmail.com" title="Pochtaga yozish">
+                    <i class='bx bxl-gmail'></i>
+                </a>
+
+            </div>
+            
+            <!--
+            <div class="buttons-container">
+                Кнопка для скачивания 
+                <a href="files/price-list.pdf" class="btn" download>
+                    <i class='bx bxs-download'></i> Narxlar ro'yxatini yuklab olish
+                </a>
+                Кнопка для просмотра 
+                <button class="btn" onclick="openModal('price-modal')">
+                    <i class='bx bx-show'></i> Narxlar ro'yxatini ko'rish
+                </button>
+            </div>
+            -->
+        </div>
+
+        <div class="home-img">
+            <img src="/static/images/home.png" alt="Irada Shamsi - Kasbiy sartarosh">
+        <div>
+    </section>
+
+    <!--
+    Modal Window for Viewing Price List 
+    <div id="price-modal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal('price-modal-uz')">&times;</span>
+            <h2>Narxlar ro'yxati</h2>
+            <div class="price-content">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Xizmat</th>
+                            <th>Narx</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Soch olish</td>
+                            <td>150,000 UZS</td>
+                        </tr>
+                        <tr>
+                            <td>Bo'yash</td>
+                            <td>300,000 UZS</td>
+                        </tr>
+                        <tr>
+                            <td>Turmaklash</td>
+                            <td>100,000 UZS</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    -->
+
+    <!-- about section design -->
+    <section class="about" id="about">
+        <div class="about-img">
+            <img src="/static/images/about.png" alt="Irade Shamsining rasmi">
+        </div>
+        <div class="about-content">
+            <h2 class="heading">Men <span>Haqimda</span></h2>
+            <h3>Men professional sartarosh va kolorizm bo'yicha mutaxassisman!</h3>
+            <p>Shuningdek, yangi kasbni o'rganishni istaganlar uchun professional treninglar o'tkazaman.</p>
+            <button class="btn" onclick="openModal('about-modal-uz')">Batafsil</button>
+        </div>
+    </section>
+    
+    <div id="about-modal-uz" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal('about-modal-uz')">&times;</span>
+            <h2>Men Haqimda Batafsil</h2>
+            <p>Men professional sartarosh-koloristman,
+                go‘zallik sohasida 15 yildan ortiq tajribaga ega tajribali sartaroshman. Soch olish, turmaklash, soch turmaklari yaratish va bo‘yash bo‘yicha ixtisoslashganman. Yuqori darajadagi professionallikka ega bo‘lib, sifatli mijozlarga xizmat ko‘rsatishga e’tibor qarataman, bu bir qator professional sertifikatlar bilan tasdiqlangan.</p>
+        </div>
+    </div>
+    
+
+    <!-- services section design -->
+    <section class="services" id="services">
+        <h2 class="heading" data-translate="services.heading">Mening <span>Maxsuslashtirishlarim</span></h2>
+    
+        <div class="services-container">
+            <div class="services-box">
+                <i class='bx bx-cut'></i>
+                <h3 data-translate="services.haircuts.title">Soch olish</h3>
+                <p data-translate="services.haircuts.description">
+                    Men mijozning shaxsiy istaklarini hisobga olgan holda har qanday murakkablikdagi zamonaviy sochlarni bajara olaman.
+                </p>
+                <!-- <button class="btn" onclick="openServiceModal('haircuts')" data-translate="services.more">Batafsil</button> -->
+            </div>
+    
+            <div class="services-box">
+                <i class='bx bxs-palette'></i>
+                <h3 data-translate="services.coloring.title">Rang berish</h3>
+                <p data-translate="services.coloring.description">
+                    Men eng yaxshi materiallardan va zamonaviy texnikalardan foydalanib, mukammal rang yarataman.
+                </p>
+                <!-- <button class="btn" onclick="openServiceModal('coloring')" data-translate="services.more">Batafsil</button> -->
+            </div>
+    
+            <div class="services-box">
+                <i class='bx bxl-tailwind-css'></i>
+                <h3 data-translate="services.styling.title">Soch turmaklash</h3>
+                <p data-translate="services.styling.description">
+                    Men har qanday holat uchun soch turmagi yarataman: kundalik, kechki va turli tadbirlar uchun.
+                </p>
+                <!-- <button class="btn" onclick="openServiceModal('styling')" data-translate="services.more">Batafsil</button> -->
+            </div>
+        </div>
+    </section>
+    
+    <!-- Modal -->
+        <div id="service-modal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal()">&times;</span>
+            <h2 id="service-modal-title"></h2>
+            <p id="service-modal-description"></p>
+        </div>
+    </div>
+    
+
+
+    <!-- portfolio section design -->
+    <section class="portfolio" id="portfolio">
+        <h2 class="heading">Mening <span>Ishlarim</span></h2>
+
+        <div class="portfolio-container">
+            <div class="portfolio-box">
+                <img src="/static/images/portfolio 1.png" alt="">
+            </div>
+
+            <div class="portfolio-box">
+                <img src="/static/images/portfolio 2.png" alt="">
+            </div>    
+            
+            <div class="portfolio-box">
+                <img src="/static/images/portfolio 3.png" alt="">
+            </div>
+
+            <div class="portfolio-box">
+                <img src="/static/images/portfolio 4.png" alt="">
+            </div>
+            
+            <div class="portfolio-box">
+                <img src="/static/images/portfolio 5.png" alt="">
+            </div>
+            
+            <div class="portfolio-box">
+                <img src="/static/images/portfolio 6.png" alt="">
+            </div>
+            
+            <div class="portfolio-box">
+                <img src="/static/images/portfolio 7.png" alt="">
+            </div>
+            
+            <div class="portfolio-box">
+                <img src="/static/images/portfolio 8.png" alt="">
+            </div>
+            
+            <div class="portfolio-box">
+                <img src="/static/images/portfolio 9.png" alt="">
+            </div>
+            
+            <div class="portfolio-box">
+                <img src="/static/images/portfolio 10.png" alt="">
+            </div>
+            
+            <div class="portfolio-box">
+                <img src="/static/images/portfolio 11.png" alt="">
+            </div>
+            
+            <div class="portfolio-box">
+                <img src="/static/images/portfolio 13.png" alt="">
+            </div>
+            
+            <div class="portfolio-box">
+                <img src="/static/images/portfolio 14.png" alt="">
+            </div>
+            
+            <div class="portfolio-box">
+                <img src="/static/images/portfolio 15.png" alt="">
+            </div>
+            
+            <div class="portfolio-box">
+                <img src="/static/images/portfolio 16.png" alt="">
+            </div>
+            
+            <div class="portfolio-box">
+                <img src="/static/images/portfolio 17.png" alt="">
+            </div>
+            
+            <div class="portfolio-box">
+                <img src="/static/images/portfolio 18.png" alt="">
+            </div>
+            
+            <div class="portfolio-box">
+                <img src="/static/images/portfolio 19.png" alt="">
+            </div>
+            
+            <div class="portfolio-box">
+                <img src="/static/images/portfolio 20.png" alt="">
+            </div>
+            
+            <div class="portfolio-box">
+                <img src="/static/images/portfolio 21.png" alt="">
+            </div>
+            
+            <div class="portfolio-box">
+                <img src="/static/images/portfolio 22.png" alt="">
+            </div>
+            <!--
+            <div class="portfolio-box">
+                <img src="/static/images/portfolio 23.png" alt="">
+                <div class="portfolio-layer">
+                    <h4>Style</h4>
+                    <p>____</p>
+                    <a href="#"><i class='bx bx-link-external'></i></a>
+                </div>
+            </div>
+            -->
+            
+            <div class="portfolio-box">
+                <img src="/static/images/portfolio 24.png" alt="">
+            </div>
+            
+            <div class="portfolio-box">
+                <img src="/static/images/portfolio 25.png" alt="">
+            </div>
+            
+            <div class="portfolio-box">
+                <img src="/static/images/portfolio 26.png" alt="">
+            </div>
+            
+            <div class="portfolio-box">
+                <img src="/static/images/portfolio 27.png" alt="">
+            </div>
+            
+            <div class="portfolio-box">
+                <img src="/static/images/portfolio 28.png" alt="">
+            </div>
+            
+            <div class="portfolio-box">
+                <img src="/static/images/portfolio 29.png" alt="">
+            </div>
+            
+            <div class="portfolio-box">
+                <img src="/static/images/portfolio 30.png" alt="">
+            </div>
+            
+            <div class="portfolio-box">
+                <img src="/static/images/portfolio 31.png" alt="">
+            </div>
+            
+            <div class="portfolio-box">
+                <img src="/static/images/portfolio 32.png" alt="">
+            </div>      
+            
+            <div class="portfolio-box">
+                <img src="/static/images/portfolio 33.png" alt="">
+            </div>      
+
+            <div class="portfolio-box">
+                <img src="/static/images/portfolio 34.png" alt="">
+            </div>      
+
+            <div class="portfolio-box">
+                <img src="/static/images/portfolio 35.png" alt="">
+            </div>      
+
+            <div class="portfolio-box">
+                <img src="/static/images/portfolio 36.png" alt="">
+            </div>      
+
+            <div class="portfolio-box">
+                <img src="/static/images/portfolio 37.png" alt="">
+            </div>      
+
+            <div class="portfolio-box">
+                <img src="/static/images/portfolio 38.png" alt="">
+            </div>      
+
+            <div class="portfolio-box">
+                <img src="/static/images/portfolio 39.png" alt="">
+            </div>      
+
+            <div class="portfolio-box">
+                <img src="/static/images/portfolio 40.png" alt="">
+            </div>      
+
+            <div class="portfolio-box">
+                <img src="/static/images/portfolio 41.png" alt="">
+            </div>      
+
+            <div class="portfolio-box">
+                <img src="/static/images/portfolio 42.png" alt="">
+            </div>      
+
+            <div class="portfolio-box">
+                <img src="/static/images/portfolio 43.png" alt="">
+            </div>      
+
+            <div class="portfolio-box">
+                <img src="/static/images/portfolio 44.png" alt="">
+            </div>      
+
+            <div class="portfolio-box">
+                <img src="/static/images/portfolio 45.png" alt="">
+            </div>      
+
+            <div class="portfolio-box">
+                <img src="/static/images/portfolio 46.png" alt="">
+            </div>      
+
+            <div class="portfolio-box">
+                <img src="/static/images/portfolio 47.png" alt="">
+            </div>      
+
+            <div class="portfolio-box">
+                <img src="/static/images/portfolio 48.png" alt="">
+            </div>      
+
+            <div class="portfolio-box">
+                <img src="/static/images/portfolio 49.png" alt="">
+            </div>      
+
+            <div class="portfolio-box">
+                <img src="/static/images/portfolio 50.png" alt="">
+            </div>      
+
+            <div class="portfolio-box">
+                <img src="/static/images/portfolio 51.png" alt="">
+            </div>      
+
+            <div class="portfolio-box">
+                <img src="/static/images/portfolio 52.png" alt="">
+            </div>      
+
+            <div class="portfolio-box">
+                <img src="/static/images/portfolio 53.png" alt="">
+            </div>      
+
+            <div class="portfolio-box">
+                <img src="/static/images/portfolio 54.png" alt="">
+            </div>      
+
+            <div class="portfolio-box">
+                <img src="/static/images/portfolio 55.png" alt="">
+            </div>
+
+            <div class="portfolio-box">
+                <img src="/static/images/portfolio 56.png" alt="">
+            </div>
+
+            <div class="portfolio-box">
+                <img src="/static/images/portfolio 57.png" alt="">
+            </div>      
+
+            <div class="portfolio-box">
+                <img src="/static/images/portfolio 58.png" alt="">
+            </div>      
+
+            <div class="portfolio-box">
+                <img src="/static/images/portfolio 59.png" alt="">
+            </div>      
+
+            <div class="portfolio-box">
+                <img src="/static/images/portfolio 60.png" alt="">
+            </div>      
+
+            <div class="portfolio-box">
+                <img src="/static/images/portfolio 61.png" alt="">
+            </div>
+            
+            <div class="portfolio-box">
+                <img src="/static/images/portfolio 62.png" alt="">
+            </div>      
+
+            <div class="portfolio-box">
+                <img src="/static/images/portfolio 63.png" alt="">
+            </div>
+            
+            <div class="portfolio-box">
+                <img src="/static/images/portfolio 64.png" alt="">
+            </div>
+            
+            <div class="portfolio-box">
+                <img src="/static/images/portfolio 65.png" alt="">
+            </div>
+            
+            <div class="portfolio-box">
+                <img src="/static/images/portfolio 66.png" alt="">
+            </div>
+            
+            <div class="portfolio-box">
+                <img src="/static/images/portfolio 67.png" alt="">
+            </div>
+            
+            <div class="portfolio-box">
+                <img src="/static/images/portfolio 68.png" alt="">
+            </div>
+            
+            <div class="portfolio-box">
+                <img src="/static/images/portfolio 69.png" alt="">
+            </div>
+            
+            <div class="portfolio-box">
+                <img src="/static/images/portfolio 70.png" alt="">
+            </div>
+            
+            <div class="portfolio-box">
+                <img src="/static/images/portfolio 71.png" alt="">
+            </div>      
+        </div>
+    </section>
+
+    <!-- contact section design -->
+    <!-- <section class="contact" id="contact">
+        <h2 class="heading">Menga <span>Bog‘laning!</span></h2>
+
+        <form action="#">
+            <div class="input-box">
+                <input type="text" placeholder="Ism">
+                <input type="email" placeholder="Email">
+            </div>
+            <div class="input-box">
+                <input type="number" placeholder="Telefon">
+                <input type="text" placeholder="Mavzu">
+            </div>
+            <textarea name="" id="" cols="30" rows="10" placeholder="Xabaringizni kiriting"></textarea>
+            <input type="submit" value="Yuborish" class="btn">
+        </form>        
+    </section> -->
+    
+    <!-- comments section -->
+<section id="comments">
+    <h2>Fikringizni qoldiring</h2>
+    <form id="comment-form">
+        <div class="rating-container">
+            <label>Mening ishlarimga baho bering:</label>
+            <input type="hidden" id="rating" name="rating" value="">
+            <div class="stars">
+                <span data-star="1">★</span>
+                <span data-star="2">★</span>
+                <span data-star="3">★</span>
+                <span data-star="4">★</span>
+                <span data-star="5">★</span>
+            </div>
+        </div>
+        <textarea id="comment-text" placeholder="Fikringizni yozing..." required></textarea>
+        <button type="submit" class="btn">Yuborish</button>
+    </form>
+    <div id="comments-list">
+        <h3>Fikrlar:</h3>
+        <!-- Здесь будут отображаться отзывы -->
+    </div>
+</section>
+    
+    <!-- footer design -->
+    <footer class="footer">
+        <div class="footer-text">
+            <p>Copyright &copy; 2025 by ๛Hunter๖ | Barcha huquqlar himoyalangan.</p>
+        </div>
+
+        <div class="footer-iconTop">
+            <a href="#home"><i class='bx bx-chevrons-up'></i></a>
+        </div>
+    </footer>
+
+    <!-- scroll reveal -->
+    <script src="https://unpkg.com/scrollreveal"></script>
+
+    <!-- typed js -->
+    <script src="https://unpkg.com/typed.js@2.1.0/dist/typed.umd.js"></script>
+
+    <div id="snow-container"></div>
+    <div id="ornaments-container"></div>
+
+    <!-- custom js -->
+    <script src="/static/js/script.js"></script>
+
+</body>
+
+</html>
