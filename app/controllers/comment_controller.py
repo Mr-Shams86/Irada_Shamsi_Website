@@ -34,3 +34,14 @@ def create_comment(comment: Comment, db: Session = Depends(get_db)):
 )
 def get_comments(db: Session = Depends(get_db)):
     return db.query(CommentDB).all()
+
+
+@router.delete(
+    "/comments",
+    summary="Удалить все комментарии",
+    description="Очищает таблицу комментариев в базе данных.",
+)
+def delete_all_comments(db: Session = Depends(get_db)):
+    db.query(CommentDB).delete()
+    db.commit()
+    return {"message": "Все комментарии удалены."}

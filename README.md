@@ -77,7 +77,7 @@ pip install -r requirements.txt
 uvicorn app.main:app --reload
 ```
 
-Приложение будет доступно по адресу: `http://127.0.0.1:8000` или `http://127.0.0.1:8080`
+Приложение будет доступно по адресу: `http://127.0.0.1:8000` или `http://127.0.0.1:8080` или http://127.0.0.1:8080/docs#/default/delete_all_comments_comments_delete
 
 ---
 
@@ -87,6 +87,7 @@ uvicorn app.main:app --reload
 
 - **GET /comments**: Возвращает список комментариев.
 - **POST /comments**: Добавляет новый комментарий.
+- **DELETE /comments**: Удалить все комментарии
 - **GET /api**: Главная страница API
 - **GET/**: Главная страница
 
