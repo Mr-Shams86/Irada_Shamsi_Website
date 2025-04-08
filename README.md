@@ -20,6 +20,8 @@
 - 🏆 Оставление отзывов через веб-интерфейс.
 - ⚫ Персонализация содержимого (галерея работ).
 - 🔄 API для управления отзывами.
+- ⛏ PostgreSQL + Alembic для работы с базой данных
+- 🚀 Docker + GitHub Actions для деплоя
 
 ---
 
@@ -32,19 +34,51 @@
 **Backend:**
 
 - Python (FastAPI).
-- База данных: SQLite.
 
-**Сервер:**
+- PostgreSQL
 
-- Uvicorn для запуска FastAPI.
+- SQLAlchemy + Alembic
 
-**Деплой:**
+- Pydantic
 
-- GitHub Actions.
+- Uvicorn
+
+**DevOps:**
+
+- Docker / Docker Compose
+
+- .env + dotenv
+
+- GitHub Actions
+
+**Security:**
+
+- Middleware: HSTS, X-Frame-Options, X-Content-Type-Options
+
+- CORS
 
 ---
 
 ## 🔒 **Установка и запуск проекта**
+
+Убедитесь, что Docker и Docker Compose установлены
+
+Создайте .env с содержимым:
+
+DATABASE_URL=postgresql+psycopg2://postgres:postgres@db:5432/postgres
+
+Соберите и запустите проект:
+
+docker compose up -d --build
+
+Примените миграции:
+
+docker compose exec backend alembic upgrade head
+
+Откройте сайт:
+
+- Если запускаете **локально**: [http://localhost:8000](http://localhost:8000)
+- Если через **Docker** с проброшенным портом: [http://localhost:8001](http://localhost:8001)
 
 ### 1. **Клонирование репозитория**
 
@@ -73,12 +107,35 @@ pip install -r requirements.txt
 
 Запустите сервер FastAPI:
 
-```bash
-uvicorn app.main:app --reload
-vicorn app.main:app --host 0.0.0.0 --port 8080
-```
+````bash
+✅ Вариант 1: Локальный запуск (без Docker)
 
-Приложение будет доступно по адресу: `http://127.0.0.1:8000` или `http://127.0.0.1:8080` или http://127.0.0.1:8080/docs#/default/delete_all_comments_comments_delete
+Запустите сервер FastAPI с автоперезапуском при изменениях:
+
+uvicorn app.main:app --reload --port 8000
+
+Приложение будет доступно по адресу:
+
+    http://127.0.0.1:8000
+
+    Swagger UI: http://127.0.0.1:8000/docs
+
+🐳 Вариант 2: Запуск в Docker
+
+Если используете Docker и в docker-compose.yml указано:
+
+ports:
+  - "8001:8000"
+
+Запустите проект с помощью Docker:
+
+docker compose up -d --build
+
+После запуска сайт будет доступен по адресу:
+
+    http://localhost:8001
+
+    Swagger UI: http://localhost:8001/docs
 
 ---
 
@@ -99,7 +156,7 @@ vicorn app.main:app --host 0.0.0.0 --port 8080
   "rating": 5,
   "comment": "Отлично!"
 }
-```
+````
 
 ### Пример ответа:
 
@@ -116,53 +173,128 @@ vicorn app.main:app --host 0.0.0.0 --port 8080
 
 ```
 Irada_Shamsi_WebSite/
-├── .github/
-│   └── workflows/
-│       └── deploy.yml         # GitHub Actions для автоматического деплоя
-├── static/                    # Все статические файлы (CSS, JS, изображения)
-│   ├── css/
-│   │   └── style.css          # Основные стили для сайта
-│   ├── js/
-│   │   └── script.js          # Скрипты для функциональности сайта
-│   └── images/
-│       ├── home.png           # Изображение главной страницы
-│       ├── about.png          # Изображение для секции "Обо мне"
-│       ├── portfolio.png     # Изображения для портфолио
-│       ├── favicon.ico        # Иконка сайта
-│       └── preview.jpg        # Превью для социальных сетей
-├── templates/                 # Шаблоны HTML для FastAPI
-│   ├── index-ru.html          # Главная страница (русский)
-│   ├── index-en.html          # Главная страница (английский)
-│   └── index-uz.html          # Главная страница (узбекский)
-├── app/                       # Логика backend
-│   ├── __init__.py
-│   ├── main.py                # Точка входа FastAPI
-│   ├── database.py            # Логика базы данных
-│   ├── middleware/            # Middleware для заголовков безопасности
-│   │   ├── __init__.py
-│   │   ├── x_frame_options_middleware.py
-│   │   ├── x_content_type_options_middleware.py
-│   │   └── hsts_middleware.py
-│   ├── models/                # SQLAlchemy модели
-│   │   ├── __init__.py
-│   │   └── comment.py         # Модель комментариев
-│   ├── schemas/               # Pydantic схемы
-│   │   ├── __init__.py
-│   │   └── comment.py         # Схема для комментариев
-│   ├── controllers/           # Контроллеры (роуты)
-│   │   ├── __init__.py
-│   │   ├── comment_controller.py # Роуты для работы с комментариями
-│   │   └── root_controllers.py   # Роуты для главных страниц
-│   ├── services/              # Логика и обработка данных
-│   │   ├── __init__.py
-│   │   └── comment_service.py # Сервисы для работы с комментариями
-│   └── utils/                 # Вспомогательные функции
-│       └── __init__.py
-├── venv/                      # Виртуальное окружение
-├── .gitignore
-├── README.md                  # Документация
-├── requirements.txt           # Зависимости
-├── comments.db                # База данных SQLite
+.
+├── alembic
+│   ├── env.py
+│   ├── README
+│   ├── script.py.mako
+│   └── versions
+│       └── d98e6bd40d2b_create_comments_table.py
+├── alembic.ini
+├── app
+│   ├── controllers
+│   │   ├── comment_controller.py
+│   │   ├── __init__.py
+│   │   └── root_controller.py
+│   ├── database.py
+│   ├── files.code-workspace
+│   ├── __init__.py
+│   ├── main.py
+│   ├── middleware
+│   │   ├── csp_middleware.py
+│   │   ├── hsts_middleware.py
+│   │   ├── __init__.py
+│   │   ├── x_content_type_options_middleware.py
+│   │   └── x_frame_options_middleware.py
+│   ├── models
+│   │   ├── comment.py
+│   │   └── __init__.py
+│   ├── schemas
+│   │   ├── comment.py
+│   │   └── __init__.py
+│   ├── services
+│   │   ├── comment_service.py
+│   │   └── __init__.py
+│   └── utils
+│       └── __init__.py
+├── docker-compose.yml
+├── Dockerfile
+├── files.code-workspace
+├── README.md
+├── requirements.txt
+├── static
+│   ├── css
+│   │   └── style.css
+│   ├── images
+│   │   ├── about.png
+│   │   ├── favicon.ico
+│   │   ├── home.png
+│   │   ├── portfolio 10.png
+│   │   ├── portfolio 11.png
+│   │   ├── portfolio 13.png
+│   │   ├── portfolio 14.png
+│   │   ├── portfolio 15.png
+│   │   ├── portfolio 16.png
+│   │   ├── portfolio 17.png
+│   │   ├── portfolio 18.png
+│   │   ├── portfolio 19.png
+│   │   ├── portfolio 1.png
+│   │   ├── portfolio 20.png
+│   │   ├── portfolio 21.png
+│   │   ├── portfolio 22.png
+│   │   ├── portfolio 23.png
+│   │   ├── portfolio 24.png
+│   │   ├── portfolio 25.png
+│   │   ├── portfolio 27.png
+│   │   ├── portfolio 28.png
+│   │   ├── portfolio 2.png
+│   │   ├── portfolio 30.png
+│   │   ├── portfolio 31.png
+│   │   ├── portfolio 32.png
+│   │   ├── portfolio 33.png
+│   │   ├── portfolio 34.png
+│   │   ├── portfolio 35.png
+│   │   ├── portfolio 36.png
+│   │   ├── portfolio 37.png
+│   │   ├── portfolio 38.png
+│   │   ├── portfolio 39.png
+│   │   ├── portfolio 3.png
+│   │   ├── portfolio 40.png
+│   │   ├── portfolio 41.png
+│   │   ├── portfolio 42.png
+│   │   ├── portfolio 43.png
+│   │   ├── portfolio 45.png
+│   │   ├── portfolio 47.png
+│   │   ├── portfolio 48.png
+│   │   ├── portfolio 49.png
+│   │   ├── portfolio 4.png
+│   │   ├── portfolio 50.png
+│   │   ├── portfolio 51.png
+│   │   ├── portfolio 52.png
+│   │   ├── portfolio 53.png
+│   │   ├── portfolio 54.png
+│   │   ├── portfolio 55.png
+│   │   ├── portfolio 56.png
+│   │   ├── portfolio 57.png
+│   │   ├── portfolio 58.png
+│   │   ├── portfolio 59.png
+│   │   ├── portfolio 5.png
+│   │   ├── portfolio 60.png
+│   │   ├── portfolio 61.png
+│   │   ├── portfolio 62.png
+│   │   ├── portfolio 63.png
+│   │   ├── portfolio 64.png
+│   │   ├── portfolio 65.png
+│   │   ├── portfolio 66.png
+│   │   ├── portfolio 67.png
+│   │   ├── portfolio 68.png
+│   │   ├── portfolio 69.png
+│   │   ├── portfolio 6.png
+│   │   ├── portfolio 70.png
+│   │   ├── portfolio 71.png
+│   │   ├── portfolio 7.png
+│   │   ├── portfolio 8.png
+│   │   ├── portfolio 9.png
+│   │   └── preview.jpg
+│   └── js
+│       └── script.js
+├── structure.txt
+└── templates
+    ├── index-en.html
+    ├── index-ru.html
+    └── index-uz.html
+
+14 directories, 105 files
 ```
 
 ---

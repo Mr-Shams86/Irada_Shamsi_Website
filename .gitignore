@@ -1,7 +1,7 @@
-# Ignoring sensitive and environment-specific files
+# 📁 Окружение и чувствительные файлы
 .env
 
-# System and temporary files
+# 📁 Системные и временные файлы
 .DS_Store
 Thumbs.db
 *.tmp
@@ -10,32 +10,34 @@ Thumbs.db
 *.swo
 *.~*
 
-# Python cache and compiled files
+# 🐍 Python кеш и байт-код
 __pycache__/
 *.py[cod]
 *.pyo
 
-# Log files
+# 📜 Логи
 *.log
 
-# IDE and editor settings
+# 🛠️ Настройки IDE и редакторов
 .idea/
 .vscode/
+*.code-workspace
 
-# Virtual environment folder
+# 🐍 Виртуальное окружение
 venv/
 
-# Database files
+# 💾 Файлы баз данных
 *.db
 *.sqlite3
+!comments_backup.db  # <-- исключение, если ты решишь оставить резервную копию
 
-# Static files cache (if applicable)
+# 🎨 Кэш статических файлов
 static/cache/
 
-# Node.js and frontend dependencies (if applicable)
+# 📦 Node.js зависимости (если есть фронтенд)
 node_modules/
 
-# Ignore certain images (optional, if large files are problematic)
+# 🖼️ Игнорируем большие изображения, кроме нужных
 static/images/*
 !static/images/favicon.ico
 !static/images/preview.jpg
@@ -43,13 +45,11 @@ static/images/*
 !static/images/about.png
 !static/images/portfolio.png
 
-# Workspace settings
-*.code-workspace
-
-# Ignore generated documentation or notes
+# 📚 Документация/заметки (если есть черновики)
 README.md.bak
 TODO.md
 
-# Ignore project documentation
-"My project structure"
+# ❌ Игнорим структуру-файл, если это временно
+structure.txt
+
 

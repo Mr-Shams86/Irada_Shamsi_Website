@@ -56,7 +56,7 @@ const typed = new Typed('.multiple-text', {
 });
 
 /*==================== Comments API ====================*/
-const API_URL = "http://192.168.0.108:8080/comments"; // Проверьте корректность API_URL
+const API_URL = "/comments"; // Проверьте корректность API_URL
 let selectedRating = 0;
 
 // Load comments from server
