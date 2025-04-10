@@ -175,51 +175,51 @@ docker compose up -d --build
 Irada_Shamsi_WebSite/
 .
 ├── alembic
-│   ├── env.py
-│   ├── README
-│   ├── script.py.mako
+│   ├── env.py                              # Конфигурация Alembic для миграций и подключения к базе
+│   ├── README                              # Документация по Alembic (необязательная)
+│   ├── script.py.mako                      # Шаблон генерации новых миграций
 │   └── versions
-│       └── d98e6bd40d2b_create_comments_table.py
-├── alembic.ini
+│       └── d98e6bd40d2b_create_comments_table.py  # Миграция для создания таблицы комментариев
+├── alembic.ini                             # Основной конфигурационный файл Alembic
 ├── app
 │   ├── controllers
-│   │   ├── comment_controller.py
-│   │   ├── __init__.py
-│   │   └── root_controller.py
-│   ├── database.py
-│   ├── files.code-workspace
-│   ├── __init__.py
-│   ├── main.py
+│   │   ├── comment_controller.py           # Роуты для добавления и отображения комментариев
+│   │   ├── __init__.py                     # Делает папку controllers Python-модулем
+│   │   └── root_controller.py              # Роутер для главной страницы сайта
+│   ├── database.py                         # Настройка подключения к базе данных (SQLAlchemy + Async)
+│   ├── files.code-workspace                # Конфигурация VS Code рабочего пространства
+│   ├── __init__.py                         # Делает папку app Python-модулем
+│   ├── main.py                             # Точка входа в FastAPI-приложение (инициализация, роуты, middleware)
 │   ├── middleware
-│   │   ├── csp_middleware.py
-│   │   ├── hsts_middleware.py
-│   │   ├── __init__.py
-│   │   ├── x_content_type_options_middleware.py
-│   │   └── x_frame_options_middleware.py
+│   │   ├── csp_middleware.py               # Middleware: устанавливает заголовок Content-Security-Policy
+│   │   ├── hsts_middleware.py              # Middleware: добавляет HSTS заголовок (HTTPS защита)
+│   │   ├── __init__.py                     # Делает папку middleware Python-модулем
+│   │   ├── x_content_type_options_middleware.py  # Middleware: защита от MIME атак
+│   │   └── x_frame_options_middleware.py   # Middleware: защита от Clickjacking (запрет на iframe)
 │   ├── models
-│   │   ├── comment.py
-│   │   └── __init__.py
+│   │   ├── comment.py                      # SQLAlchemy модель для таблицы комментариев
+│   │   └── __init__.py                     # Делает папку models Python-модулем
 │   ├── schemas
-│   │   ├── comment.py
-│   │   └── __init__.py
+│   │   ├── comment.py                      # Pydantic-схемы для валидации комментариев (ввод/вывод)
+│   │   └── __init__.py                     # Делает папку schemas Python-модулем
 │   ├── services
-│   │   ├── comment_service.py
-│   │   └── __init__.py
+│   │   ├── comment_service.py              # Бизнес-логика: создание и получение комментариев
+│   │   └── __init__.py                     # Делает папку services Python-модулем
 │   └── utils
-│       └── __init__.py
-├── docker-compose.yml
-├── Dockerfile
-├── files.code-workspace
-├── README.md
-├── requirements.txt
+│       └── __init__.py                     # Подготовка для утилит (пока пусто)
+├── docker-compose.yml                      # Docker-оркестрация: поднимает приложение и БД
+├── Dockerfile                              # Docker-инструкция для сборки контейнера FastAPI
+├── files.code-workspace                    # Дублируется — можно удалить
+├── README.md                               # Документация проекта: описание, запуск, зависимости
+├── requirements.txt                        # Список зависимостей проекта для установки
 ├── static
 │   ├── css
-│   │   └── style.css
+│   │   └── style.css                       # Стили сайта (оформление, шрифты, цвета)
 │   ├── images
-│   │   ├── about.png
-│   │   ├── favicon.ico
-│   │   ├── home.png
-│   │   ├── portfolio 10.png
+│   │   ├── about.png                       # Картинка для страницы "О себе"
+│   │   ├── favicon.ico                     # Иконка сайта
+│   │   ├── home.png                        # Картинка главной страницы
+│   │   ├── portfolio 10.png                # Изображения работ для портфолио
 │   │   ├── portfolio 11.png
 │   │   ├── portfolio 13.png
 │   │   ├── portfolio 14.png
@@ -285,14 +285,14 @@ Irada_Shamsi_WebSite/
 │   │   ├── portfolio 7.png
 │   │   ├── portfolio 8.png
 │   │   ├── portfolio 9.png
-│   │   └── preview.jpg
+│   │   └── preview.jpg                     # Превью изображение для быстрой загрузки
 │   └── js
-│       └── script.js
-├── structure.txt
+│       └── script.js                       # Скрипт сайта: возможно, логика отправки форм или UI
+├── structure.txt                           # Структура проекта (скорее всего, авто-сгенерированная)
 └── templates
-    ├── index-en.html
-    ├── index-ru.html
-    └── index-uz.html
+    ├── index-en.html                       # Главная страница на английском языке
+    ├── index-ru.html                       # Главная страница на русском языке
+    └── index-uz.html                       # Главная страница на узбекском языке
 
 14 directories, 105 files
 ```
