@@ -16,6 +16,7 @@ from app.middleware import (
 
 from app.controllers.comment_controller import router as comment_router
 from app.controllers.root_controller import router as root_router
+from app.controllers.admin_controller import router as admin_router
 from app.database import Base
 from app.database import engine
 
@@ -66,6 +67,8 @@ app.mount(
 # Подключение роутов
 app.include_router(comment_router)
 app.include_router(root_router)
+app.include_router(admin_router)
+
 
 # Создание базы данных автоматически
 Base.metadata.create_all(bind=engine)

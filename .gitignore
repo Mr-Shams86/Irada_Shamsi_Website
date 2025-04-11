@@ -52,4 +52,7 @@ TODO.md
 # ❌ Игнорим структуру-файл, если это временно
 structure.txt
 
+# Игнорировать загруженные изображения
+static/images/*
+!static/images/.gitkeep
 
