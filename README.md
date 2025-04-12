@@ -177,125 +177,62 @@ docker compose up -d --build
 ```
 Irada_Shamsi_WebSite/
 .
-├── alembic
-│   ├── env.py                              # Конфигурация Alembic для миграций и подключения к базе
-│   ├── README                              # Документация по Alembic (необязательная)
-│   ├── script.py.mako                      # Шаблон генерации новых миграций
-│   └── versions
-│       └── d98e6bd40d2b_create_comments_table.py  # Миграция для создания таблицы комментариев
-├── alembic.ini                             # Основной конфигурационный файл Alembic
-├── app
-│   ├── controllers
-│   │   ├── comment_controller.py           # Роуты для добавления и отображения комментариев
-│   │   ├── __init__.py                     # Делает папку controllers Python-модулем
-│   │   └── root_controller.py              # Роутер для главной страницы сайта
-│   ├── database.py                         # Настройка подключения к базе данных (SQLAlchemy + Async)
-│   ├── files.code-workspace                # Конфигурация VS Code рабочего пространства
-│   ├── __init__.py                         # Делает папку app Python-модулем
-│   ├── main.py                             # Точка входа в FastAPI-приложение (инициализация, роуты, middleware)
-│   ├── middleware
-│   │   ├── csp_middleware.py               # Middleware: устанавливает заголовок Content-Security-Policy
-│   │   ├── hsts_middleware.py              # Middleware: добавляет HSTS заголовок (HTTPS защита)
-│   │   ├── __init__.py                     # Делает папку middleware Python-модулем
-│   │   ├── x_content_type_options_middleware.py  # Middleware: защита от MIME атак
-│   │   └── x_frame_options_middleware.py   # Middleware: защита от Clickjacking (запрет на iframe)
-│   ├── models
-│   │   ├── comment.py                      # SQLAlchemy модель для таблицы комментариев
-│   │   └── __init__.py                     # Делает папку models Python-модулем
-│   ├── schemas
-│   │   ├── comment.py                      # Pydantic-схемы для валидации комментариев (ввод/вывод)
-│   │   └── __init__.py                     # Делает папку schemas Python-модулем
-│   ├── services
-│   │   ├── comment_service.py              # Бизнес-логика: создание и получение комментариев
-│   │   └── __init__.py                     # Делает папку services Python-модулем
-│   └── utils
-│       └── __init__.py                     # Подготовка для утилит (пока пусто)
-├── docker-compose.yml                      # Docker-оркестрация: поднимает приложение и БД
-├── Dockerfile                              # Docker-инструкция для сборки контейнера FastAPI
-├── files.code-workspace                    # Дублируется — можно удалить
-├── README.md                               # Документация проекта: описание, запуск, зависимости
-├── requirements.txt                        # Список зависимостей проекта для установки
-├── static
+├── alembic                         # Каталог для миграций базы данных
+│   ├── env.py                      # Основная конфигурация Alembic
+│   ├── README                      # Документация по Alembic (по умолчанию)
+│   ├── script.py.mako             # Шаблон для генерации миграций
+│   └── versions                   # Папка с версиями миграций
+│       └── d98e6bd40d2b_create_comments_table.py   # Скрипт миграции для создания таблицы комментариев
+├── alembic.ini                    # Конфигурационный файл Alembic
+├── app                            # Основная директория backend-приложения
+│   ├── controllers                # Контроллеры (роутеры) FastAPI
+│   │   ├── admin_controller.py   # Роуты для загрузки и удаления изображений (админка)
+│   │   ├── comment_controller.py # Роуты для комментариев
+│   │   ├── __init__.py           # Делает папку модулем Python
+│   │   └── root_controller.py    # Роуты для отображения главной страницы
+│   ├── database.py               # Подключение к базе данных (Async SQLAlchemy)
+│   ├── files.code-workspace      # Конфигурация VS Code рабочего пространства
+│   ├── __init__.py               # Делает папку app модулем Python
+│   ├── main.py                   # Точка входа приложения FastAPI
+│   ├── middleware                # Middleware — заголовки безопасности
+│   │   ├── csp_middleware.py     # Устанавливает Content-Security-Policy заголовок
+│   │   ├── hsts_middleware.py    # Устанавливает Strict-Transport-Security
+│   │   ├── __init__.py           # Делает папку модулем Python
+│   │   ├── x_content_type_options_middleware.py  # MIME type защита
+│   │   └── x_frame_options_middleware.py         # Защита от Clickjacking (X-Frame-Options)
+│   ├── models                    # SQLAlchemy модели БД
+│   │   ├── comment.py            # Модель таблицы комментариев
+│   │   └── __init__.py           # Делает папку модулем Python
+│   ├── schemas                   # Pydantic-схемы для валидации запросов и ответов
+│   │   ├── comment.py            # Схемы для комментариев
+│   │   └── __init__.py           # Делает папку модулем Python
+│   ├── services                  # Бизнес-логика
+│   │   ├── comment_service.py    # Сервис для обработки логики комментариев
+│   │   └── __init__.py           # Делает папку модулем Python
+│   └── utils                     # Вспомогательные функции
+│       └── __init__.py           # Пока пусто, подготовка под утилиты
+├── docker-compose.yml            # Docker оркестрация (поднимает сервисы: API, БД и т.д.)
+├── Dockerfile                    # Сборка образа FastAPI-приложения
+├── files.code-workspace          # Дубликат конфигурации VS Code (можно удалить)
+├── README.md                     # Документация проекта
+├── requirements.txt              # Зависимости Python-пакетов
+├── static                        # Статические файлы сайта (CSS, JS, изображения)
 │   ├── css
-│   │   └── style.css                       # Стили сайта (оформление, шрифты, цвета)
-│   ├── images
-│   │   ├── about.png                       # Картинка для страницы "О себе"
-│   │   ├── favicon.ico                     # Иконка сайта
-│   │   ├── home.png                        # Картинка главной страницы
-│   │   ├── portfolio 10.png                # Изображения работ для портфолио
-│   │   ├── portfolio 11.png
-│   │   ├── portfolio 13.png
-│   │   ├── portfolio 14.png
-│   │   ├── portfolio 15.png
-│   │   ├── portfolio 16.png
-│   │   ├── portfolio 17.png
-│   │   ├── portfolio 18.png
-│   │   ├── portfolio 19.png
-│   │   ├── portfolio 1.png
-│   │   ├── portfolio 20.png
-│   │   ├── portfolio 21.png
-│   │   ├── portfolio 22.png
-│   │   ├── portfolio 23.png
-│   │   ├── portfolio 24.png
-│   │   ├── portfolio 25.png
-│   │   ├── portfolio 27.png
-│   │   ├── portfolio 28.png
-│   │   ├── portfolio 2.png
-│   │   ├── portfolio 30.png
-│   │   ├── portfolio 31.png
-│   │   ├── portfolio 32.png
-│   │   ├── portfolio 33.png
-│   │   ├── portfolio 34.png
-│   │   ├── portfolio 35.png
-│   │   ├── portfolio 36.png
-│   │   ├── portfolio 37.png
-│   │   ├── portfolio 38.png
-│   │   ├── portfolio 39.png
-│   │   ├── portfolio 3.png
-│   │   ├── portfolio 40.png
-│   │   ├── portfolio 41.png
-│   │   ├── portfolio 42.png
-│   │   ├── portfolio 43.png
-│   │   ├── portfolio 45.png
-│   │   ├── portfolio 47.png
-│   │   ├── portfolio 48.png
-│   │   ├── portfolio 49.png
-│   │   ├── portfolio 4.png
-│   │   ├── portfolio 50.png
-│   │   ├── portfolio 51.png
-│   │   ├── portfolio 52.png
-│   │   ├── portfolio 53.png
-│   │   ├── portfolio 54.png
-│   │   ├── portfolio 55.png
-│   │   ├── portfolio 56.png
-│   │   ├── portfolio 57.png
-│   │   ├── portfolio 58.png
-│   │   ├── portfolio 59.png
-│   │   ├── portfolio 5.png
-│   │   ├── portfolio 60.png
-│   │   ├── portfolio 61.png
-│   │   ├── portfolio 62.png
-│   │   ├── portfolio 63.png
-│   │   ├── portfolio 64.png
-│   │   ├── portfolio 65.png
-│   │   ├── portfolio 66.png
-│   │   ├── portfolio 67.png
-│   │   ├── portfolio 68.png
-│   │   ├── portfolio 69.png
-│   │   ├── portfolio 6.png
-│   │   ├── portfolio 70.png
-│   │   ├── portfolio 71.png
-│   │   ├── portfolio 7.png
-│   │   ├── portfolio 8.png
-│   │   ├── portfolio 9.png
-│   │   └── preview.jpg                     # Превью изображение для быстрой загрузки
+│   │   └── style.css             # Основной файл стилей сайта
+│   ├── images                    # Папка с изображениями (портфолио, иконки и пр.)
+│   │   ├── about.png             # Картинка страницы "О себе"
+│   │   ├── favicon.ico           # Иконка сайта
+│   │   ├── home.png              # Картинка главной страницы
+│   │   ├── portfolio *.png       # Работы портфолио
+│   │   └── preview.jpg           # Превью изображение
 │   └── js
-│       └── script.js                       # Скрипт сайта: возможно, логика отправки форм или UI
-├── structure.txt                           # Структура проекта (скорее всего, авто-сгенерированная)
-└── templates
-    ├── index-en.html                       # Главная страница на английском языке
-    ├── index-ru.html                       # Главная страница на русском языке
-    └── index-uz.html                       # Главная страница на узбекском языке
+│       └── script.js             # JS логика сайта (например, отправка формы)
+├── structure.txt                 # Файл, где хранится структура проекта
+└── templates                     # HTML-шаблоны для рендеринга страниц
+    ├── index-en.html             # Главная страница на английском
+    ├── index-ru.html             # Главная страница на русском
+    └── index-uz.html             # Главная страница на узбекском
+
 
 14 directories, 105 files
 ```
