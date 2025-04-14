@@ -59,7 +59,7 @@ BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 # Подключение статических файлов
 app.mount(
     "/static",
-    StaticFiles(directory=os.path.join(BASE_DIR, "../static")),
+    StaticFiles(directory=os.path.abspath(os.path.join(BASE_DIR, "../static"))),
     name="static",
 )
 
@@ -71,4 +71,4 @@ app.include_router(admin_router)
 
 
 # Создание базы данных автоматически
-Base.metadata.create_all(bind=engine)
+# Base.metadata.create_all(bind=engine)
