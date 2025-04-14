@@ -6,7 +6,7 @@ from sqlalchemy.orm import Session
 
 
 redis_client = Redis(
-    host=os.getenv("REDIS_HOST", "localhost"),
+    host=os.getenv("REDISHOST", "localhost"),
     port=int(os.getenv("REDIS_PORT", 6379)),
     password=os.getenv("REDIS_PASSWORD", None),
     decode_responses=True,
