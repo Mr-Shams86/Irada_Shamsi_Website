@@ -1,10 +1,16 @@
+import os
 import json
 from redis import Redis
 from app.models.comment import CommentDB
 from sqlalchemy.orm import Session
 
 
-redis_client = Redis(host="redis", port=6379, decode_responses=True)
+redis_client = Redis(
+    host=os.getenv("REDIS_HOST", "localhost"),
+    port=int(os.getenv("REDIS_PORT", 6379)),
+    password=os.getenv("REDIS_PASSWORD", None),
+    decode_responses=True,
+)
 
 CACHE_KEY = "comments_cache"
 
