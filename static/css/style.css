@@ -1122,6 +1122,7 @@ span {
 .stars span:hover,
 .stars span.selected {
     color: var(--main-color);
+    font-weight: bold;
 }
 
 .stars span:active {

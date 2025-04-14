@@ -120,16 +120,38 @@ document.getElementById('comment-form').addEventListener('submit', async functio
 // Select star rating
 document.querySelectorAll('.stars span').forEach(star => {
     star.addEventListener('click', () => {
-        selectedRating = star.getAttribute('data-star');
-
-        // Обновляем значение скрытого поля
+        selectedRating = parseInt(star.getAttribute('data-star'));
         document.getElementById('rating').value = selectedRating;
 
-        // Обновляем визуальное состояние звезд
-        document.querySelectorAll('.stars span').forEach(s => s.classList.remove('selected'));
-        star.classList.add('selected');
+        document.querySelectorAll('.stars span').forEach(s => {
+            const val = parseInt(s.getAttribute('data-star'));
+            if (val <= selectedRating) {
+                s.classList.add('selected');
+            } else {
+                s.classList.remove('selected');
+            }
+        });
     });
 });
+
+// Hover-подсветка
+document.querySelectorAll('.stars span').forEach(star => {
+    star.addEventListener('mouseover', () => {
+        const hoverValue = parseInt(star.getAttribute('data-star'));
+        document.querySelectorAll('.stars span').forEach(s => {
+            const val = parseInt(s.getAttribute('data-star'));
+            s.classList.toggle('selected', val <= hoverValue);
+        });
+    });
+
+    star.addEventListener('mouseout', () => {
+        document.querySelectorAll('.stars span').forEach(s => {
+            const val = parseInt(s.getAttribute('data-star'));
+            s.classList.toggle('selected', val <= selectedRating);
+        });
+    });
+});
+
 
 // Load comments on page load
 document.addEventListener('DOMContentLoaded', loadComments);
