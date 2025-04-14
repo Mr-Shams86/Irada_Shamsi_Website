@@ -65,7 +65,7 @@ app.mount(
 
 
 # Подключение роутов
-app.include_router(comment_router)
+app.include_router(comment_router, prefix="/api")
 app.include_router(root_router)
 app.include_router(admin_router)
 
