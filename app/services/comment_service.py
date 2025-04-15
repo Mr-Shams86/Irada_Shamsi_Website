@@ -2,7 +2,8 @@ import os
 import json
 from redis import Redis
 from app.models.comment import CommentDB
-from sqlalchemy.orm import Session
+from sqlalchemy.ext.asyncio import AsyncSession
+from sqlalchemy.future import select
 
 
 redis_client = Redis(
@@ -15,12 +16,12 @@ redis_client = Redis(
 CACHE_KEY = "comments_cache"
 
 
-def get_cached_comments(db: Session):
+async def get_cached_comments(db: AsyncSession):
     cached = redis_client.get(CACHE_KEY)
     if cached:
         return json.loads(cached)
-
-    comments = db.query(CommentDB).all()
+    result = await db.execute(select(CommentDB))
+    comments = result.scalars().all()
     serialized = [{"rating": c.rating, "comment": c.comment} for c in comments]
     redis_client.set(CACHE_KEY, json.dumps(serialized), ex=60)  # Кеш на 60 секунд
     return serialized
