@@ -5,10 +5,11 @@ from pathlib import Path
 
 from alembic import context
 from sqlalchemy import create_engine
-from dotenv import load_dotenv
+
+# from dotenv import load_dotenv
 
 # === 🔧 Загрузка .env ===
-load_dotenv(dotenv_path=Path(__file__).resolve().parent.parent / ".env")
+# load_dotenv(dotenv_path=Path(__file__).resolve().parent.parent / ".env")
 
 # === 📁 Добавление пути к папке app ===
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
