@@ -1,6 +1,7 @@
 from fastapi import APIRouter
 from fastapi import HTTPException
 from fastapi import Depends
+from sqlalchemy import text
 from sqlalchemy.ext.asyncio import AsyncSession
 from typing import List
 
@@ -50,7 +51,7 @@ async def get_comments(db: AsyncSession = Depends(get_db)):
     description="Очищает таблицу комментариев в базе данных.",
 )
 async def delete_all_comments(db: AsyncSession = Depends(get_db)):
-    await db.execute("DELETE FROM comments")
+    await db.execute(text("DELETE FROM comments"))
     await db.commit()
 
     await clear_comments_cache()
