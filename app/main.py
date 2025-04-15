@@ -2,7 +2,6 @@ import os
 
 from app.database import engine
 from app.database import Base
-import asyncio
 
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware

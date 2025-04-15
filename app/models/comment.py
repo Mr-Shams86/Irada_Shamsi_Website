@@ -1,5 +1,7 @@
-from sqlalchemy import Column, Integer, String
-from app.database import Base
+from sqlalchemy import Column
+from sqlalchemy import Integer
+from sqlalchemy import String
+from app.database_sync import Base
 
 
 class CommentDB(Base):
