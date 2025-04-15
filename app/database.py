@@ -1,35 +1,39 @@
 import os
 from dotenv import load_dotenv
-from sqlalchemy import create_engine
+from sqlalchemy.ext.asyncio import create_async_engine
+from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 
 
-# Загрузка переменных из .env файла
+# Загрузка переменных из .env
 load_dotenv()
-# Получаем DATABASE_URL из переменных окружения
+
+# Получаем переменную окружения
 DATABASE_URL = os.getenv("DATABASE_URL")
 
 if not DATABASE_URL:
-    # Если DATABASE_URL не задан, используем sqlite
-    BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-    DATABASE_URL = f"sqlite:///{os.path.join(BASE_DIR, '../comments.db')}"
-    engine = create_engine(DATABASE_URL, connect_args={"check_same_thread": False})
-else:
-    # Для PostgresSQL подключение без доп аргументов
-    engine = create_engine(DATABASE_URL)
+    raise ValueError("DATABASE_URL не задан в .env файле")
 
-# Создание базы данных
+# Проверка: если указан sync драйвер, заменить его на async
+if DATABASE_URL.startswith("postgresql://"):
+    DATABASE_URL = DATABASE_URL.replace("postgresql://", "postgresql+asyncpg://", 1)
+
+# Создание асинхронного движка
+engine = create_async_engine(DATABASE_URL, echo=False)
+
+# Базовый класс моделей
 Base = declarative_base()
 
-# Сессии для взаимодействия с базой
-SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
+# Асинхронная сессия
+async_session = sessionmaker(
+    bind=engine,
+    expire_on_commit=False,
+    class_=AsyncSession,
+)
 
 
-# Dependency для получения сессии базы данных
-def get_db():
-    db = SessionLocal()
-    try:
-        yield db
-    finally:
-        db.close()
+# Dependency для FastAPI
+async def get_db():
+    async with async_session() as session:
+        yield session
