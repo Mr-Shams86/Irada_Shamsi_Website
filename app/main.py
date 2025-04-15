@@ -1,5 +1,9 @@
 import os
 
+from app.database import engine
+from app.database import Base
+import asyncio
+
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
@@ -73,3 +77,9 @@ app.include_router(admin_router)
 
 # Создание базы данных автоматически
 # Base.metadata.create_all(bind=engine)
+
+
+@app.on_event("startup")
+async def startup():
+    async with engine.begin() as conn:
+        await conn.run_sync(Base.metadata.create_all)
