@@ -1,11 +1,12 @@
 import os
 
 # from dotenv import load_dotenv
-from sqlalchemy.ext.asyncio import create_async_engine, AsyncSession
+from sqlalchemy.ext.asyncio import create_async_engine
+from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 
-# Загрузка .env
+
 # load_dotenv()
 
 """ DATABASE_URL = os.getenv("DATABASE_URL")
@@ -14,8 +15,11 @@ if not DATABASE_URL:
     raise ValueError("DATABASE_URL не задан в .env файле") """
 
 
-DATABASE_URL = os.environ["DATABASE_URL"]
+# ✅ Надёжно получаем переменную окружения
+DATABASE_URL = os.getenv("DATABASE_URL")
 
+if not DATABASE_URL:
+    raise ValueError("❌ DATABASE_URL не задан. Проверь Railway → Variables")
 
 # Проверка на наличие async-драйвера
 if DATABASE_URL.startswith("postgresql://"):
