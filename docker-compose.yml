@@ -9,8 +9,8 @@ services:
     volumes:
       - .:/app
       - ./static:/app/static
-    env_file:
-      - .env
+    #env_file:
+    #  - .env
     depends_on:
       - db
       - redis
