@@ -8,10 +8,14 @@ from sqlalchemy.orm import sessionmaker
 # Загрузка .env
 # load_dotenv()
 
-DATABASE_URL = os.getenv("DATABASE_URL")
+""" DATABASE_URL = os.getenv("DATABASE_URL")
 
 if not DATABASE_URL:
-    raise ValueError("DATABASE_URL не задан в .env файле")
+    raise ValueError("DATABASE_URL не задан в .env файле") """
+
+
+DATABASE_URL = os.environ["DATABASE_URL"]
+
 
 # Проверка на наличие async-драйвера
 if DATABASE_URL.startswith("postgresql://"):
