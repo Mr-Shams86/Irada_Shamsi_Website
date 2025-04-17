@@ -232,29 +232,29 @@ document.addEventListener('keydown', function (event) {
 const translations = {
     ru: {
         "haircuts.title": "Стрижки",
-        "haircuts.description": "Я выполняю современные стрижки любой сложности, учитывая индивидуальные пожелания клиента.",
+        "haircuts.description": "Выполняю современные стрижки любой сложности, учитывая индивидуальные пожелания клиента.",
         "coloring.title": "Окрашивание",
         "coloring.description": "Использую лучшие материалы и современные техники для создания идеального цвета.",
         "styling.title": "Укладка",
-        "styling.description": "Создаю укладки для любого случая: повседневные, вечерние и свадебные.",
+        "styling.description": "Создаю прически для любого случая: повседневные, вечерние и для различных мероприятий.",
         "more": "Подробнее",
     },
     en: {
         "haircuts.title": "Haircuts",
-        "haircuts.description": "I perform modern haircuts of any complexity, taking into account the client's individual wishes.",
+        "haircuts.description": "Provide modern haircuts of any complexity, considering the individual preferences of the client.",
         "coloring.title": "Coloring",
-        "coloring.description": "I use the best materials and modern techniques to create the perfect color.",
+        "coloring.description": "Use the best materials and modern techniques to create the perfect color.",
         "styling.title": "Styling",
-        "styling.description": "I create hairstyles for any occasion: casual, evening, and wedding styles.",
+        "styling.description": "Create hairstyles for any occasion: casual, evening, and for various events.",
         "more": "Learn More",
     },
     uz: {
         "haircuts.title": "Soch olish",
-        "haircuts.description": "Men mijozning shaxsiy istaklarini hisobga olgan holda har qanday murakkablikdagi zamonaviy sochlarni bajara olaman.",
+        "haircuts.description": "Mijozning istaklariga mos har qanday murakkablikdagi zamonaviy soch turmaklarini bajaraman.",
         "coloring.title": "Rang berish",
-        "coloring.description": "Men eng yaxshi materiallardan va zamonaviy texnikalardan foydalanib, mukammal rang yarataman.",
+        "coloring.description": "Ideal rangga erishish uchun eng yaxshi materiallar va zamonaviy texnikalardan foydalanaman.",
         "styling.title": "Soch turmaklash",
-        "styling.description": "Har qanday holat uchun: oddiy, kechki va to‘y uslublari uchun soch turmaklayman.",
+        "styling.description": "Har qanday holat uchun soch turmaklari yarataman — oddiy, kechki va bayramona tadbirlar uchun.",
         "more": "Batafsil",
     }
 };
