@@ -1,7 +1,7 @@
 from sqlalchemy import Column
 from sqlalchemy import Integer
 from sqlalchemy import String
-from app.database_sync import Base
+from app.database import Base
 
 
 class CommentDB(Base):

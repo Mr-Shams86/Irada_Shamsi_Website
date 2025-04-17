@@ -34,5 +34,8 @@ async def get_cached_comments(db: AsyncSession):
 
 # Очистить кеш асинхронно
 async def clear_comments_cache():
-    loop = asyncio.get_running_loop()
-    await loop.run_in_executor(None, redis_client.delete, CACHE_KEY)
+    try:
+        loop = asyncio.get_running_loop()
+        await loop.run_in_executor(None, redis_client.delete, CACHE_KEY)
+    except Exception as e:
+        print(f"⚠️ Redis cache clear error: {e}")
