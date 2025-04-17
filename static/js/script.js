@@ -56,7 +56,7 @@ const typed = new Typed('.multiple-text', {
 });
 
 /*==================== Comments API ====================*/
-const API_URL = "/api/comments"; // Проверьте корректность API_URL
+const API_URL = `${window.location.origin}/api/comments`; // Проверьте корректность API_URL
 let selectedRating = 0;
 
 // Load comments from server
