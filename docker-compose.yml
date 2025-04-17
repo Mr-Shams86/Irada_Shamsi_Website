@@ -11,6 +11,11 @@ services:
       - ./static:/app/static
     #env_file:
     #  - .env
+    environment:
+      DATABASE_URL: postgresql+asyncpg://postgres:postgres@db:5432/postgres
+      REDISHOST: redis
+      REDISPORT: 6379
+      REDIS_PASSWORD:
     depends_on:
       - db
       - redis
