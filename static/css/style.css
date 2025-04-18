@@ -96,7 +96,7 @@ section {
 .language-switcher {
     display: flex;
     gap: 0.5rem; /* Расстояние между кнопками */
-    margin-left: 1.5rem; /* Отступ от навигации, совпадает с .navbar a */
+    margin-left: 0.5rem; /* Отступ от навигации, совпадает с .navbar a */
 }
 
 .language-switcher a {
