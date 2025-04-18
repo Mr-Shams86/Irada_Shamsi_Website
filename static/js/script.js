@@ -46,14 +46,28 @@ ScrollReveal().reveal('.home-img, .services-container, .portfolio-box, .contact 
 ScrollReveal().reveal('.home-content h1, .about-img', { origin: 'left' });
 ScrollReveal().reveal('.home-content p, .about-content', { origin: 'right' });
 
-/*==================== typed js ====================*/
-const typed = new Typed('.multiple-text', {
-    strings: ['Professional hairdresser', 'Colorist', 'Stylist'],
-    typeSpeed: 100,
-    backSpeed: 100,
-    backDelay: 1000,
-    loop: true
-});
+/*==================== typed.js — многоязычный ====================*/
+
+let typed = null;
+
+const typedStrings = {
+    ru: ['Парикмахер-стилист', 'Колорист', 'Мастер причесок'],
+    en: ['Professional hairdresser', 'Colorist', 'Stylist'],
+    uz: ['Soch stilisti', 'Kolorist', 'Soch ustasi']
+};
+
+function updateTypedText(lang) {
+    if (typed) typed.destroy();
+
+    typed = new Typed('.multiple-text', {
+        strings: typedStrings[lang] || typedStrings.en,
+        typeSpeed: 100,
+        backSpeed: 100,
+        backDelay: 1000,
+        loop: true
+    });
+}
+
 
 /*==================== Comments API ====================*/
 const API_URL = `${window.location.origin}/api/comments`; // Проверьте корректность API_URL
@@ -71,7 +85,8 @@ async function loadComments() {
 
         const comments = await response.json();
         const commentList = document.getElementById('comments-list');
-        commentList.innerHTML = '<h3>Отзывы:</h3>';
+        commentList.querySelectorAll('.comment').forEach(el => el.remove());
+
 
         comments.forEach(comment => {
             const commentElement = document.createElement('div');
@@ -238,7 +253,17 @@ const translations = {
         "styling.title": "Укладка",
         "styling.description": "Создаю прически для любого случая: повседневные, вечерние и для различных мероприятий.",
         "more": "Подробнее",
+
+        // ✅ Строки секции home
+        "home.greeting": "Здравствуйте, Меня зовут",
+        "home.i_am": "Я",
+        "home.services": "Выполняю все виды стрижек, укладок и техники окрашивания любой сложности.",
+        "home.approach": "Индивидуальный подход к каждому клиенту.",
+
+        // ✅ Комментарии
+        "comments.reviews": "Отзывы:"
     },
+
     en: {
         "haircuts.title": "Haircuts",
         "haircuts.description": "Provide modern haircuts of any complexity, considering the individual preferences of the client.",
@@ -247,7 +272,17 @@ const translations = {
         "styling.title": "Styling",
         "styling.description": "Create hairstyles for any occasion: casual, evening, and for various events.",
         "more": "Learn More",
+
+        // ✅ Строки секции home
+        "home.greeting": "Hello, my name is",
+        "home.i_am": "I am",
+        "home.services": "I perform all types of haircuts, styling, and coloring techniques of any complexity.",
+        "home.approach": "An individual approach to every client",
+
+        // ✅ Комментарии
+        "comments.reviews": "Reviews:"
     },
+
     uz: {
         "haircuts.title": "Soch olish",
         "haircuts.description": "Mijozning istaklariga mos har qanday murakkablikdagi zamonaviy soch turmaklarini bajaraman.",
@@ -256,10 +291,24 @@ const translations = {
         "styling.title": "Soch turmaklash",
         "styling.description": "Har qanday holat uchun soch turmaklari yarataman — oddiy, kechki va bayramona tadbirlar uchun.",
         "more": "Batafsil",
+
+        // ✅ Строки секции home
+        "home.greeting": "Salom, mening ismim",
+        "home.i_am": "Men",
+        "home.services": "Har qanday murakkablikdagi soch olish, turmaklash va bo‘yash texnikalarini bajaraman.",
+        "home.approach": "Har bir mijozga individual yondashuv.",
+
+        // ✅ Комментарии
+        "comments.reviews": "Fikrlar:"
     }
 };
 
-let currentLanguage = "en"; // Язык по умолчанию
+
+
+// Язык по умолчанию
+let currentLanguage = localStorage.getItem('lang') || new URLSearchParams(window.location.search).get('lang') || 'en';
+
+
 
 
 function initStars() {
@@ -281,7 +330,7 @@ function initStars() {
 function updateLanguage(lang) {
     currentLanguage = lang;
 
-    // Перебираем элементы с атрибутом data-translate
+     // Перевод текста с data-translate
     document.querySelectorAll("[data-translate]").forEach(el => {
         const key = el.getAttribute("data-translate");
         const translation = translations[currentLanguage][key];
@@ -289,27 +338,29 @@ function updateLanguage(lang) {
             el.innerText = translation;
         }
     });
-}
 
-    // Обновляем активный язык
+    // ✅ Переключаем активную кнопку языка
     document.querySelectorAll('.lang-switch').forEach(link => {
         link.classList.toggle('active', link.getAttribute('data-lang') === currentLanguage);
     });
 
-    // Инициализируем обработчики для звёздочек заново
-    initStars();
-
+    // ✅ Обновляем анимацию typed.js
+    updateTypedText(lang);
+}
 
 // Обработчик переключения языка
 document.querySelectorAll('.lang-switch').forEach(link => {
     link.addEventListener('click', (e) => {
         e.preventDefault();
         const lang = link.getAttribute('data-lang');
+        localStorage.setItem('lang', lang);
         updateLanguage(lang);
     });
 });
 
-// Инициализация интерфейса
+// Инициализация интерфейса при загрузке страницы
 document.addEventListener('DOMContentLoaded', () => {
     updateLanguage(currentLanguage);
+    updateTypedText(currentLanguage); // запускаем typed.js с текущим языком
+    initStars(); 
 });

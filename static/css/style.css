@@ -1196,3 +1196,8 @@ span {
     margin-top: 2rem;
 }
 
+/* Добавим плавность для typed.js */
+.multiple-text {
+    white-space: nowrap;
+}
+
