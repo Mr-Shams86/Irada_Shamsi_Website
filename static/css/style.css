@@ -620,7 +620,7 @@ span {
     }
 
     .portfolio-container {
-        grid-template-columns: repeat(4, 1fr); /* Три колонки на больших экранах */
+        grid-template-columns: repeat(2, 1fr); /* Три колонки на больших экранах */
         gap: 2.5rem; /* Расстояние между колонками */
     }
 
@@ -670,6 +670,7 @@ span {
     }
 
     /* === Добавляем стили для .language-switcher === */
+
     .language-switcher {
         display: flex;
         justify-content: center; /* Центрируем элементы горизонтально */
@@ -704,20 +705,23 @@ span {
 
     .home-img {
         order: -1; /* Изображение становится первым */
-        flex: 1; /* Изображение занимает одну часть */
+        flex: none; /* Изображение занимает одну часть */
         display: flex;
         justify-content: center;
         align-items: center;
+        padding: 1rem;
     }
 
     .home-img img {
-        width: 100%; /* Размер изображения */
-        max-height: 60vh; /* Ограничиваем высоту */
-        object-fit: contain; /* Подгоняем изображение */
-        margin: 0; /* Убираем лишний отступ сверху */
+        width: 100%;               /*  Уменьшаем ширину относительно экрана */
+        max-width: 300px;         /*  Максимальная ширина */
+        height: auto;             /*  Автоматическая высота */
+        max-height: 50vh;         /*  Ограничиваем высоту — половина экрана */
+        object-fit: contain;        /*  Картинка обрезается по размеру */
+        margin: 0 auto;
+        display: block;
         border-radius: 5%;
-        box-shadow: 0 0 15px 5px var(--main-color); /* Розовая подсветка */
-        animation: floatImage 4s ease-in-out infinite;
+        box-shadow: 0 0 15px 5px var(--main-color);
     }
 
     .home-img img:hover {
@@ -729,6 +733,10 @@ span {
     .header {
         border-bottom: 2px solid rgba(0, 0, 0, 0.2); /* Устанавливаем границу */
         padding-bottom: 1rem; /* Сдвигаем границу вниз */
+    }
+
+    .portfolio-container {
+        grid-template-columns: repeat(3, 1fr);
     }
 
     .social-media {
@@ -746,7 +754,6 @@ span {
         padding: 8rem 5%; /* Уменьшаем отступы для мобильных */
         position: relative; /* Для управления внутренними элементами */
         scroll-margin-top: var(--header-height); /* Отступ сверху равен высоте навигационного бара */
-        position: relative;
         margin-top: -var(--header-height); /* Сдвигаем секцию обратно вверх */
         padding-top: calc(var(--header-height) + 2rem); /* Добавляем отступ сверху */
     }
@@ -863,6 +870,12 @@ span {
     }
 }
 
+@media (max-width: 480px) {
+    .portfolio-container {
+        grid-template-columns: 1fr;
+    }
+}
+
 @media (max-width: 450px) {
     html {
         font-size: clamp(50%, 2.5vw, 62.5%);
@@ -922,6 +935,16 @@ span {
     .close {
         font-size: 1.6rem; /* Уменьшаем размер кнопки закрытия */
         padding: 4px 8px; /* Уменьшаем отступы */
+    }
+}
+
+@media (max-width: 400px) {
+    .language-switcher a {
+    font-size: 0.9rem;
+    padding: 0.2rem 0.5rem;
+    }
+    .home-img img {
+    max-height: 250px;
     }
 }
 
