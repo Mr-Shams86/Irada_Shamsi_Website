@@ -285,7 +285,7 @@ span {
 }
 
 .about-img {
-    order: 2; /* Фото справа */
+    order: -1; /* Фото справа */
     flex: 1; /* Фото занимает одну часть */
     display: flex;
     justify-content: center; /* Центрируем фото горизонтально */
@@ -705,19 +705,22 @@ span {
 
     .home-img {
         order: -1; /* Изображение становится первым */
-        flex: none; /* Изображение занимает одну часть */
+        flex: 0 1 auto; /* ✅ Правильная работа в flex-контейнере */
         display: flex;
         justify-content: center;
         align-items: center;
         padding: 1rem;
+        max-width: 100vw; /* ✅ Жесткое ограничение ширины */
+        width: 100%;
+        box-sizing: border-box; /* ✅ Чтобы padding не влиял на ширину */
     }
 
     .home-img img {
-        width: 100%;               /*  Уменьшаем ширину относительно экрана */
-        max-width: 300px;         /*  Максимальная ширина */
-        height: auto;             /*  Автоматическая высота */
-        max-height: 50vh;         /*  Ограничиваем высоту — половина экрана */
-        object-fit: contain;        /*  Картинка обрезается по размеру */
+        width: 90vw;
+        max-width: 300px;
+        height: auto;
+        max-height: 50vh;
+        object-fit: contain; /* ✅ или contain — зависит от эффекта */
         margin: 0 auto;
         display: block;
         border-radius: 5%;
@@ -725,10 +728,10 @@ span {
     }
 
     .home-img img:hover {
-        box-shadow: 0 0 20px 10px var(--main-color); /* Яркая подсветка при наведении */
-        transition: box-shadow 0.3s ease; /* Плавный эффект */
+        box-shadow: 0 0 20px 10px var(--main-color);
+        transition: box-shadow 0.3s ease;
     }
-}    
+}
 
     .header {
         border-bottom: 2px solid rgba(0, 0, 0, 0.2); /* Устанавливаем границу */
@@ -874,7 +877,39 @@ span {
     .portfolio-container {
         grid-template-columns: 1fr;
     }
+
+    .about {
+        padding: 2rem 1rem;
+        gap: 2rem;
+    }
+    
+    .about-img img {
+        width: 85vw;
+        max-width: 280px;
+        max-height: 60vh;
+        object-fit: cover;
+        border-radius: 12px;
+    }
+    
+    .about-content h2 {
+        font-size: 2.4rem;
+    }
+    
+    .about-content h3 {
+        font-size: 1.8rem;
+    }
+    
+    .about-content p {
+        font-size: 1.4rem;
+        line-height: 1.5;
+    }
+    
+    .btn {
+        font-size: 1.4rem;
+        padding: 1rem 2rem;
+    }
 }
+
 
 @media (max-width: 450px) {
     html {
