@@ -717,7 +717,7 @@ span {
 
     .home-img img {
         width: 90vw;
-        max-width: 300px;
+        max-width: 160px;
         height: auto;
         max-height: 50vh;
         object-fit: contain; /* ✅ или contain — зависит от эффекта */
@@ -730,6 +730,7 @@ span {
     .home-img img:hover {
         box-shadow: 0 0 20px 10px var(--main-color);
         transition: box-shadow 0.3s ease;
+        
     }
 }
 
@@ -978,10 +979,31 @@ span {
     font-size: 0.9rem;
     padding: 0.2rem 0.5rem;
     }
-    .home-img img {
-    max-height: 250px;
+    .home-img {
+        display: inline-block;
+        width: 90%;             /* ✅ Ограничим ширину */
+        max-width: 160px;       /* ✅ Фиксированный максимум */
+        margin: 0 auto;
+        padding: 0.5rem;
+        border-radius: 10px;
+        box-shadow: 0 0 25px 5px var(--main-color);
     }
-}
+
+    .home-img img {
+        display: block;
+        width: 100%;
+        height: auto;
+        border-radius: 10px;
+        object-fit: cover;
+    }
+
+    .about-img img {
+        width: 85vw;
+        max-width: 160px;
+        max-height: 60vh;
+        object-fit: cover;
+        border-radius: 12px;
+    }
 
 @media (max-width: 365px) { 
     .home-img img {
@@ -1259,3 +1281,4 @@ span {
     white-space: nowrap;
 }
 
+}
