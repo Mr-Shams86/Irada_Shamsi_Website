@@ -881,29 +881,34 @@ section {
     font-size: 1.2rem; /* Ещё меньше шрифт для самых маленьких экранов */
   }
 
-  .home-img img,
-  .about-img img {
+  .home-content h1 {
+    font-size: clamp(2.5rem, 5vw, 4rem); /* Уменьшаем размер текста */
+  }
+
+  .home-content p {
+    font-size: 1.4rem; /* Уменьшаем размер текста */
+  }
+
+  .home-img img {
     width: 50%;
     max-height: 60vh;
     animation: floatImage 5s ease-in-out infinite; /* Анимация включена по умолчанию */
   }
 
-  .home-content h1 {
-    font-size: clamp(2.5rem, 5vw, 4rem); /* Уменьшаем размер текста */
+  .about-img img {
+    width: 50%;
+    margin: 0 auto;
+    max-height: 60vh;
+    animation: floatImage 5s ease-in-out infinite; /* Анимация включена по умолчанию */
   }
 
-  .home-content p,
   .about-content p {
     font-size: 1.4rem; /* Уменьшаем размер текста */
   }
 
-  .about-img img {
-    max-width: 100%;
-    margin: 0 auto;
-  }
-
   .about-content h2 {
     font-size: 1.8rem;
+    margin-top: 1rem; /* 🔽 уменьшает расстояние от изображения */
   }
 
   .about-content p {
