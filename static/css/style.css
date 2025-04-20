@@ -883,7 +883,7 @@ section {
 
   .home-img img,
   .about-img img {
-    width: 100%;
+    width: 50%;
     max-height: 60vh;
     animation: floatImage 5s ease-in-out infinite; /* Анимация включена по умолчанию */
   }
@@ -935,8 +935,7 @@ section {
   }
 
   .about-img img {
-    width: 90vw;
-    width: 100%;
+    width: 50%;
     max-height: 60vh;
   }
 
