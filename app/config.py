@@ -13,9 +13,9 @@ BOT_TOKEN = os.getenv("BOT_TOKEN")
 BACKEND_URL = os.getenv("BACKEND_URL", "http://localhost:8001")
 
 # Redis
-REDIS_HOST = os.getenv("REDISHOST", "localhost")
-REDIS_PORT = int(os.getenv("REDISPORT", 6379))
-REDIS_PASSWORD = os.getenv("REDISPASSWORD", None)
+REDISHOST = os.getenv("REDISHOST", "localhost")
+REDISPORT = int(os.getenv("REDISPORT", 6379))
+REDIS_PASSWORD = os.getenv("REDIS_PASSWORD", None)
 
 # База данных
 DATABASE_URL = os.getenv("DATABASE_URL")
