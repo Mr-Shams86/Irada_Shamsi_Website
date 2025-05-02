@@ -27,6 +27,13 @@ jobs:
         run: |
           docker compose -f docker-compose.yml up -d --build
 
+      - name: Wait for Postgres to be ready
+        run: |
+          until docker compose exec -T db pg_isready -U postgres; do
+            echo "Waiting for PostgreSQL..."
+            sleep 2
+          done
+
       - name: Run Alembic migrations
         run: |
           docker compose exec -T backend alembic upgrade head

@@ -6,26 +6,31 @@ from pathlib import Path
 from alembic import context
 from sqlalchemy import create_engine
 
-# from dotenv import load_dotenv
+from dotenv import load_dotenv
 
-# === 🔧 Загрузка .env ===
+
+load_dotenv(".env.local")
+# === Загрузка .env ===
 # load_dotenv(dotenv_path=Path(__file__).resolve().parent.parent / ".env")
 
-# === 📁 Добавление пути к папке app ===
+# === Добавление пути к папке app ===
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
 
-# === 📦 Импорт базы и моделей из sync-версии ===
-from app.database_sync import Base, DATABASE_URL
+# === Импорт базы и моделей из sync-версии ===
+from app.database_sync import Base
+
+# from app.database_sync import DATABASE_URL
+from app.models.telegram_review import TelegramReview
 from app.models.comment import CommentDB  # если используется в metadata
 
-# === ⚙️ Alembic config и логирование ===
+# === Alembic config и логирование ===
 config = context.config
 fileConfig(config.config_file_name)
 
-# === 🧠 Метаданные моделей ===
+# === Метаданные моделей ===
 target_metadata = Base.metadata
 
-# === 🔄 Получение DATABASE_URL и принудительная замена asyncpg → psycopg2 ===
+# === Получение DATABASE_URL и принудительная замена asyncpg → psycopg2 ===
 DATABASE_URL = os.getenv("DATABASE_URL")
 if not DATABASE_URL:
     raise ValueError("DATABASE_URL не найден в .env")
@@ -38,7 +43,7 @@ if DATABASE_URL.startswith("postgresql+asyncpg://"):
 else:
     sync_url = DATABASE_URL
 
-# === 🚂 Sync engine для Alembic ===
+# === Sync engine для Alembic ===
 engine = create_engine(sync_url)
 
 

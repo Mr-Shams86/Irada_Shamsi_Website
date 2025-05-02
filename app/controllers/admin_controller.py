@@ -6,6 +6,8 @@ from fastapi import HTTPException
 from fastapi import Request
 from fastapi.responses import HTMLResponse
 from fastapi.responses import JSONResponse
+from app.config import ADMIN_IMAGE_SECRET
+
 import os
 from typing import List
 
@@ -15,7 +17,8 @@ router = APIRouter(prefix="/admin", tags=["Admin Image Management"])
 IMAGES_DIR = os.path.abspath(
     os.path.join(os.path.dirname(__file__), "../../static/images")
 )
-SECRET_KEY = "iradeadmin2024"  # Временный ключ для аутентификации
+
+SECRET_KEY = ADMIN_IMAGE_SECRET
 
 
 @router.get("/images", response_class=HTMLResponse)

@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset 
+    xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" 
+    xmlns:xhtml="http://www.w3.org/1999/xhtml">
+
+  <!-- Главная страница -->
+  <url>
+    <loc>https://irada-shamsi.com/</loc>
+    <priority>1.0</priority>
+    <xhtml:link rel="alternate" hreflang="ru" href="https://irada-shamsi.com/" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://irada-shamsi.com/en" />
+    <xhtml:link rel="alternate" hreflang="uz" href="https://irada-shamsi.com/uz" />
+  </url>
+
+  <!-- Раздел Отзывы -->
+  <url>
+    <loc>https://irada-shamsi.com/#telegram-reviews</loc>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="ru" href="https://irada-shamsi.com/" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://irada-shamsi.com/en" />
+    <xhtml:link rel="alternate" hreflang="uz" href="https://irada-shamsi.com/uz" />
+  </url>
+
+  <!-- Раздел Портфолио -->
+  <url>
+    <loc>https://irada-shamsi.com/#portfolio</loc>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="ru" href="https://irada-shamsi.com/" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://irada-shamsi.com/en" />
+    <xhtml:link rel="alternate" hreflang="uz" href="https://irada-shamsi.com/uz" />
+  </url>
+
+  <!-- Раздел Контакты -->
+  <url>
+    <loc>https://irada-shamsi.com/#contact</loc>
+    <priority>0.7</priority>
+    <xhtml:link rel="alternate" hreflang="ru" href="https://irada-shamsi.com/" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://irada-shamsi.com/en" />
+    <xhtml:link rel="alternate" hreflang="uz" href="https://irada-shamsi.com/uz" />
+  </url>
+
+</urlset>

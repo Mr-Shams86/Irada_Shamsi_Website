@@ -1,31 +1,26 @@
-# app/database_sync.py
-import os
 from sqlalchemy import create_engine
 from sqlalchemy.orm import declarative_base
 from sqlalchemy.orm import sessionmaker
+from app.config import DATABASE_URL
 
 # from dotenv import load_dotenv
 
 # load_dotenv()
 
-# Получаем переменную из окружения
-DATABASE_URL = os.getenv("DATABASE_URL")
-
-
 if not DATABASE_URL:
     raise ValueError(
-        "DATABASE_URL не задан. Убедись, что он указан в Railway → Variables."
+        "❌ DATABASE_URL не задан. Убедись, что он указан в Railway → Variables."
     )
 
-
-# Подмена asyncpg на psycopg2
+# Заменяем async-драйвер на sync-драйвер
 if DATABASE_URL.startswith("postgresql+asyncpg://"):
-    DATABASE_URL = DATABASE_URL.replace(
+    sync_url = DATABASE_URL.replace(
         "postgresql+asyncpg://", "postgresql+psycopg2://", 1
     )
+else:
+    sync_url = DATABASE_URL
 
-
-# Создание движка и сессии
-engine = create_engine(DATABASE_URL)
+# Синхронный движок
+engine = create_engine(sync_url)
 Base = declarative_base()
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)

@@ -5,11 +5,12 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Irade Shamsi - professional sartarosh va kolorit xizmatlari. Har xil murakkablikdagi soch kesish, bo'yash va uslublash xizmatlarini taklif etadi.">
     <meta name="keywords" content="Irade Shamsi, sartarosh, kolorit, professional soch kesish, soch bo'yash, soch uslublash, go'zallik saloni, Toshkent, soch stilisti">
 
     <!-- Title -->
     <title>Irade Shamsi Portfeli - Professional Soch Ustasi va Kolorist</title>
+
+    <link rel="canonical" href="https://irada-shamsi.com/" />
 
     <!-- Meta Description -->
     <meta name="description" content="Irade Shamsi - professional soch ustasi va kolorist. Har xil murakkablikdagi soch kesish, bo'yash va tarash xizmatlari. Har bir mijozga individual yondashuv.">
@@ -24,7 +25,7 @@
     <link rel="icon" href="/static/images/favicon.ico" type="image/x-icon">
 
 
-    <!-- 🚀 Preload Key Images -->
+    <!-- Preload Key Images -->
     <link rel="preload" as="image" href="/static/images/home.webp" type="image/webp">
     <link rel="preload" as="image" href="/static/images/about.webp" type="image/webp">
     <link rel="preload" as="image" href="/static/images/preview.webp" type="image/webp">
@@ -49,36 +50,99 @@
     <!-- Custom CSS -->
     <link rel="stylesheet" href="/static/css/style.css">
 
+    <!-- JSON-LD Structured Data -->
     <script type="application/ld+json">
         {
-        "@context": "http://schema.org",
-        "@type": "LocalBusiness",
-        "name": "Irade Shamsi",
-        "description": "Professional hairdresser and colorist in Tashkent. | Профессиональный парикмахер и колорист в Ташкенте. | Toshkentda professional sartarosh va kolerist.",
-        "url": "https://irada-shamsi.com",
-        "address": {
-        "@type": "PostalAddress",
-        "addressLocality": "Tashkent",
-        "addressCountry": "Uzbekistan"
-        },
-        "aggregateRating": {
-        "@type": "AggregateRating",
-        "ratingValue": "5",
-        "reviewCount": "27"
-        },
-        "image": "https://irada-shamsi.com/static/images/home.webp"
+          "@context": "https://schema.org",
+          "@type": "LocalBusiness",
+          "name": "Irade Shamsi",
+          "description": "Toshkentda professional sartarosh va kolorist.",
+          "url": "https://irada-shamsi.com",
+          "logo": "https://irada-shamsi.com/static/images/preview.webp",
+          "image": "https://irada-shamsi.com/static/images/home.webp",
+          "telephone": "+998909574960",
+          "priceRange": "$$",
+          "openingHours": "Mo-Sa 10:00-20:00",
+          "address": {
+            "@type": "PostalAddress",
+            "streetAddress": "Mirabad tumani",
+            "addressLocality": "Toshkent",
+            "postalCode": "100015",
+            "addressCountry": "UZ"
+          },
+          "sameAs": [
+            "https://t.me/irash83",
+            "https://www.facebook.com/profile.php?id=100079985679881",
+            "https://www.instagram.com/irade_shamsi",
+            "https://wa.me/998909574960",
+            "https://irada-shamsi.com"
+          ],
+          "aggregateRating": {
+            "@type": "AggregateRating",
+            "ratingValue": "{{ (telegram_reviews | map(attribute='rating') | sum) / (telegram_reviews | length) | round(1) if telegram_reviews else 5 }}",
+            "reviewCount": "{{ telegram_reviews | length }}"
+          },
+          "review": [
+            {% for review in telegram_reviews[:5] %}
+            {
+              "@type": "Review",
+              "author": {
+                "@type": "Person",
+                "name": "{{ (review.username or review.full_name or 'Noma\'lum') | escape }}",
+                "image": "{{ review.photo_url or '/static/images/default-avatar.png' }}"
+              },
+              "datePublished": "{{ review.created_at.strftime('%Y-%m-%d') }}",
+              "reviewBody": "{{ review.message | replace('\"', '\\\"') }}",
+              "reviewRating": {
+                "@type": "Rating",
+                "ratingValue": "{{ review.rating }}",
+                "bestRating": "5"
+              }
+            }{% if not loop.last %},{% endif %}
+            {% endfor %}
+          ]
         }
-        </script>
+    </script>
         
-        
+<!-- Метрика и аналитика только для production -->
+{% if request.url.hostname not in ["localhost", "127.0.0.1"] %}
+    <!-- Google Analytics -->
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-GFLEBMJT7J"></script>
+    <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'G-GFLEBMJT7J');
+    </script>
+
+    <!-- Yandex.Metrika counter -->
+    <script type="text/javascript">
+        (function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
+        m[i].l=1*new Date();
+        for (var j = 0; j < document.scripts.length; j++) {if (document.scripts[j].src === r) { return; }}
+        k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)})
+        (window, document, "script", "https://mc.yandex.ru/metrika/tag.js", "ym");
+
+        ym(101520975, "init", {
+            clickmap:true,
+            trackLinks:true,
+            accurateTrackBounce:true,
+            webvisor:true
+        });
+    </script>
+    <noscript><div><img src="https://mc.yandex.ru/watch/101520975" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+{% endif %}
 </head>
 
 <body>
 
     <!-- header design -->
     <header class="header">
-        <a href="#" class="logo">
-            <i class='bx bxs-magic-wand'></i>Irade Shamsi</a>
+        <a href="/admin/login" class="logo" title="Irade Shamsi 🔒">
+            <i class='bx bxs-magic-wand'></i>Irade Shamsi
+        </a>        
             
         <i class='bx bx-menu' id="menu-icon"></i>
 
@@ -110,7 +174,6 @@
             <p data-translate="home.approach">Har bir mijozga individual yondashuv.</p>
 
             <div class="social-media">
-                <!-- Telegram -->
                 <!-- Социальные сети -->
                 <a href="https://t.me/irash83" target="_blank" title="Telegram">
                     <i class='bx bxl-telegram'></i>
@@ -154,7 +217,7 @@
 
         <div class="home-img">
             <img src="/static/images/home.webp" alt="Irada Shamsi - Kasbiy sartarosh" loading="lazy">
-        <div>
+        </div>
     </section>
 
     <!--
@@ -573,6 +636,14 @@
             <div class="portfolio-box">
                 <img src="/static/images/portfolio_77.webp" alt="" loading="lazy">
             </div>
+
+            <div class="portfolio-box">
+                <img src="/static/images/portfolio_78.webp" alt="" loading="lazy">
+            </div>
+
+            <div class="portfolio-box">
+                <img src="/static/images/portfolio_79.webp" alt="" loading="lazy">
+            </div>
         </div>
     </section>
 
@@ -596,9 +667,10 @@
     
     <!-- comments section -->
 <section id="comments">
-    <h2>Fikringizni qoldiring</h2>
+    
+    
     <form id="comment-form">
-        <div class="rating-container">
+        <!-- <div class="rating-container">
             <label>Mening ishlarimga baho bering:</label>
             <input type="hidden" id="rating" name="rating" value="">
             <div class="stars">
@@ -607,21 +679,62 @@
                 <span data-star="3">★</span>
                 <span data-star="4">★</span>
                 <span data-star="5">★</span>
-            </div>
+            </div> 
         </div>
         <textarea id="comment-text" placeholder="Fikringizni yozing..." required></textarea>
-        <button type="submit" class="btn">Yuborish</button>
+        <button type="submit" class="btn">Yuborish</button> -->
     </form>
     <div id="comments-list">
         <h3 data-translate="comments.reviews">Fikrlar:</h3>
         <!-- Здесь будут отображаться отзывы -->
+    </div> 
+
+    <!-- Telegram кнопка -->
+    <div style="text-align: center; margin-top: 2rem;">
+        <a href="https://t.me/IradaFeedbackBot" target="_blank" class="telegram-button">
+            <i class='bx bxl-telegram' style="font-size: 2rem; vertical-align: middle; margin-right: 8px;"></i>
+            Leave a review via Telegram
+        </a>
+    </div>    
+
+    <div id="telegram-reviews">
+        
+        <div class="telegram-reviews-container">
+            {% if telegram_reviews %}
+                {% for review in telegram_reviews %}
+                <div class="telegram-review">
+                    <div class="telegram-user">
+                        <img src="{{ review.photo_url or '/static/images/default-avatar.png' }}" alt="{{ review.full_name or review.username or 'Пользователь' }}" class="avatar">
+                        <strong>{{ review.full_name or review.username or 'Аноним' }}</strong>
+                    </div>
+                    <div class="telegram-rating">
+                        {% for _ in range(review.rating) %}
+                            <span class="star">★</span>
+                        {% endfor %}
+                        {% for _ in range(5 - review.rating) %}
+                            <span class="star empty">★</span>
+                        {% endfor %}
+                    </div>
+                    
+                    <p class="telegram-text">{{ review.message }}</p>
+                </div>
+                {% endfor %}
+            {% else %}
+                <p style="color: #999;">Hozircha sharhlar yoʻq 😢</p>
+            {% endif %}
+        </div>
     </div>
+
+    <div id="load-more-container" style="text-align: center; margin-top: 1rem;">
+        <button id="load-more-btn" class="btn">Yana ko‘rsatish</button>
+    </div>
+
 </section>
     
     <!-- footer design -->
     <footer class="footer">
         <div class="footer-text">
-            <p>Copyright &copy; 2025 by ๛Hunter๖ | Barcha huquqlar himoyalangan.</p>
+            <p>Copyright &copy; 2025 by ๛Samer Shams๖ | Barcha huquqlar himoyalangan.</p>
         </div>
 
         <div class="footer-iconTop">
@@ -644,3 +757,4 @@
 </body>
 
 </html>
+

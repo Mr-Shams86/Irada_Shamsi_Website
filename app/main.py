@@ -1,8 +1,5 @@
 import os
 
-from app.database import engine
-from app.database import Base
-
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
@@ -20,6 +17,15 @@ from app.middleware import (
 from app.controllers.comment_controller import router as comment_router
 from app.controllers.root_controller import router as root_router
 from app.controllers.admin_controller import router as admin_router
+from app.controllers.telegram_review_controller import router as telegram_review_router
+from app.controllers.admin_reviews_controller import router as admin_reviews_router
+
+from app.dependencies import admin_auth
+
+from dotenv import load_dotenv
+
+load_dotenv()
+
 
 # from app.database import Base
 # from app.database import engine
@@ -32,10 +38,16 @@ from app.controllers.admin_controller import router as admin_router
 #         # Убираем установку заголовка Content-Security-Policy
 #         return response
 
+IS_PROD = os.getenv("IS_PROD", "false").strip().lower() == "true"
+
+
 app = FastAPI(
     title="Irade Shamsi Portfolio API",
     description="API для добавления и просмотра комментариев",
     version="1.0.0",
+    docs_url=None if IS_PROD else "/docs",
+    redoc_url=None if IS_PROD else "/redoc",
+    openapi_url=None if IS_PROD else "/openapi.json",
 )
 
 
@@ -72,13 +84,9 @@ app.mount(
 app.include_router(comment_router, prefix="/api")
 app.include_router(root_router)
 app.include_router(admin_router)
-
+app.include_router(telegram_review_router)
+app.include_router(admin_reviews_router)
+app.include_router(admin_auth.router)
 
 # Создание базы данных автоматически
 # Base.metadata.create_all(bind=engine)
-
-
-@app.on_event("startup")
-async def startup():
-    async with engine.begin() as conn:
-        await conn.run_sync(Base.metadata.create_all)

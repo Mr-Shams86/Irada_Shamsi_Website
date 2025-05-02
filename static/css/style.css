@@ -67,7 +67,7 @@ section {
   font-size: 2rem;
   color: var(--text-color);
   font-weight: 600;
-  cursor: default;
+  cursor: pointer;
 }
 
 .navbar {
@@ -398,12 +398,15 @@ span {
 
 .portfolio-box {
   position: relative;
-  overflow: hidden; /* Убираем лишнее за рамками */
-  aspect-ratio: 2 / 2.3; /* Более широкое соотношение сторон */
-  border-radius: 1rem; /* Округлые углы */
-  box-shadow: 0 0 1rem var(--bg-color); /* Тень */
-  background: var(--bg-color); /* Цвет фона рамки */
+  overflow: hidden;
+  border-radius: 1rem;
+  box-shadow: 0 0 1rem var(--bg-color);
+  background: var(--bg-color);
   transition: transform 0.3s ease, box-shadow 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  aspect-ratio: 2 / 3; /* или просто убери совсем — см. ниже */
 }
 
 .portfolio-box:hover {
@@ -413,9 +416,9 @@ span {
 
 .portfolio-box img {
   width: 100%;
-  height: auto; /* Высота определяется пропорциями изображения */
-  display: block;
-  border-radius: 1rem; /* Закруглённые углы у изображения */
+  height: 100%;
+  object-fit: cover; /* 👈 или contain, если хочешь без обрезки */
+  border-radius: 1rem;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
@@ -958,6 +961,94 @@ section {
   }
 }
 
+@media (max-width: 768px) {
+  .telegram-reviews-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  .telegram-review {
+    width: 100%;
+    max-width: 500px;
+    min-height: 160px; /* фиксация минимальной высоты */
+    box-sizing: border-box;
+    margin: 0 auto;
+    padding: 1rem;
+    border-radius: 1rem;
+    background-color: var(--second-bg-color);
+    box-shadow: 0 0 0.5rem rgba(0, 0, 0, 0.2);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 0.5rem;
+  }
+
+  .telegram-user {
+    display: flex;
+    align-items: center;
+    gap: 0.7rem;
+    font-size: 1rem;
+  }
+
+  .telegram-user img.avatar {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    object-fit: cover;
+  }
+
+  .telegram-rating .star {
+    font-size: 1.3rem;
+    color: #ff00cc;
+  }
+
+  .telegram-rating .star.empty {
+    color: #777;
+  }
+
+  .telegram-text {
+    flex-grow: 1;
+    font-size: 1rem;
+    line-height: 1.4;
+    color: var(--text-color);
+    word-wrap: break-word;
+  }
+
+  #admin-moderation h2 {
+    font-size: 1.4rem;
+    text-align: center;
+    margin-bottom: 1rem;
+  }
+
+  #admin-moderation p {
+    font-size: 1rem;
+    text-align: center;
+    margin-bottom: 2rem;
+  }
+
+  .admin-review {
+    max-width: 95%;
+    margin: 0 auto 1.5rem;
+    padding: 1rem;
+    font-size: 0.95rem;
+  }
+
+  .moderation-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    align-items: stretch;
+  }
+
+  .moderation-buttons button {
+    font-size: 1rem;
+    padding: 0.6rem;
+    width: 100%;
+  }
+}
+
 /* Стили для модального окна */
 .modal {
   display: none;
@@ -1028,48 +1119,6 @@ section {
   transform: scale(1.2); /* Легкое увеличение */
   color: #fff; /* Белый текст остается */
 }
-
-/* Контейнер для снежинок */
-/*
-#snow-container {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    pointer-events: none; /* Чтобы снег не мешал кликам 
-    z-index: 1000; /* Чтобы снег был поверх всего 
-}
-
-Снежинки 
-.snowflake {
-    position: fixed;
-    top: 0;
-    color: #0be1fd;
-    pointer-events: none;
-    animation: fall linear infinite;
-}
-
- Анимация падения 
-@keyframes fall {
-    0% {
-        transform: translateY(-100%);
-    }
-    100% {
-        transform: translateY(100vh);  Снежинка падает на весь экран 
-    }
-}
-
- Анимация покачивания 
-@keyframes sway {
-    0%, 100% {
-        transform: translateX(0);
-    }
-    50% {
-        transform: translateX(20px);
-    }
-}
-*/
 
 /* Форма комментариев */
 #comments {
@@ -1163,6 +1212,14 @@ section {
   animation: fadeIn 0.5s ease forwards; /* Анимация появления */
 }
 
+/* 👇 Добавляем сюда */
+#comments-list h3 {
+  font-size: 2rem;
+  font-weight: bold;
+  color: var(--text-color);
+  margin-bottom: 1rem;
+}
+
 /* Поочередное появление отзывов */
 #comments-list .comment:nth-child(1) {
   animation-delay: 0s;
@@ -1204,13 +1261,119 @@ section {
   white-space: nowrap;
 }
 
-/* Добавляем анимацию покачивания */
-@keyframes sway {
-  0%,
-  100% {
-    transform: translateX(0);
+#telegram-reviews {
+  margin-top: 3rem;
+  padding: 2rem;
+  background: var(--second-bg-color);
+  border-radius: 1rem;
+  box-shadow: 0 0 1rem rgba(0, 0, 0, 0.2);
+}
+
+.telegram-reviews-container {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.telegram-review {
+  background: var(--bg-color);
+  padding: 1rem;
+  border-radius: 1rem;
+  border-left: 4px solid var(--main-color);
+  opacity: 0;
+  transform: translateY(20px);
+  animation: fadeInReview 0.6s ease forwards;
+}
+
+@keyframes fadeInReview {
+  to {
+    opacity: 1;
+    transform: translateY(0);
   }
-  50% {
-    transform: translateX(20px);
-  }
+}
+
+.telegram-user {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 0.5rem;
+}
+
+.telegram-user strong {
+  font-size: 1.3rem;
+  font-weight: bold;
+  color: var(--text-color); /* или white, если нужно контрастнее */
+}
+
+.telegram-user .avatar {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.telegram-text {
+  font-size: 1.6rem;
+  color: var(--text-color);
+  line-height: 1.6;
+}
+
+#load-more-btn {
+  background-color: var(--main-color);
+  color: white;
+  border: none;
+  padding: 0.7rem 1.5rem;
+  font-size: 1rem;
+  border-radius: 0.5rem;
+  cursor: pointer;
+  margin-top: 1rem;
+}
+
+.telegram-rating {
+  font-size: 1.4rem;
+  color: gold;
+  margin: 0.5rem 0;
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+}
+
+.star {
+  font-size: 2.4rem;
+  color: #eb4dd0; /* Фирменный розово-фиолетовый */
+  text-shadow: 0 0 5px rgba(235, 77, 208, 0.6); /* Эффект свечения */
+  transition: transform 0.2s ease;
+}
+
+.star:hover {
+  transform: scale(1.2);
+}
+
+.star.empty {
+  font-size: 2.4rem;
+  color: #888;
+  opacity: 0.3;
+  text-shadow: none;
+}
+
+.telegram-button {
+  background: linear-gradient(135deg, #eb4dd0, #7f00ff);
+  color: white;
+  padding: 14px 28px;
+  font-size: 1.8rem;
+  font-weight: bold;
+  border: none;
+  border-radius: 30px;
+  text-decoration: none;
+  display: inline-flex; /* ✅ Чтобы иконка и текст выровнялись красиво */
+  align-items: center; /* ✅ Центровка по вертикали */
+  justify-content: center;
+  gap: 10px; /* ✅ Расстояние между иконкой и текстом */
+  box-shadow: 0 0 14px rgba(235, 77, 208, 0.5);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.telegram-button:hover {
+  transform: scale(1.05);
+  box-shadow: 0 0 22px rgba(127, 0, 255, 0.7);
 }

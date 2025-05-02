@@ -1,0 +1,138 @@
+* {
+  box-sizing: border-box;
+}
+
+/* Основной контейнер */
+.admin-container {
+  padding: 1rem;
+  max-width: 900px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.admin-review {
+  border: 1px solid #444;
+  padding: 1rem;
+  margin-bottom: 1rem;
+  border-radius: 12px;
+  background-color: #222;
+}
+
+/* Контейнер кнопок */
+.moderation-buttons {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+/* Кнопки модерации */
+.moderation-buttons button {
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+}
+.btn-approve {
+  background-color: #2ecc71;
+  color: white;
+}
+.btn-delete {
+  background-color: #e74c3c;
+  color: white;
+}
+
+/* Заголовок и описание */
+#admin-moderation h2 {
+  font-size: 2rem;
+  font-weight: bold;
+  color: #ffcc66;
+  margin-bottom: 2rem;
+}
+
+#admin-moderation p {
+  font-size: 2rem;
+  color: #ccc;
+  margin-bottom: 2rem;
+}
+
+/* Кнопка "Выйти" */
+.logout-wrapper {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  margin-top: 2rem;
+  flex-wrap: wrap;
+}
+
+.return-btn {
+  background: #888;
+  color: white;
+  padding: 0.75rem 1.5rem;
+  border-radius: 6px;
+  font-weight: bold;
+  text-decoration: none;
+  font-size: 1rem;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+  transition: background 0.3s ease;
+}
+
+.return-btn:hover {
+  background: #666;
+}
+
+.logout-btn {
+  background: #d9534f;
+  color: white;
+  padding: 1rem 2rem;
+  border-radius: 6px;
+  font-weight: bold;
+  text-decoration: none;
+  font-size: 1.2rem;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+  transition: background 0.3s ease;
+}
+
+.logout-btn:hover {
+  background: #c9302c;
+  transform: scale(1.05);
+}
+
+.logout-btn:active {
+  transform: scale(0.97);
+}
+
+/* Мобильная адаптация */
+@media (max-width: 768px) {
+  .admin-review {
+    font-size: 1rem;
+  }
+
+  .btn-approve,
+  .btn-delete {
+    width: 100%;
+    text-align: center;
+  }
+
+  .moderation-buttons {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .logout-btn {
+    width: 100%;
+    text-align: center;
+  }
+}
+
+/* Эффекты */
+button,
+.logout-btn {
+  transition: all 0.3s ease;
+}
+
+button:active,
+.logout-btn:active {
+  transform: scale(0.97);
+}

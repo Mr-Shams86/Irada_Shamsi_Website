@@ -1,7 +1,14 @@
-from fastapi import APIRouter, Query
+from fastapi import APIRouter
+from fastapi import Query
 from fastapi import Request
-from fastapi.responses import HTMLResponse, FileResponse
+from fastapi import Depends
+from fastapi.responses import HTMLResponse
+from fastapi.responses import FileResponse
 from fastapi.templating import Jinja2Templates
+from sqlalchemy.ext.asyncio import AsyncSession
+from app.database import get_db
+from app.services.telegram_review_service import get_latest_reviews
+
 
 router = APIRouter()
 templates = Jinja2Templates(directory="templates")
@@ -17,14 +24,32 @@ def read_root():
 
 
 @router.get("/", response_class=HTMLResponse, summary="Главная страница")
-def serve_homepage(request: Request, lang: str = Query("en")):
+async def index(
+    request: Request,
+    lang: str = Query("ru"),
+    db: AsyncSession = Depends(get_db),
+):
+    telegram_reviews = await get_latest_reviews(db=db, limit=10)
     file_name = f"index-{lang}.html"
-    try:
-        return templates.TemplateResponse(file_name, {"request": request})
-    except FileExistsError:
-        return HTMLResponse(content="Page not found", status_code=404)
+    return templates.TemplateResponse(
+        file_name,
+        {
+            "request": request,
+            "telegram_reviews": telegram_reviews,
+        },
+    )
 
 
 @router.get("/favicon.ico", include_in_schema=False)
 async def favicon():
     return FileResponse("static/images/favicon.ico")
+
+
+@router.get("/robots.txt", include_in_schema=False)
+async def robots():
+    return FileResponse("static/robots.txt", media_type="text/plain")
+
+
+@router.get("/sitemap.xml", include_in_schema=False)
+async def sitemap():
+    return FileResponse("static/sitemap.xml", media_type="application/xml")

@@ -303,13 +303,8 @@ const translations = {
     }
 };
 
-
-
 // Язык по умолчанию
 let currentLanguage = localStorage.getItem('lang') || new URLSearchParams(window.location.search).get('lang') || 'en';
-
-
-
 
 function initStars() {
     document.querySelectorAll('.stars span').forEach(star => {
@@ -363,4 +358,74 @@ document.addEventListener('DOMContentLoaded', () => {
     updateLanguage(currentLanguage);
     updateTypedText(currentLanguage); // запускаем typed.js с текущим языком
     initStars(); 
+});
+
+
+/* Telegram Reviews — подставить default-avatar если отсутствует */
+// Безопасная функция экранирования текста (чтобы защититься от XSS)
+const escapeHTML = (str) => {
+    if (!str) return '';
+    return str.replace(/[&<>"']/g, (match) => ({
+        '&': '&amp;',
+        '<': '&lt;',
+        '>': '&gt;',
+        '"': '&quot;',
+        "'": '&#39;',
+    }[match]));
+};
+
+
+// Подставляем default-avatar, если фото не загрузилось
+document.addEventListener('DOMContentLoaded', () => {
+    const reviews = document.querySelectorAll('#telegram-reviews img.avatar');
+
+    reviews.forEach(img => {
+        img.onerror = () => {
+            img.onerror = null;
+            img.src = '/static/images/default-avatar.png';
+        };
+
+        if (!img.src || img.src.trim() === "") {
+            img.src = '/static/images/default-avatar.png';
+        }
+    });
+});
+
+let reviewOffset = 0;
+const reviewLimit = 10;
+
+document.getElementById("load-more-btn").addEventListener("click", async () => {
+    try {
+        const response = await fetch(`/api/telegram-reviews/?offset=${reviewOffset}&limit=${reviewLimit}`);
+        const reviews = await response.json();
+
+        const container = document.querySelector("#telegram-reviews .telegram-reviews-container");
+
+        reviews.forEach((review) => {
+            const reviewEl = document.createElement("div");
+            reviewEl.className = "telegram-review";
+            reviewEl.innerHTML = `
+                <div class="telegram-user">
+                    <img src="${review.photo_url || '/static/images/default-avatar.png'}" alt="${escapeHTML(review.full_name || review.username || 'Anonymous')}" class="avatar">
+                    <strong>${escapeHTML(review.full_name || review.username || 'Anonymous')}</strong>
+                </div>
+                <div class="telegram-rating">
+                    ${'<span class="star">★</span>'.repeat(review.rating)}
+                    ${'<span class="star empty">★</span>'.repeat(5 - review.rating)}
+                </div>
+                <p class="telegram-text">${escapeHTML(review.message)}</p>
+            `;
+            container.appendChild(reviewEl);
+        });
+
+        reviewOffset += reviewLimit;
+
+        if (reviews.length < reviewLimit) {
+            document.getElementById("load-more-container").style.display = "none";
+        }
+
+    } catch (err) {
+        console.error("❌ Ошибка при загрузке отзывов:", err);
+        alert("Произошла ошибка при загрузке отзывов. Попробуйте позже!");
+    }
 });
