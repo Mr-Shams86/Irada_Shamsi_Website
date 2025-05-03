@@ -1,8 +1,7 @@
-
 # Используем официальный Python образ
 FROM python:3.10-slim
 
-# Устанавливаем рабочую директорию внутри контейнера
+# Устанавливаем рабочую директорию
 WORKDIR /app
 
 # Копируем зависимости
@@ -11,17 +10,14 @@ COPY requirements.txt .
 # Устанавливаем зависимости
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Копируем весь проект
-COPY . .
+# Копируем только папку bot + app (если бот использует app.config)
+COPY bot/ ./bot/
+COPY app/config.py ./app/
 
-# Указываем порт
-EXPOSE 8000
+# Переменные окружения (Railway их подхватит сам, но можно оставить на всякий случай)
+ENV BOT_TOKEN=${BOT_TOKEN}
+ENV BACKEND_URL=${BACKEND_URL}
 
-# Передаём переменные окружения в контейнер
-ENV DATABASE_URL=${DATABASE_URL}
-ENV REDISHOST=${REDISHOST}
-ENV REDISPORT=${REDISPORT}
-ENV REDIS_PASSWORD=${REDIS_PASSWORD}
+# Стартуем Telegram-бот
+CMD ["python", "-m", "bot.main_bot"]
 
-# Запуск FastAPI-приложения через Uvicorn
-CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8000"]
