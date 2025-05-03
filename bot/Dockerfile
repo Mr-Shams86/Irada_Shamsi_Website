@@ -18,5 +18,5 @@ ENV BOT_TOKEN=${BOT_TOKEN}
 ENV BACKEND_URL=${BACKEND_URL}
 
 # Стартуем Telegram-бот
-CMD ["python", "-m", "bot.main_bot"]
+CMD ["python", "-m", "main_bot"]
 
