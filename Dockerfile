@@ -10,11 +10,10 @@ COPY requirements.txt .
 # Устанавливаем зависимости
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Копируем только папку bot + app (если бот использует app.config)
+# Копируем только папку bot (НЕ копируем app)
 COPY bot/ ./bot/
-COPY app/config.py ./app/
 
-# Переменные окружения (Railway их подхватит сам, но можно оставить на всякий случай)
+# Переменные окружения (Railway сам подхватит)
 ENV BOT_TOKEN=${BOT_TOKEN}
 ENV BACKEND_URL=${BACKEND_URL}
 
