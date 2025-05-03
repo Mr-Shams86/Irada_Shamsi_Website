@@ -27,12 +27,12 @@ print(f"[DEBUG] BACKEND_URL = {BACKEND_URL}")
 
 # Redis
 REDISHOST = os.getenv("REDISHOST", "localhost")
-REDISPORT = int(
-    os.getenv(
-        "REDISPORT",
-    )
-    or 6379
-)
+try:
+    REDISPORT = int(os.getenv("REDISPORT") or 6379)
+except ValueError:
+    print("⚠️ REDISPORT is invalid, defaulting to 6379")
+    REDISPORT = 6379
+
 REDIS_PASSWORD = os.getenv("REDIS_PASSWORD", None)
 
 # База данных
