@@ -2,8 +2,8 @@ import logging
 from aiogram import Dispatcher
 from aiogram.fsm.storage.memory import MemoryStorage
 
-from bot.bot_instance import bot
-from bot.handlers import register_handlers
+from bot_instance import bot
+from handlers import register_handlers
 
 
 logging.basicConfig(level=logging.INFO)

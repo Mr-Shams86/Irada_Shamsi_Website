@@ -11,9 +11,9 @@ from aiogram.types import ReplyKeyboardMarkup
 from aiogram.types import KeyboardButton
 from aiogram.types import ReplyKeyboardRemove
 
-from bot.states import ReviewStates
-from bot.bot_instance import bot
-from bot.config import BACKEND_URL
+from states import ReviewStates
+from bot_instance import bot
+from config import BACKEND_URL
 
 
 # FSM состояния
