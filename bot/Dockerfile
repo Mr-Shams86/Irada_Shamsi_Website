@@ -1,22 +1,21 @@
-# Используем официальный Python образ
+# Используем официальный минимальный Python-образ
 FROM python:3.10-slim
 
 # Устанавливаем рабочую директорию
 WORKDIR /app
 
-# Копируем зависимости
+# Копируем requirements.txt (новый, облегчённый)
 COPY requirements.txt .
 
-# Копируем только папку bot (НЕ копируем app)
-COPY . .
-
-# Устанавливаем зависимости
+# Устанавливаем зависимости (чистая установка без кеша)
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Переменные окружения (Railway сам подхватит)
+# Копируем папку bot (только бот, не весь app)
+COPY . .
+
+# Указываем переменные окружения (Railway их подхватит автоматически)
 ENV BOT_TOKEN=${BOT_TOKEN}
 ENV BACKEND_URL=${BACKEND_URL}
 
-# Стартуем Telegram-бот
+# Запускаем Telegram-бот
 CMD ["python", "-m", "main_bot"]
-
