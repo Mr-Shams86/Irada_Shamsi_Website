@@ -2,7 +2,6 @@ import os
 
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from fastapi.staticfiles import StaticFiles
 
 # from app.middleware import CSPMiddleware
 
@@ -21,6 +20,8 @@ from app.controllers.telegram_review_controller import router as telegram_review
 from app.controllers.admin_reviews_controller import router as admin_reviews_router
 
 from app.dependencies import admin_auth
+
+from app.utils.custom_static import CustomStaticFiles
 
 # from dotenv import load_dotenv
 
@@ -75,7 +76,7 @@ BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 # Подключение статических файлов
 app.mount(
     "/static",
-    StaticFiles(directory=os.path.abspath(os.path.join(BASE_DIR, "../static"))),
+    CustomStaticFiles(directory=os.path.abspath(os.path.join(BASE_DIR, "../static"))),
     name="static",
 )
 
