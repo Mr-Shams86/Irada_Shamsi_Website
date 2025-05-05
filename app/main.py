@@ -22,9 +22,9 @@ from app.controllers.admin_reviews_controller import router as admin_reviews_rou
 
 from app.dependencies import admin_auth
 
-from dotenv import load_dotenv
+# from dotenv import load_dotenv
 
-load_dotenv()
+# load_dotenv()
 
 
 # from app.database import Base

@@ -1,14 +1,19 @@
 import os
 from pathlib import Path
-from dotenv import load_dotenv
 
+# from pathlib import Path
+# from dotenv import load_dotenv
 
-dotenv_path = Path(__file__).resolve().parent.parent / ".env"
+# Загрузка .env только локально (НЕ на Railway)
+if os.getenv("IS_PROD", "false").strip().lower() == "true":
+    from dotenv import load_dotenv
 
-if not load_dotenv(dotenv_path):
-    print(f"⚠️ WARNING: .env file not found at {dotenv_path}")
-else:
-    print(f"✅ Loaded .env from {dotenv_path}")
+    dotenv_path = Path(__file__).resolve().parent.parent / ".env"
+    if not load_dotenv(dotenv_path):
+        print(f"⚠️ WARNING: .env file not found at {dotenv_path}")
+    else:
+        print(f"✅ Loaded .env from {dotenv_path}")
+
 
 # Админка
 ADMIN_USERNAME = os.getenv("ADMIN_USERNAME")
