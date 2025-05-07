@@ -69,134 +69,6 @@ function updateTypedText(lang) {
 }
 
 
-/*==================== Comments API ====================*/
-const API_URL = `${window.location.origin}/api/comments`; // Проверьте корректность API_URL
-let selectedRating = 0;
-
-// Load comments from server
-async function loadComments() {
-    try {
-        const response = await fetch(API_URL, {
-            method: 'GET',
-            mode: 'cors' // Добавляем режим cors
-        });
-        console.log('Fetching comments...'); // Отладочное сообщение
-        if (!response.ok) throw new Error(`Ошибка загрузки комментариев: ${response.statusText}`);
-
-        const comments = await response.json();
-        const commentList = document.getElementById('comments-list');
-        commentList.querySelectorAll('.comment').forEach(el => el.remove());
-
-
-        comments.forEach(comment => {
-            const commentElement = document.createElement('div');
-            commentElement.classList.add('comment');
-            commentElement.innerHTML = `
-                <div class="rating">${'★'.repeat(comment.rating)}${'☆'.repeat(5 - comment.rating)}</div>
-                <p>${comment.comment}</p>
-            `;
-            commentList.appendChild(commentElement);
-        });
-    } catch (error) {
-        console.error('Ошибка подключения:', error);
-        alert('Не удалось загрузить комментарии. Попробуйте позже.');
-    }
-}
-
-// Submit comment to server
-document.getElementById('comment-form').addEventListener('submit', async function (e) {
-    e.preventDefault();
-
-    const commentText = document.getElementById('comment-text').value;
-    if (!selectedRating) return alert('Пожалуйста, выберите оценку!');
-    if (!commentText.trim()) return alert('Пожалуйста, напишите комментарий!');
-
-    try {
-        const response = await fetch(API_URL, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ rating: selectedRating, comment: commentText }),
-        });
-        console.log('Response status:', response.status); // Отладочное сообщение
-        console.log('Response body:', await response.text()); // Отладочное сообщение
-
-        if (!response.ok) throw new Error('Ошибка при добавлении комментария.');
-
-        await loadComments();
-        document.getElementById('comment-form').reset();
-        document.querySelectorAll('.stars span').forEach(s => s.classList.remove('selected'));
-        selectedRating = 0;
-    } catch (error) {
-        console.error('Ошибка подключения:', error);
-        alert('Не удалось отправить комментарий. Попробуйте позже.');
-    }
-});
-
-// Select star rating
-document.querySelectorAll('.stars span').forEach(star => {
-    star.addEventListener('click', () => {
-        selectedRating = parseInt(star.getAttribute('data-star'));
-        document.getElementById('rating').value = selectedRating;
-
-        document.querySelectorAll('.stars span').forEach(s => {
-            const val = parseInt(s.getAttribute('data-star'));
-            if (val <= selectedRating) {
-                s.classList.add('selected');
-            } else {
-                s.classList.remove('selected');
-            }
-        });
-    });
-});
-
-// Hover-подсветка
-document.querySelectorAll('.stars span').forEach(star => {
-    star.addEventListener('mouseover', () => {
-        const hoverValue = parseInt(star.getAttribute('data-star'));
-        document.querySelectorAll('.stars span').forEach(s => {
-            const val = parseInt(s.getAttribute('data-star'));
-            s.classList.toggle('selected', val <= hoverValue);
-        });
-    });
-
-    star.addEventListener('mouseout', () => {
-        document.querySelectorAll('.stars span').forEach(s => {
-            const val = parseInt(s.getAttribute('data-star'));
-            s.classList.toggle('selected', val <= selectedRating);
-        });
-    });
-});
-
-
-// Load comments on page load
-document.addEventListener('DOMContentLoaded', loadComments);
-
-
-/*==================== Snowflakes ====================*/
-/*
-function createSnowflake() {
-    const snowflake = document.createElement('div');
-    snowflake.classList.add('snowflake');
-    snowflake.style.left = Math.random() * 100 + 'vw';
-    snowflake.style.animationDuration = Math.random() * 10 + 10 + 's';
-    snowflake.style.opacity = Math.random();
-    snowflake.style.fontSize = Math.random() * 12 + 8 + 'px';
-    snowflake.textContent = '❄';
-
-    document.getElementById('snow-container').appendChild(snowflake);
-
-    setTimeout(() => snowflake.remove(), parseFloat(snowflake.style.animationDuration) * 1000);
-}
-// Определяем интервал в зависимости от ширины экрана
-const interval = window.innerWidth <= 768 ? 20000 : 500; // 500ms для телефонов, 50ms для ПК
-
-setInterval(createSnowflake, interval);
-*/
-
-// Загрузка комментариев при загрузке страницы
-document.addEventListener('DOMContentLoaded', loadComments)
-
-
 // Open and close modals
 function openModal(modalId) {
     const modal = document.getElementById(modalId);
@@ -306,20 +178,6 @@ const translations = {
 // Язык по умолчанию
 let currentLanguage = localStorage.getItem('lang') || new URLSearchParams(window.location.search).get('lang') || 'en';
 
-function initStars() {
-    document.querySelectorAll('.stars span').forEach(star => {
-        star.addEventListener('click', () => {
-            selectedRating = star.getAttribute('data-star');
-
-            // Обновляем значение скрытого поля
-            document.getElementById('rating').value = selectedRating;
-
-            // Обновляем визуальное состояние звезд
-            document.querySelectorAll('.stars span').forEach(s => s.classList.remove('selected'));
-            star.classList.add('selected');
-        });
-    });
-}
 
 // Обновление текста на странице
 function updateLanguage(lang) {
@@ -356,8 +214,7 @@ document.querySelectorAll('.lang-switch').forEach(link => {
 // Инициализация интерфейса при загрузке страницы
 document.addEventListener('DOMContentLoaded', () => {
     updateLanguage(currentLanguage);
-    updateTypedText(currentLanguage); // запускаем typed.js с текущим языком
-    initStars(); 
+    updateTypedText(currentLanguage); // запускаем typed.js с текущим языком 
 });
 
 

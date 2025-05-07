@@ -13,9 +13,7 @@ from app.middleware import (
     HSTSMiddleware,  # noqa: F401
 )
 
-from app.controllers.comment_controller import router as comment_router
 from app.controllers.root_controller import router as root_router
-from app.controllers.admin_controller import router as admin_router
 from app.controllers.telegram_review_controller import router as telegram_review_router
 from app.controllers.admin_reviews_controller import router as admin_reviews_router
 
@@ -82,9 +80,7 @@ app.mount(
 
 
 # Подключение роутов
-app.include_router(comment_router, prefix="/api")
 app.include_router(root_router)
-app.include_router(admin_router)
 app.include_router(telegram_review_router)
 app.include_router(admin_reviews_router)
 app.include_router(admin_auth.router)
