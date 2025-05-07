@@ -133,7 +133,9 @@ const translations = {
         "home.approach": "Индивидуальный подход к каждому клиенту.",
 
         // ✅ Комментарии
-        "comments.reviews": "Отзывы:"
+        "comments.reviews": "Отзывы:",
+        // ✅ добавляем
+        "telegram.review": "Оставить отзыв через Telegram"
     },
 
     en: {
@@ -152,7 +154,8 @@ const translations = {
         "home.approach": "An individual approach to every client",
 
         // ✅ Комментарии
-        "comments.reviews": "Reviews:"
+        "comments.reviews": "Reviews:",
+        "telegram.review": "Leave a review via Telegram"
     },
 
     uz: {
@@ -171,7 +174,8 @@ const translations = {
         "home.approach": "Har bir mijozga individual yondashuv.",
 
         // ✅ Комментарии
-        "comments.reviews": "Fikrlar:"
+        "comments.reviews": "Fikrlar:",
+        "telegram.review": "Telegram orqali sharh qoldiring"
     }
 };
 
