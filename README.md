@@ -2,27 +2,32 @@
 
 ## 🌟 **Описание проекта**
 
-Этот проект представляет собой портфолио веб-сайт профессионального парикмахера-колориста.
+**Этот проект представляет собой портфолио веб-сайт профессионального парикмахера-колориста с интеграцией Telegram-бота для оценок и сбора отзывов клиентов.**
+**Проект включает административную панель, публичный сайт и Telegram-бот, работающие как единая экосистема.**
 
 **Ключевые функции сайта:**
 
 - Главная страница с информацией о специалисте.
+- Скрытая Админ панель для модерации отзывов
 - Раздел "Обо мне" с подробным описанием опыта и услуг.
 - Галерея работ (портфолио).
-- Раздел отзывов клиентов с комментариями и оценками.
+- Раздел отзывов клиентов через Telegram с оценками и комментариями.
 - Поддержка API для работы с отзывами.
 
 ---
 
 ## 🔧 **Функциональные возможности**
 
-- 🎨 Адаптивный дизайн, поддерживающий мобильные устройства.
-- 🏆 Оставление отзывов через веб-интерфейс.
-- ⚫ Персонализация содержимого (галерея работ).
-- 🔄 API для управления отзывами.
-- ⚡ Быстрая загрузка отзывов с использованием Redis-кеширования
-- ⛏ PostgreSQL + Alembic для работы с базой данных
-- 🚀 Docker + GitHub Actions для деплоя
+- 🎨 Адаптивный дизайн (desktop/mobile)
+- 🌐 Многоязычная поддержка (EN, RU, UZ)
+- ⚫ Персонализация содержимого (галерея работ)
+- 🤖 Telegram-бот для сбора отзывов и оценок от клиентов
+- 📬 Интеграция отзывов Telegram прямо на сайт
+- 📝 Модерация отзывов через admin-панель
+- 🔄 API для управления отзывами
+- 🚀 Docker + GitHub Actions для CI/CD
+- ⚡ Redis для кеширования отзывов
+- 🗄️ PostgreSQL + Alembic для базы данных
 
 ---
 
@@ -60,85 +65,13 @@
 
 - CORS
 
----
+## 🤖 Telegram-бот
 
-## 🔒 **Установка и запуск проекта**
+**В проект входит Telegram-бот для сбора отзывов пользователей с последующей модерацией и публикацией на сайте.**
 
-Убедитесь, что Docker и Docker Compose установлены
-
-Создайте .env с содержимым:
-
-DATABASE_URL=postgresql+psycopg2://postgres:postgres@db:5432/postgres
-
-Соберите и запустите проект:
-
-docker compose up -d --build
-
-Примените миграции:
-
-docker compose exec backend alembic upgrade head
-
-Откройте сайт:
-
-- Если запускаете **локально**: [http://localhost:8000](http://localhost:8000)
-- Если через **Docker** с проброшенным портом: [http://localhost:8001](http://localhost:8001)
-
-### 1. **Клонирование репозитория**
-
-```bash
-git clone https://github.com/ваш-репозиторий.git
-cd ваш-репозиторий
-```
-
-### 2. **Установка зависимостей**
-
-Создайте и активируйте виртуальное окружение:
-
-```bash
-python -m venv venv
-source venv/bin/activate    # Linux/MacOS
-venv\Scripts\activate       # Windows
-```
-
-Установите зависимости:
-
-```bash
-pip install -r requirements.txt
-```
-
-### 3. **Запуск приложения**
-
-Запустите сервер FastAPI:
-
-````bash
-✅ Вариант 1: Локальный запуск (без Docker)
-
-Запустите сервер FastAPI с автоперезапуском при изменениях:
-
-uvicorn app.main:app --reload --port 8000
-
-Приложение будет доступно по адресу:
-
-    http://127.0.0.1:8000
-
-    Swagger UI: http://127.0.0.1:8000/docs
-
-🐳 Вариант 2: Запуск в Docker
-
-Если используете Docker и в docker-compose.yml указано:
-
-ports:
-  - "8001:8000"
-
-Запустите проект с помощью Docker:
-
-docker compose up -d --build
-
-После запуска сайт будет доступен по адресу:
-
-    http://localhost:8001
-
-    Swagger UI: http://localhost:8001/docs
+- Aiogram
+- FSM (машина состояний)
+- Docker
 
 ---
 
@@ -146,29 +79,25 @@ docker compose up -d --build
 
 ### Доступные эндпоинты:
 
-- **GET /comments**: Возвращает список комментариев.
-- **POST /comments**: Добавляет новый комментарий.
-- **DELETE /comments**: Удалить все комментарии
+- default:
 - **GET /api**: Главная страница API
 - **GET/**: Главная страница
 
-### Пример запроса:
+- Admin:
+- **GET/admin/login**: Login Get
+- **POST/admin/login**: Login Post
+- **GET/admin/logout**: Logout
 
-```json
-{
-  "rating": 5,
-  "comment": "Отлично!"
-}
-````
+- Telegram Reviews
+- **POST/api/telegram-reviews/**: Add Review
+- **GET/api/telegram-reviews/**: List Review
 
-### Пример ответа:
-
-```json
-[
-  { "rating": 5, "comment": "Отлично!" },
-  { "rating": 4, "comment": "Очень хорошо!" }
-]
-```
+- Admin Panel:
+- **GET/admin/reviews/**:
+- **GET/admin/reviews/list**: Get Reviews For Moderation:
+- **POST/admin/reviews/{review_id}/approve**: Approve Review:
+- **DELETE/admin/reviews/clear-all**: Delete all Review:
+- **DELETE/admin/reviews/{review_id}**: Delete Review:
 
 ---
 
@@ -177,78 +106,92 @@ docker compose up -d --build
 ```
 Irada_Shamsi_WebSite/
 .
-├── alembic                         # Каталог для миграций базы данных
-│   ├── env.py                      # Основная конфигурация Alembic
-│   ├── README                      # Документация по Alembic (по умолчанию)
-│   ├── script.py.mako             # Шаблон для генерации миграций
-│   └── versions                   # Папка с версиями миграций
-│       └── d98e6bd40d2b_create_comments_table.py   # Скрипт миграции для создания таблицы комментариев
-├── alembic.ini                    # Конфигурационный файл Alembic
-├── app                            # Основная директория backend-приложения
-│   ├── controllers                # Контроллеры (роутеры) FastAPI
-│   │   ├── admin_controller.py   # Роуты для загрузки и удаления изображений (админка)
-│   │   ├── comment_controller.py # Роуты для комментариев
-│   │   ├── __init__.py           # Делает папку модулем Python
-│   │   └── root_controller.py    # Роуты для отображения главной страницы
-│   ├── database.py               # Подключение к базе данных (Async SQLAlchemy)
-│   ├── files.code-workspace      # Конфигурация VS Code рабочего пространства
-│   ├── __init__.py               # Делает папку app модулем Python
-│   ├── main.py                   # Точка входа приложения FastAPI
-│   ├── middleware                # Middleware — заголовки безопасности
-│   │   ├── csp_middleware.py     # Устанавливает Content-Security-Policy заголовок
-│   │   ├── hsts_middleware.py    # Устанавливает Strict-Transport-Security
-│   │   ├── __init__.py           # Делает папку модулем Python
-│   │   ├── x_content_type_options_middleware.py  # MIME type защита
-│   │   └── x_frame_options_middleware.py         # Защита от Clickjacking (X-Frame-Options)
-│   ├── models                    # SQLAlchemy модели БД
-│   │   ├── comment.py            # Модель таблицы комментариев
-│   │   └── __init__.py           # Делает папку модулем Python
-│   ├── schemas                   # Pydantic-схемы для валидации запросов и ответов
-│   │   ├── comment.py            # Схемы для комментариев
-│   │   └── __init__.py           # Делает папку модулем Python
-│   ├── services                  # Бизнес-логика
-│   │   ├── comment_service.py    # Сервис для обработки логики комментариев
-│   │   └── __init__.py           # Делает папку модулем Python
-│   └── utils                     # Вспомогательные функции
-│       └── __init__.py           # Пока пусто, подготовка под утилиты
-├── docker-compose.yml            # Docker оркестрация (поднимает сервисы: API, БД и т.д.)
-├── Dockerfile                    # Сборка образа FastAPI-приложения
-├── files.code-workspace          # Дубликат конфигурации VS Code (можно удалить)
-├── README.md                     # Документация проекта
-├── requirements.txt              # Зависимости Python-пакетов
-├── static                        # Статические файлы сайта (CSS, JS, изображения)
+├── alembic                           # 📂 Папка миграций базы данных (Alembic)
+│   ├── env.py                        # ⚙️ Конфигурация Alembic
+│   ├── README                        # 📝 Документация Alembic
+│   ├── script.py.mako                # 🧩 Шаблон для генерации миграций
+│   └── versions                      # 📂 Файлы миграций версий базы данных
+│       ├── 2cb11b9e70b4_добавил_рейтинг_в_telegram_reviews.py  # ➕ Миграция: добавлен рейтинг
+│       ├── b71ac99543ae_create_telegram_reviews_table.py       # ➕ Миграция: создана таблица telegram_reviews
+│       ├── d98e6bd40d2b_create_comments_table.py               # ➕ Миграция: создана таблица comments
+│       └── dac3e4607d2a_fix_telegram_id_to_biginteger.py      # 🛠️ Миграция: изменён тип telegram_id
+├── alembic.ini                      # ⚙️ Конфигурационный файл Alembic
+├── app                              # 📂 Папка backend-приложения
+│   ├── config.py                    # ⚙️ Конфиг проекта (настройки, env)
+│   ├── controllers                  # 📂 Контроллеры FastAPI (роутеры)
+│   │   ├── admin_reviews_controller.py  # 🔐 Роуты админки модерации отзывов
+│   │   ├── __init__.py              # 📦 Делает папку модулем Python
+│   │   ├── root_controller.py       # 🏠 Роут главной страницы сайта
+│   │   └── telegram_review_controller.py  # 📬 Роуты работы с Telegram-отзывами
+│   ├── database.py                  # 🛢️ Подключение к БД (асинхронное)
+│   ├── database_sync.py             # 🛢️ Подключение для Alembic (синхронное)
+│   ├── dependencies                 # 📂 Зависимости проекта
+│   │   └── admin_auth.py            # 🔐 Аутентификация админа
+│   ├── files.code-workspace         # 📝
+│   ├── __init__.py                  # 📦 Делает app модулем Python
+│   ├── main.py                      # 🚀 Точка входа FastAPI
+│   ├── middleware                   # 📂 Middleware (промежуточные обработки)
+│   │   ├── csp_middleware.py        # 🔒 CSP заголовки
+│   │   ├── hsts_middleware.py       # 🔒 HSTS заголовки
+│   │   ├── __init__.py              # 📦 Делает папку модулем
+│   │   ├── x_content_type_options_middleware.py  # 🔒 X-Content-Type-Options заголовок
+│   │   └── x_frame_options_middleware.py         # 🔒 X-Frame-Options заголовок
+│   ├── models                       # 📂 SQLAlchemy модели
+│   │   ├── __init__.py              # 📦 Делает папку модулем
+│   │   └── telegram_review.py       # 🗄️ Модель таблицы telegram_reviews
+│   ├── schemas                      # 📂 Pydantic-схемы
+│   │   ├── __init__.py              # 📦 Делает папку модулем
+│   │   └── telegram_review.py       # 📄 Схемы для telegram_reviews
+│   ├── services                     # 📂 Бизнес-логика
+│   │   ├── __init__.py              # 📦 Делает папку модулем
+│   │   ├── redis_client.py          # 🗃️ Подключение к Redis
+│   │   └── telegram_review_service.py  # 🧠 Логика работы с отзывами Telegram
+│   └── utils                        # 📂 Вспомогательные утилиты
+│       ├── custom_static.py         # 📝 Кастомный static-файл обработчик
+│       └── __init__.py              # 📦 Делает папку модулем
+├── bot                              # 🤖 Папка с Telegram-ботом
+│   ├── bot_instance.py              # 🤖 Экземпляр бота Aiogram
+│   ├── config.py                    # ⚙️ Конфиг бота (токен, URL)
+│   ├── Dockerfile                   # 🐳 Dockerfile для контейнера бота
+│   ├── handlers.py                  # 📬 Обработчики команд бота
+│   ├── __init__.py                  # 📦 Делает папку модулем
+│   ├── main_bot.py                  # 🚀 Точка входа Telegram-бота
+│   ├── requirements.txt             # 📦 Зависимости бота
+│   └── states.py                    # 🧭 Состояния FSM (машина состояний) бота
+├── docker-compose.yml               # ⚙️ Docker-оркестрация проекта
+├── Dockerfile                       # 🐳 Dockerfile для backend-приложения
+├── files.code-workspace             # 📝
+├── os                               # ⚠️
+├── README.md                        # 📝 Документация проекта
+├── requirements.txt                 # 📦 Зависимости backend-приложения
+├── static                           # 📂 Статические файлы сайта
 │   ├── css
-│   │   └── style.css             # Основной файл стилей сайта
-│   ├── images                    # Папка с изображениями (портфолио, иконки и пр.)
-│   │   ├── about.png             # Картинка страницы "О себе"
-│   │   ├── favicon.ico           # Иконка сайта
-│   │   ├── home.png              # Картинка главной страницы
-│   │   ├── portfolio *.png       # Работы портфолио
-│   │   └── preview.jpg           # Превью изображение
-│   └── js
-│       └── script.js             # JS логика сайта (например, отправка формы)
-├── structure.txt                 # Файл, где хранится структура проекта
-└── templates                     # HTML-шаблоны для рендеринга страниц
-    ├── index-en.html             # Главная страница на английском
-    ├── index-ru.html             # Главная страница на русском
-    └── index-uz.html             # Главная страница на узбекском
+│   │   ├── admin_login.css          # 🎨 Стили страницы логина админки
+│   │   ├── admin_reviews.css        # 🎨 Стили админки модерации отзывов
+│   │   └── style.css                # 🎨 Основные стили сайта
+│   ├── images                       # 📂 Изображения сайта
+│   ├── js
+│   │   ├── admin_reviews.js         # 📜 Логика JS для админки отзывов
+│   │   └── script.js                # 📜 Основной JS-файл сайта
+│   ├── robots.txt                   # 🤖 robots.txt (SEO-файл для поисковиков)
+│   └── sitemap.xml                  # 🗺️ Sitemap.xml (карта сайта для поисковиков)
+├── structure.txt                    # 📄 Файл структуры проекта
+└── templates                        # 📂 HTML-шаблоны
+    ├── admin_login.html             # 📝 Шаблон страницы логина админки
+    ├── admin_reviews.html           # 📝 Шаблон админки модерации отзывов
+    ├── index-en.html                # 🏠 Главная страница (английская)
+    ├── index-ru.html                # 🏠 Главная страница (русская)
+    └── index-uz.html                # 🏠 Главная страница (узбекская)
 
-
-14 directories, 105 files
 ```
 
 ---
 
-## 🚨 **Известные проблемы**
+## 🔗 Ссылки
 
-1. **CORS-проблемы**: Убедитесь, что `allow_origins` в `main.py` включает ваш локальный адрес.
-2. **Ошибка доступа к статическим файлам**: Проверьте правильность пути в `app.mount()`.
-3. **Отсутствующие зависимости**: Убедитесь, что все пакеты установлены:
-   ```bash
-   pip install -r requirements.txt
-   ```
-
----
+- [Сайт проекта](https://irada-shamsi.com)
+- [GitHub репозиторий](https://github.com/Mr-Shams86/Irada_Shamsi_Website)
+- [Telegram-бот для отзывов](https://t.me/IradaFeedbackBot)
 
 ## 📢 **Контакты**
 
@@ -259,22 +202,4 @@ Irada_Shamsi_WebSite/
 
 ## 📚 **Лицензия**
 
-Проект распространяется под лицензией MIT. Ознакомьтесь с файлом LICENSE для деталей.
-
-**Заметка для проекта:**
-✨ TODO: Динамическая галерея для портфолио
-
-📁 Идея:
-Сделать раздел "Портфолио" таким, чтобы фото отображались автоматически — на основе файлов, находящихся в static/images/.
-
-🔧 Что нужно будет реализовать:
-
-    Создать API-эндпоинт, который будет возвращать список всех изображений из папки static/images/.
-
-    На фронте (в templates/index-ru.html, index-en.html и т.д.) — динамически рендерить <img src="..."> на основе этого списка.
-
-    (Опционально) Добавить фильтрацию, сортировку, превью и т.д.
-
-    (Опционально) Прикрутить красивую библиотеку отображения, например LightGallery.
-
-📌 Заметка: ты уже реализовал backend-загрузку и удаление фото через /admin, так что 50% работы уже готово 💪
+- MIT License
