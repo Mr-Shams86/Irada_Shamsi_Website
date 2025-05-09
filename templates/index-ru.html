@@ -664,8 +664,7 @@
         </a>               
     </div>
     
-    <div id="telegram-reviews">
-        
+    <div id="telegram-reviews" data-count="{{ telegram_reviews|length }}">
         <div class="telegram-reviews-container">
             {% if telegram_reviews %}
                 {% for review in telegram_reviews %}

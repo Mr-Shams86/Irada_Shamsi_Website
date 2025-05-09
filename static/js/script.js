@@ -218,7 +218,11 @@ document.querySelectorAll('.lang-switch').forEach(link => {
 // Инициализация интерфейса при загрузке страницы
 document.addEventListener('DOMContentLoaded', () => {
     updateLanguage(currentLanguage);
-    updateTypedText(currentLanguage); // запускаем typed.js с текущим языком 
+    updateTypedText(currentLanguage); // запускаем typed.js с текущим языком
+    
+    const count = parseInt(document.querySelector("#telegram-reviews").dataset.count || "0");
+    reviewOffset = count;
+
 });
 
 
