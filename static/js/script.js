@@ -243,9 +243,12 @@ document.addEventListener('DOMContentLoaded', () => {
             img.src = '/static/images/default-avatar.png';
         };
 
-        if (!img.complete || img.naturalWidth === 0) {
-            img.src = '/static/images/default-avatar.png';
-        }
+        
+        requestAnimationFrame(() => {
+            if (!img.complete || img.naturalWidth === 0) {
+                img.src = '/static/images/default-avatar.png';
+            }
+        });
     });
 
 
