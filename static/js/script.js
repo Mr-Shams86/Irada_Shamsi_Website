@@ -243,7 +243,7 @@ document.addEventListener('DOMContentLoaded', () => {
             img.src = '/static/images/default-avatar.png';
         };
 
-        if (!img.src || img.src.trim() === "") {
+        if (!img.complete || img.naturalWidth === 0) {
             img.src = '/static/images/default-avatar.png';
         }
     });
