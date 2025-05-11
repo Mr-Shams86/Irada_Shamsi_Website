@@ -1,18 +1,20 @@
 import httpx
-import logging
+
 from aiogram import Dispatcher
 from aiogram import types
 from aiogram.filters import CommandStart
-from aiogram.filters import Command
 from aiogram.fsm.context import FSMContext
 from aiogram.fsm.state import StatesGroup
 from aiogram.fsm.state import State
 from aiogram.types import ReplyKeyboardMarkup
 from aiogram.types import KeyboardButton
-from aiogram.types import ReplyKeyboardRemove
+
+from app.services.telegram_review_service import download_telegram_file
 
 from states import ReviewStates
+
 from bot_instance import bot
+
 from config import BACKEND_URL
 
 
@@ -179,7 +181,18 @@ async def process_rating(message: types.Message, state: FSMContext):
 async def process_comment(message: types.Message, state: FSMContext):
     lang = await get_user_lang(state)
     user_data = await state.get_data()
-    photo_url = await get_user_avatar_url(message.from_user.id)
+    photo_url = None
+
+    try:
+        avatar_url = await get_user_avatar_url(message.from_user.id)
+        if avatar_url and f"/bot{bot.token}/" in avatar_url:
+            filename = f"{message.from_user.id}.jpg"
+            file_path = avatar_url.split(f"/bot{bot.token}/")[1]
+            photo_url = await download_telegram_file(
+                file_path=file_path, filename=filename
+            )
+    except Exception as e:
+        print(f"[AVATAR ERROR] ⚠️ Ошибка при скачивании аватарки: {e}")
 
     # Получаем текст отзыва и очищаем пробелы
     text = message.text.strip() if message.text else ""
