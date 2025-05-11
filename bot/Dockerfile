@@ -4,14 +4,15 @@ FROM python:3.10-slim
 # Устанавливаем рабочую директорию
 WORKDIR /bot
 
-# Копируем содержимое папки bot/
-COPY . .
+# Копируем весь проект (bot + app)
+COPY ./bot /bot
+COPY ./app /app
 
-# Указываем путь к внешней папке app — Railway клонирует весь репозиторий
-ENV PYTHONPATH=/bot:/bot/../app
+# Указываем PYTHONPATH, чтобы bot и app были видны
+ENV PYTHONPATH=/bot:/app
 
 # Устанавливаем зависимости
-RUN pip install --no-cache-dir -r requirements.txt
+RUN pip install --no-cache-dir -r /bot/requirements.txt
 
 # Запускаем бота
-CMD ["python", "main_bot.py"]
+CMD ["python", "/bot/main_bot.py"]
