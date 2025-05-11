@@ -13,6 +13,9 @@ RUN pip install --no-cache-dir -r requirements.txt
 # Копируем весь код бота (только bot-папку)
 COPY . .
 
+# Обеспечиваем доступ к папке app (на уровень выше)
+ENV PYTHONPATH=/bot:/bot/../app
+
 # Жестко НЕ задаём ENV здесь, Railway их всё равно пробрасывает!
 # ENV BOT_TOKEN=${BOT_TOKEN}
 # ENV BACKEND_URL=${BACKEND_URL}
