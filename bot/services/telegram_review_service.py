@@ -1,5 +1,3 @@
-# bot/services/telegram_review_service.py
-
 from pathlib import Path
 from os.path import basename
 

@@ -4,20 +4,17 @@ FROM python:3.10-slim
 # Устанавливаем рабочую директорию
 WORKDIR /bot
 
-# Копируем только requirements (новый requirements должен быть в корне бота)
+# Копируем только requirements.txt (должен быть в папке bot/)
 COPY requirements.txt .
 
-# Копируем весь код бота (только bot-папку)
+# Устанавливаем зависимости
+RUN pip install --no-cache-dir -r requirements.txt
+
+# Копируем весь код бота
 COPY . .
 
-# Обеспечиваем доступ к папке app (на уровень выше)
+# Указываем PYTHONPATH, чтобы видеть внутренние импорты (например, config)
 ENV PYTHONPATH=/bot
 
-# Устанавливаем зависимости без кеша
-RUN pip install --no-cache-dir -r requirements.txt
-# Жестко НЕ задаём ENV здесь, Railway их всё равно пробрасывает!
-# ENV BOT_TOKEN=${BOT_TOKEN}
-# ENV BACKEND_URL=${BACKEND_URL}
-
-# Указываем явный запуск бота
+# Запуск бота
 CMD ["python", "main_bot.py"]

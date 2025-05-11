@@ -1,13 +1,10 @@
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy import select
 
-from app.config import BOT_TOKEN
 from app.models.telegram_review import TelegramReview
 from app.schemas.telegram_review import TelegramReviewCreate
 from app.schemas.telegram_review import TelegramReviewRead
 from app.services.redis_client import redis_client
-
-from os.path import basename
 
 from datetime import datetime
 
