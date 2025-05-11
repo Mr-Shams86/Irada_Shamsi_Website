@@ -66,6 +66,7 @@ async def get_latest_reviews(db: AsyncSession, offset: int = 0, limit: int = 10)
                 "full_name": r.full_name,
                 "rating": r.rating,
                 "message": r.message,
+                "photo_url": r.photo_url,
                 "created_at": r.created_at,
             }
             for r in reviews

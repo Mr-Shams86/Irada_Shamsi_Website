@@ -1,10 +1,3 @@
-import sys
-import os
-
-sys.path.append(
-    os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "..", "app"))
-)
-
 import httpx
 
 from aiogram import Dispatcher
@@ -16,7 +9,7 @@ from aiogram.fsm.state import State
 from aiogram.types import ReplyKeyboardMarkup
 from aiogram.types import KeyboardButton
 
-# from app.services.telegram_review_service import download_telegram_file
+from app.services.telegram_review_service import download_telegram_file
 
 from states import ReviewStates
 
@@ -190,11 +183,13 @@ async def process_comment(message: types.Message, state: FSMContext):
     user_data = await state.get_data()
     photo_url = None
 
+    # Получаем URL аватарки Telegram
     try:
         avatar_url = await get_user_avatar_url(message.from_user.id)
-        if avatar_url and f"/bot{bot.token}/" in avatar_url:
+        if avatar_url:
+            token_prefix = f"https://api.telegram.org/file/bot{bot.token}/"
+            file_path = avatar_url.replace(token_prefix, "")
             filename = f"{message.from_user.id}.jpg"
-            file_path = avatar_url.split(f"/bot{bot.token}/")[1]
             photo_url = await download_telegram_file(
                 file_path=file_path, filename=filename
             )
