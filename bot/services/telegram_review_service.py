@@ -4,7 +4,7 @@ from pathlib import Path
 from os.path import basename
 
 import aiohttp
-from bot.config import BOT_TOKEN
+from config import BOT_TOKEN
 
 
 STATIC_AVATARS_DIR = Path("static/images/review_avatars")
