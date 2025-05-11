@@ -9,7 +9,7 @@ COPY requirements.txt .
 
 # Копируем весь код бота (только bot-папку)
 COPY . .
-COPY ../app /app 
+COPY ./app /app
 
 # Обеспечиваем доступ к папке app (на уровень выше)
 ENV PYTHONPATH=/bot:/app
