@@ -1,13 +1,10 @@
 import logging
-import sys
-import os
-
-sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
 
 from aiogram import Dispatcher
 from aiogram.fsm.storage.memory import MemoryStorage
 
 from bot_instance import bot
+
 from handlers import register_handlers
 
 
