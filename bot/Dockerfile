@@ -9,10 +9,9 @@ COPY requirements.txt .
 
 # Копируем весь код бота (только bot-папку)
 COPY . .
-COPY ./app /app
 
 # Обеспечиваем доступ к папке app (на уровень выше)
-ENV PYTHONPATH=/bot:/app
+ENV PYTHONPATH=/bot
 
 # Устанавливаем зависимости без кеша
 RUN pip install --no-cache-dir -r requirements.txt
