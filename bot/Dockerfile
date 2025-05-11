@@ -7,15 +7,15 @@ WORKDIR /bot
 # Копируем только requirements (новый requirements должен быть в корне бота)
 COPY requirements.txt .
 
-# Устанавливаем зависимости без кеша
-RUN pip install --no-cache-dir -r requirements.txt
-
 # Копируем весь код бота (только bot-папку)
 COPY . .
+COPY ../app /app 
 
 # Обеспечиваем доступ к папке app (на уровень выше)
-ENV PYTHONPATH=/bot:/bot/../app
+ENV PYTHONPATH=/bot:/app
 
+# Устанавливаем зависимости без кеша
+RUN pip install --no-cache-dir -r requirements.txt
 # Жестко НЕ задаём ENV здесь, Railway их всё равно пробрасывает!
 # ENV BOT_TOKEN=${BOT_TOKEN}
 # ENV BACKEND_URL=${BACKEND_URL}

@@ -9,7 +9,7 @@ from aiogram.fsm.state import State
 from aiogram.types import ReplyKeyboardMarkup
 from aiogram.types import KeyboardButton
 
-from services.telegram_review_service import download_telegram_file
+from app.services.telegram_review_service import download_telegram_file
 
 from states import ReviewStates
 
