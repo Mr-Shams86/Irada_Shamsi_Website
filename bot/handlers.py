@@ -1,3 +1,10 @@
+import sys
+import os
+
+sys.path.append(
+    os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "..", "app"))
+)
+
 import httpx
 
 from aiogram import Dispatcher
@@ -9,7 +16,7 @@ from aiogram.fsm.state import State
 from aiogram.types import ReplyKeyboardMarkup
 from aiogram.types import KeyboardButton
 
-from app.services.telegram_review_service import download_telegram_file
+from services.telegram_review_service import download_telegram_file
 
 from states import ReviewStates
 

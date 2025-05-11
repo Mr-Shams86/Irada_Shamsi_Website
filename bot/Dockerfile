@@ -1,15 +1,17 @@
-# Используем официальный минимальный образ Python 3.10
+# Используем минимальный образ Python
 FROM python:3.10-slim
 
+# Устанавливаем рабочую директорию
 WORKDIR /bot
 
-COPY ./bot /bot
-COPY ./app /app
+# Копируем содержимое папки bot/
+COPY . .
 
-ENV PYTHONPATH=/bot:/bot/app
+# Указываем путь к внешней папке app — Railway клонирует весь репозиторий
+ENV PYTHONPATH=/bot:/bot/../app
 
-COPY requirements.txt .
+# Устанавливаем зависимости
 RUN pip install --no-cache-dir -r requirements.txt
 
+# Запускаем бота
 CMD ["python", "main_bot.py"]
-
