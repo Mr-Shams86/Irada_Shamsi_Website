@@ -1,8 +1,9 @@
 import sys
 import os
-import httpx
 
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
+
+import httpx
 
 from aiogram import Dispatcher
 from aiogram import types
