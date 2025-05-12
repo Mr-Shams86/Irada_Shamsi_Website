@@ -1,10 +1,15 @@
+import aiohttp
+import os
+
 from pathlib import Path
 from os.path import basename
 
-import aiohttp
-from config import BOT_TOKEN
 
+BOT_TOKEN = os.getenv("BOT_TOKEN")
+if not BOT_TOKEN:
+    raise RuntimeError("❌ BOT_TOKEN не установлен в переменных окружения!")
 
+TELEGRAM_API = f"https://api.telegram.org"
 STATIC_AVATARS_DIR = Path("static/images/review_avatars")
 
 
@@ -13,9 +18,9 @@ async def download_telegram_file(file_path: str, filename: str) -> str:
     Скачивает файл с Telegram API и сохраняет локально.
     Возвращает путь для хранения в базе (относительно static)
     """
-    url = f"https://api.telegram.org/file/bot{BOT_TOKEN}/{file_path}"
+    url = f"{TELEGRAM_API}/file/bot{BOT_TOKEN}/{file_path}"
 
-    filename = basename(filename)
+    filename = basename(file_path)
     local_path = STATIC_AVATARS_DIR / filename
 
     STATIC_AVATARS_DIR.mkdir(parents=True, exist_ok=True)
