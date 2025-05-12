@@ -42,6 +42,9 @@ from fastapi.staticfiles import StaticFiles
 IS_PROD = os.getenv("IS_PROD", "false").strip().lower() == "true"
 
 
+# Создаём папку, если её нет
+os.makedirs("/static/images/review_avatars", exist_ok=True)
+
 app = FastAPI(
     title="Irade Shamsi Portfolio API",
     description="API для добавления и просмотра комментариев",
@@ -74,7 +77,14 @@ BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 
 
 # Подключение статических файлов
-app.mount("/static", StaticFiles(directory="/static"), name="static")
+if not IS_PROD:
+    app.mount(
+        "/static",
+        StaticFiles(directory=os.path.join(BASE_DIR, "../static")),
+        name="static",
+    )
+else:
+    app.mount("/static", StaticFiles(directory="/static"), name="static")
 
 
 # Подключение роутов
