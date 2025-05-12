@@ -8,7 +8,7 @@ services:
       - "8001:8000"
     volumes:
       - .:/app
-      - static_data:/static
+      - ./static:/static
     env_file:
       - .env
     depends_on:
