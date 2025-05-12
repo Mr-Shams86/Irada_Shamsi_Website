@@ -50,7 +50,7 @@ async def list_reviews(
 
 @router.post("/avatar")
 async def upload_avatar(file: UploadFile, filename: str = Form(...)):
-    avatars_dir = Path("/static/images/review_avatars")
+    avatars_dir = Path("static/images/review_avatars")
     avatars_dir.mkdir(parents=True, exist_ok=True)
 
     save_path = avatars_dir / filename

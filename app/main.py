@@ -77,14 +77,8 @@ BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 
 
 # Подключение статических файлов
-if not IS_PROD:
-    app.mount(
-        "/static",
-        StaticFiles(directory=os.path.join(BASE_DIR, "../static")),
-        name="static",
-    )
-else:
-    app.mount("/static", StaticFiles(directory="/static"), name="static")
+STATIC_DIR = os.getenv("STATIC_DIR", os.path.join(BASE_DIR, "../static"))
+app.mount("/static", StaticFiles(directory=STATIC_DIR), name="static")
 
 
 # Подключение роутов
