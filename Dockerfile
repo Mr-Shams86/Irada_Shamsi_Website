@@ -14,6 +14,9 @@ RUN pip install --no-cache-dir -r requirements.txt
 # Копируем весь проект
 COPY . .
 
+# Копируем static отдельно в корень контейнера
+COPY static /static
+
 # Указываем порт
 EXPOSE 8000
 

@@ -19,7 +19,9 @@ from app.controllers.admin_reviews_controller import router as admin_reviews_rou
 
 from app.dependencies import admin_auth
 
-from app.utils.custom_static import CustomStaticFiles
+# from app.utils.custom_static import CustomStaticFiles
+
+from fastapi.staticfiles import StaticFiles
 
 # from dotenv import load_dotenv
 
@@ -72,11 +74,7 @@ BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 
 
 # Подключение статических файлов
-app.mount(
-    "/static",
-    CustomStaticFiles(directory=os.path.abspath(os.path.join(BASE_DIR, "../static"))),
-    name="static",
-)
+app.mount("/static", StaticFiles(directory="/static"), name="static")
 
 
 # Подключение роутов
