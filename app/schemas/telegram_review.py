@@ -19,6 +19,11 @@ class TelegramReviewCreate(TelegramReviewBase):
 class TelegramReviewRead(TelegramReviewBase):
     id: int
     created_at: datetime
+    username: Optional[str] = None
+    full_name: Optional[str] = None
+    photo_url: Optional[str] = None
+    rating: int
+    message: str
 
     class Config:
         from_attributes = True
