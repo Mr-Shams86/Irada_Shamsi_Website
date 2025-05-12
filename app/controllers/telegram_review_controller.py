@@ -1,8 +1,17 @@
 from fastapi import APIRouter
+from fastapi import UploadFile
+from fastapi import Form
 from fastapi import Depends
 from fastapi import HTTPException
 from fastapi import Query
+from fastapi.responses import JSONResponse
+
+import shutil
+
 from sqlalchemy.ext.asyncio import AsyncSession
+
+from pathlib import Path
+
 from typing import List
 
 from app.schemas.telegram_review import TelegramReviewCreate
@@ -37,3 +46,16 @@ async def list_reviews(
         raise HTTPException(
             status_code=500, detail=f"Ошибка при получении отзывов: {str(e)}"
         )
+
+
+@router.post("/api/telegram-reviews/avatar")
+async def upload_avatar(file: UploadFile, filename: str = Form(...)):
+    avatars_dir = Path("static/images/review_avatars")
+    avatars_dir.mkdir(parents=True, exist_ok=True)
+
+    save_path = avatars_dir / filename
+
+    with open(save_path, "wb") as f:
+        shutil.copyfileobj(file.file, f)
+
+    return {"photo_url": f"/static/images/review_avatars/{filename}"}

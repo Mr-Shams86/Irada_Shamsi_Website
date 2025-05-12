@@ -9,7 +9,7 @@ from aiogram.fsm.state import State
 from aiogram.types import ReplyKeyboardMarkup
 from aiogram.types import KeyboardButton
 
-from services.telegram_review_service import download_telegram_file
+from services.telegram_review_service import upload_telegram_avatar_to_backend
 
 
 from states import ReviewStates
@@ -186,16 +186,17 @@ async def process_comment(message: types.Message, state: FSMContext):
 
     # Получаем URL аватарки Telegram
     try:
-        avatar_url = await get_user_avatar_url(message.from_user.id)
-        if avatar_url:
-            token_prefix = f"https://api.telegram.org/file/bot{bot.token}/"
-            file_path = avatar_url.replace(token_prefix, "")
-            filename = f"{message.from_user.id}.jpg"
-            photo_url = await download_telegram_file(
-                file_path=file_path, filename=filename
+        photos = await bot.get_user_profile_photos(
+            user_id=message.from_user.id, limit=1
+        )
+        if photos.total_count > 0:
+            file_id = photos.photos[0][-1].file_id
+            file = await bot.get_file(file_id)
+            photo_url = await upload_telegram_avatar_to_backend(
+                telegram_id=message.from_user.id, file_path=file.file_path
             )
     except Exception as e:
-        print(f"[AVATAR ERROR] ⚠️ Ошибка при скачивании аватарки: {e}")
+        print(f"[AVATAR ERROR] ⚠️ Ошибка при загрузке авы на backend: {e}")
 
     # Получаем текст отзыва и очищаем пробелы
     text = message.text.strip() if message.text else ""
