@@ -21,7 +21,7 @@ async function fetchAdminReviews() {
       div.classList.add("admin-review");
       div.innerHTML = `
         <div class="telegram-user">
-          <img src="${review.photo_url || '/static/images/default-avatar.png'}" class="avatar">
+          <img src="${review.photo_url?.startsWith('/') ? review.photo_url : '/static/images/default-avatar.png'}" class="avatar">
           <strong>${review.full_name || review.username || 'Аноним'}</strong>
         </div>
         <div class="telegram-rating">Оценка: ${review.rating} ⭐</div>
