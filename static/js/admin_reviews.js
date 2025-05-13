@@ -18,6 +18,7 @@ async function fetchAdminReviews() {
 
     container.innerHTML = "";
     reviews.forEach(review => {
+      console.log(">> review.photo_url", review.photo_url); // 👈 Добавь это
       const div = document.createElement("div");
       div.classList.add("admin-review");
       div.innerHTML = `
