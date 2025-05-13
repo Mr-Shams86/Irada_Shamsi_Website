@@ -23,7 +23,11 @@ async function fetchAdminReviews() {
       div.classList.add("admin-review");
       div.innerHTML = `
         <div class="telegram-user">
-          <img src="${review.photo_url && review.photo_url.startsWith('/') ? review.photo_url : '/static/images/default-avatar.png'}" class="avatar" onerror="this.onerror=null;this.src='/static/images/default-avatar.png';">
+          <img src="${review.photo_url && review.photo_url.startsWith('/') 
+            ? review.photo_url + '?v=' + Date.now() 
+            : '/static/images/default-avatar.png'}" 
+            class="avatar" 
+            onerror="this.onerror=null;this.src='/static/images/default-avatar.png';">
           <strong>${review.full_name || review.username || 'Аноним'}</strong>
         </div>
         <div class="telegram-rating">Оценка: ${review.rating} ⭐</div>
@@ -54,6 +58,4 @@ async function deleteReview(id) {
   });
   fetchAdminReviews();
 }
-
-
 
