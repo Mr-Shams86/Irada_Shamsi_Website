@@ -7,7 +7,7 @@ from aiogram.fsm.context import FSMContext
 from aiogram.types import ReplyKeyboardMarkup
 from aiogram.types import KeyboardButton
 
-from services.telegram_review_service import upload_telegram_avatar_to_backend
+from services.telegram_review_service import download_telegram_file
 
 
 from states import ReviewStates
@@ -182,9 +182,10 @@ async def process_comment(message: types.Message, state: FSMContext):
         if photos.total_count > 0:
             file_id = photos.photos[0][-1].file_id
             file = await bot.get_file(file_id)
-            photo_url = await upload_telegram_avatar_to_backend(
+            photo_url = await download_telegram_file(
                 telegram_id=message.from_user.id, file_path=file.file_path
             )
+
     except Exception as e:
         print(f"[AVATAR ERROR] ⚠️ Ошибка при загрузке авы на backend: {e}")
 
