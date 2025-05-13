@@ -669,14 +669,13 @@
             {% if telegram_reviews %}
                 {% for review in telegram_reviews %}
                 <div class="telegram-review">
-                    <div class="telegram-user">
+                    < class="telegram-user">
                         <img src="{{ (review.photo_url or '/static/images/default-avatar.png') | safe }}"
                             alt="{{ review.full_name or review.username or 'Anonymous' }}"
                             class="avatar"
                             loading="lazy"
                             onerror="this.onerror=null;this.src='/static/images/default-avatar.png';">
                         <strong>{{ review.full_name or review.username or 'Anonymous' }}</strong>
-                        </div>
                     </div>
                     <div class="telegram-rating">
                         {% for _ in range(review.rating) %}
