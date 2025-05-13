@@ -4,7 +4,6 @@ from fastapi import Form
 from fastapi import Depends
 from fastapi import HTTPException
 from fastapi import Query
-from fastapi.responses import JSONResponse
 
 import shutil
 
@@ -50,6 +49,8 @@ async def list_reviews(
 
 @router.post("/avatar")
 async def upload_avatar(file: UploadFile, filename: str = Form(...)):
+    if "/" in filename or "\\" in filename:
+        raise HTTPException(status_code=400, detail="Недопустимое имя файла")
     avatars_dir = Path("static/images/review_avatars")
     avatars_dir.mkdir(parents=True, exist_ok=True)
 

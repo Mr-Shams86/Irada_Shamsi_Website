@@ -272,7 +272,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     reviewEl.className = "telegram-review";
                     reviewEl.innerHTML = `
                         <div class="telegram-user">
-                            <img src="${review.photo_url || '/static/images/default-avatar.png'}" alt="${escapeHTML(review.full_name || review.username || 'Anonymous')}" class="avatar">
+                            <img src="${review.photo_url && review.photo_url.startsWith('/') ? review.photo_url : '/static/images/default-avatar.png'}" alt="${escapeHTML(review.full_name || review.username || 'Anonymous')}" class="avatar" onerror="this.onerror=null;this.src='/static/images/default-avatar.png';">
                             <strong>${escapeHTML(review.full_name || review.username || 'Anonymous')}</strong>
                         </div>
                         <div class="telegram-rating">

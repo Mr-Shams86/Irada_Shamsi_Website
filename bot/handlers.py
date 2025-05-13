@@ -4,8 +4,6 @@ from aiogram import Dispatcher
 from aiogram import types
 from aiogram.filters import CommandStart
 from aiogram.fsm.context import FSMContext
-from aiogram.fsm.state import StatesGroup
-from aiogram.fsm.state import State
 from aiogram.types import ReplyKeyboardMarkup
 from aiogram.types import KeyboardButton
 
@@ -17,14 +15,6 @@ from states import ReviewStates
 from bot_instance import bot
 
 from config import BACKEND_URL
-
-
-# FSM состояния
-class ReviewStates(StatesGroup):
-    waiting_for_language = State()
-    waiting_for_rating = State()
-    waiting_for_comment = State()
-
 
 # ================== НАСТРОЙКИ ==================
 # Переводы по языкам

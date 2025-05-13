@@ -658,7 +658,7 @@
 
     <!-- Telegram кнопка -->
     <div style="text-align: center; margin-top: 2rem;">
-        <a href="https://t.me/IradaFeedbackBot" target="_blank" class="telegram-button">
+        <a href="https://t.me/IradaFeedbackBot" target="_blank" class="telegram-button" aria-label="Leave a review via Telegram">
             <box-icon name='telegram' type='logo' animation='flashing' color='white' style="width: 2rem; height: 2rem; vertical-align: middle; margin-right: 8px;"></box-icon>
             Leave a review via Telegram
         </a>               
@@ -670,8 +670,13 @@
                 {% for review in telegram_reviews %}
                 <div class="telegram-review">
                     <div class="telegram-user">
-                        <img src="{{ review.photo_url or '/static/images/default-avatar.png' | safe }}" alt="{{ review.full_name or review.username or 'Пользователь' }}" class="avatar">
-                        <strong>{{ review.full_name or review.username or 'Аноним' }}</strong>
+                        <img src="{{ (review.photo_url or '/static/images/default-avatar.png') | safe }}"
+                            alt="{{ review.full_name or review.username or 'Anonymous' }}"
+                            class="avatar"
+                            loading="lazy"
+                            onerror="this.onerror=null;this.src='/static/images/default-avatar.png';">
+                        <strong>{{ review.full_name or review.username or 'Anonymous' }}</strong>
+                        </div>
                     </div>
                     <div class="telegram-rating">
                         {% for _ in range(review.rating) %}
@@ -715,6 +720,7 @@
     <!-- typed js -->
     <script src="https://unpkg.com/typed.js@2.1.0/dist/typed.umd.js"></script>
     
+    <!-- UI decorations -->
     <div id="snow-container"></div>
     <div id="ornaments-container"></div>
 

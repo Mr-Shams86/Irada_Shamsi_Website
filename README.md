@@ -35,7 +35,11 @@
 
 **Frontend:**
 
-- HTML, CSS, JavaScript.
+- HTML
+
+- CSS
+
+- JavaScript.
 
 **Backend:**
 
@@ -63,7 +67,11 @@
 
 **Security:**
 
-- Middleware: HSTS, X-Frame-Options, X-Content-Type-Options
+- Middleware: HSTS
+
+- X-Frame-Options
+
+- X-Content-Type-Options
 
 - CORS
 
@@ -72,7 +80,9 @@
 **В проект входит Telegram-бот для сбора отзывов пользователей с последующей модерацией и публикацией на сайте.**
 
 - Aiogram
+
 - FSM (машина состояний)
+
 - Docker
 
 ---
@@ -82,23 +92,35 @@
 ### Доступные эндпоинты:
 
 - default:
+
 - **GET /api**: Главная страница API
+
 - **GET/**: Главная страница
 
 - Admin:
+
 - **GET/admin/login**: Login Get
+
 - **POST/admin/login**: Login Post
+
 - **GET/admin/logout**: Logout
 
 - Telegram Reviews
+
 - **POST/api/telegram-reviews/**: Add Review
+
 - **GET/api/telegram-reviews/**: List Review
 
 - Admin Panel:
+
 - **GET/admin/reviews/**:
+
 - **GET/admin/reviews/list**: Get Reviews For Moderation:
+
 - **POST/admin/reviews/{review_id}/approve**: Approve Review:
+
 - **DELETE/admin/reviews/clear-all**: Delete all Review:
+
 - **DELETE/admin/reviews/{review_id}**: Delete Review:
 
 ---
@@ -197,12 +219,15 @@ Irada_Shamsi_WebSite/
 ## 🔗 Ссылки
 
 - [Сайт проекта](https://irada-shamsi.com)
+
 - [GitHub репозиторий](https://github.com/Mr-Shams86/Irada_Shamsi_Website)
+
 - [Telegram-бот для отзывов](https://t.me/IradaFeedbackBot)
 
 ## 📢 **Контакты**
 
 - **Email**: sammertime763@gmail.com
+
 - **Telegram**: [Mr_Shams_1986](https://t.me/Mr_Shams_1986)
 
 ---

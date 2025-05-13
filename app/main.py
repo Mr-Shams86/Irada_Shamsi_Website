@@ -16,7 +16,6 @@ from app.middleware import (
 from app.controllers.root_controller import router as root_router
 from app.controllers.telegram_review_controller import router as telegram_review_router
 from app.controllers.admin_reviews_controller import router as admin_reviews_router
-
 from app.dependencies import admin_auth
 
 # from app.utils.custom_static import CustomStaticFiles
@@ -41,10 +40,11 @@ from fastapi.staticfiles import StaticFiles
 
 IS_PROD = os.getenv("IS_PROD", "false").strip().lower() == "true"
 
+# Определение базовой директории
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 
-# Создаём папку, если её нет
-os.makedirs("/static/images/review_avatars", exist_ok=True)
-
+# Подключение статических файлов
+STATIC_DIR = os.getenv("STATIC_DIR", os.path.join(BASE_DIR, "../static"))
 app = FastAPI(
     title="Irade Shamsi Portfolio API",
     description="API для добавления и просмотра комментариев",
@@ -54,6 +54,10 @@ app = FastAPI(
     openapi_url=None if IS_PROD else "/openapi.json",
 )
 
+app.mount("/static", StaticFiles(directory=STATIC_DIR), name="static")
+
+# Создаём папку, если её нет
+os.makedirs(os.path.join(STATIC_DIR, "images", "review_avatars"), exist_ok=True)
 
 # Настройка CORS
 app.add_middleware(
@@ -65,23 +69,12 @@ app.add_middleware(
 )
 
 
-# Подключение middleware
-# app.add_middleware(CSPMiddleware)
+# Middleware
 app.add_middleware(XFrameOptionsMiddleware)
 app.add_middleware(XContentTypeOptionsMiddleware)
 app.add_middleware(HSTSMiddleware)
 
-
-# Определение базовой директории
-BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-
-
-# Подключение статических файлов
-STATIC_DIR = os.getenv("STATIC_DIR", os.path.join(BASE_DIR, "../static"))
-app.mount("/static", StaticFiles(directory=STATIC_DIR), name="static")
-
-
-# Подключение роутов
+# Роуты
 app.include_router(root_router)
 app.include_router(telegram_review_router)
 app.include_router(admin_reviews_router)

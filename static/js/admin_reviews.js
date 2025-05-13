@@ -1,3 +1,4 @@
+// Автоматически загружаем отзывы при загрузке страницы
 document.addEventListener("DOMContentLoaded", fetchAdminReviews);
 
 const urlParams = new URLSearchParams(window.location.search);
@@ -21,7 +22,7 @@ async function fetchAdminReviews() {
       div.classList.add("admin-review");
       div.innerHTML = `
         <div class="telegram-user">
-          <img src="${review.photo_url?.startsWith('/') ? review.photo_url : '/static/images/default-avatar.png'}" class="avatar">
+          <img src="${review.photo_url && review.photo_url.startsWith('/') ? review.photo_url : '/static/images/default-avatar.png'}" class="avatar" onerror="this.onerror=null;this.src='/static/images/default-avatar.png';">
           <strong>${review.full_name || review.username || 'Аноним'}</strong>
         </div>
         <div class="telegram-rating">Оценка: ${review.rating} ⭐</div>
@@ -53,33 +54,5 @@ async function deleteReview(id) {
   fetchAdminReviews();
 }
 
-async function loadReviews() {
-  try {
-      const response = await fetch('/api/telegram-reviews');
-      const reviews = await response.json();
 
-      const reviewsContainer = document.getElementById('telegram-reviews');
-      reviewsContainer.innerHTML = ''; // Очистить перед добавлением новых
 
-      reviews.forEach(review => {
-          const reviewElement = document.createElement('div');
-          reviewElement.className = 'telegram-review';
-          reviewElement.innerHTML = `
-              <div class="telegram-user">
-                  <img src="${review.photo_url?.startsWith('/') ? review.photo_url : '/static/images/default-avatar.png'}" class="avatar">
-                  <strong>${review.full_name || review.username || 'Anonymous'}</strong>
-              </div>
-              <div class="telegram-rating">
-                  ${'★'.repeat(review.rating)}${'☆'.repeat(5 - review.rating)}
-              </div>
-              <p class="telegram-text">${review.message}</p>
-          `;
-          reviewsContainer.appendChild(reviewElement);
-      });
-  } catch (error) {
-      console.error('Ошибка загрузки отзывов:', error);
-  }
-}
-
-// Автоматически загружаем отзывы при загрузке страницы
-document.addEventListener('DOMContentLoaded', loadReviews);

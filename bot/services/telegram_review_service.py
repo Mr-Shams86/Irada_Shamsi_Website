@@ -3,6 +3,8 @@ import os
 
 
 BOT_TOKEN = os.getenv("BOT_TOKEN")
+STATIC_AVATAR_URL = os.getenv("STATIC_AVATAR_URL", "/static/images/review_avatars")
+
 BACKEND_URL = os.getenv("BACKEND_URL")
 
 if not BOT_TOKEN:
@@ -11,35 +13,28 @@ if not BOT_TOKEN:
 TELEGRAM_API = f"https://api.telegram.org"
 
 
-async def upload_telegram_avatar_to_backend(
-    telegram_id: int, file_path: str
-) -> str | None:
+async def download_telegram_file(telegram_id: int, file_path: str) -> str | None:
     """
-    Получает файл из Telegram и отправляет его на бэкенд.
-    Возвращает строку пути (photo_url), сохранённого на сервере.
+    Скачивает аватарку пользователя и сохраняет в static/images/review_avatars.
+    Возвращает путь photo_url, который можно использовать на сайте.
     """
     filename = f"{telegram_id}.jpg"
     url = f"{TELEGRAM_API}/file/bot{BOT_TOKEN}/{file_path}"
 
-    async with aiohttp.ClientSession() as session:
-        async with session.get(url) as resp:
-            if resp.status != 200:
-                print(f"[❌] Не удалось получить файл Telegram: {resp.status}")
-                return None
+    static_dir = os.getenv("STATIC_DIR", "/app/static")  # по Railway
+    save_path = os.path.join(static_dir, "images", "review_avatars", filename)
 
-            file_bytes = await resp.read()
+    try:
+        async with aiohttp.ClientSession() as session:
+            async with session.get(url) as resp:
+                if resp.status != 200:
+                    print(f"[❌] Не удалось получить файл Telegram: {resp.status}")
+                    return None
+                os.makedirs(os.path.dirname(save_path), exist_ok=True)
+                with open(save_path, "wb") as f:
+                    f.write(await resp.read())
 
-        # Отправка на бэкенд
-        form = aiohttp.FormData()
-        form.add_field("file", file_bytes, filename=filename, content_type="image/jpeg")
-        form.add_field("filename", filename)
-
-        async with session.post(
-            f"{BACKEND_URL}/api/telegram-reviews/avatar", data=form
-        ) as backend_resp:
-            if backend_resp.status != 200:
-                print(f"[❌] Backend не принял аватар: {backend_resp.status}")
-                return None
-
-            result = await backend_resp.json()
-            return result.get("photo_url")
+        return f"{STATIC_AVATAR_URL}/{filename}"
+    except Exception as e:
+        print(f"[❌] Ошибка при скачивании файла: {e}")
+        return None
