@@ -180,7 +180,7 @@ const translations = {
 };
 
 // Язык по умолчанию
-let currentLanguage = localStorage.getItem('lang') || new URLSearchParams(window.location.search).get('lang') || 'en';
+let currentLanguage = localStorage.getItem('lang') || new URLSearchParams(window.location.search).get('lang') || 'ru';
 
 
 // Обновление текста на странице
