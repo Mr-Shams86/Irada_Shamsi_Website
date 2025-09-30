@@ -521,3 +521,103 @@ document.addEventListener('DOMContentLoaded', () => {
     requestAnimationFrame(tick);
   });
 })();
+
+// === Realtime Weather (Open-Meteo) ==========================
+(function () {
+  const host = document.getElementById('weather');
+  if (!host) return;
+
+  // Город по умолчанию (Ташкент; можно поменять)
+  const FALLBACK = { name: {ru:'Ташкент', en:'Tashkent', uz:'Toshkent'}, lat:41.3111, lon:69.2797 };
+
+  const t = (lang, dict) => dict[lang] ?? dict.en;
+  const lang = (document.documentElement.getAttribute('lang') || 'en').slice(0,2);
+
+  // Простая карта погодных кодов Open-Meteo → эмодзи/иконка
+  const codeIcon = (code) => {
+    // https://open-meteo.com/en/docs#weathervariables → weathercode
+    if ([0].includes(code)) return '☀️';
+    if ([1].includes(code)) return '🌤️';
+    if ([2].includes(code)) return '⛅';
+    if ([3].includes(code)) return '☁️';
+    if ([45,48].includes(code)) return '🌫️';
+    if ([51,53,55,61,63,65,80,81,82].includes(code)) return '🌧️';
+    if ([56,57,66,67,85,86,71,73,75,77].includes(code)) return '❄️';
+    if ([95,96,99].includes(code)) return '⛈️';
+    return '🌡️';
+  };
+
+  const unitSymbol = (lang) => '°C'; // при желании можно сделать переключатель C/F
+
+  const cacheKey = (coords) => `weather:${coords.lat.toFixed(2)},${coords.lon.toFixed(2)}`;
+  const loadFromCache = (key) => {
+    try {
+      const raw = localStorage.getItem(key);
+      if (!raw) return null;
+      const obj = JSON.parse(raw);
+      if (Date.now() - obj.ts > 10 * 60 * 1000) return null; // 10 минут
+      return obj.data;
+    } catch { return null; }
+  };
+  const saveToCache = (key, data) => {
+    try { localStorage.setItem(key, JSON.stringify({ ts: Date.now(), data })); } catch {}
+  };
+
+  const render = ({ placeName, temp, code }) => {
+    host.innerHTML = `
+      <span class="w-icon">${codeIcon(code)}</span>
+      <span class="w-temp">${Math.round(temp)}${unitSymbol(lang)}</span>
+      <span class="w-place">${placeName}</span>
+    `;
+  };
+  const renderError = () => {
+    host.innerHTML = `<span class="w-icon">⚠️</span><span>${t(lang, {
+      ru: 'Погода недоступна', en: 'Weather unavailable', uz: 'Ob-havo mavjud emas'
+    })}</span>`;
+  };
+
+  async function fetchWeather(coords, placeName) {
+    const key = cacheKey(coords);
+    const cached = loadFromCache(key);
+    if (cached) {
+      render({ placeName, temp: cached.temperature, code: cached.weathercode });
+      return;
+    }
+    const url = new URL('https://api.open-meteo.com/v1/forecast');
+    url.searchParams.set('latitude', coords.lat);
+    url.searchParams.set('longitude', coords.lon);
+    url.searchParams.set('current_weather', 'true');
+    url.searchParams.set('timezone', 'auto');
+
+    try {
+      const res = await fetch(url.toString(), { cache: 'no-store' });
+      if (!res.ok) throw new Error(res.status);
+      const data = await res.json();
+      const cw = data.current_weather;
+      if (!cw) throw new Error('no current_weather');
+      saveToCache(key, cw);
+      render({ placeName, temp: cw.temperature, code: cw.weathercode });
+    } catch (e) {
+      renderError();
+    }
+  }
+
+  function useFallback() {
+    host.querySelector('.w-loading')?.remove();
+    fetchWeather({ lat: FALLBACK.lat, lon: FALLBACK.lon }, t(lang, FALLBACK.name));
+  }
+
+  // 1) Пытаемся взять геолокацию пользователя (с разрешения)
+  if ('geolocation' in navigator) {
+    navigator.geolocation.getCurrentPosition(
+      (pos) => {
+        const coords = { lat: pos.coords.latitude, lon: pos.coords.longitude };
+        fetchWeather(coords, t(lang, { ru:'Ваше местоположение', en:'Your location', uz:'Sizning joylashuvingiz' }));
+      },
+      useFallback,
+      { enableHighAccuracy: false, timeout: 5000, maximumAge: 5*60*1000 }
+    );
+  } else {
+    useFallback();
+  }
+})();
