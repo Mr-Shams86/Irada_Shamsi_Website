@@ -1195,3 +1195,22 @@ section {
   transform: scale(1.05);
   box-shadow: 0 0 22px rgba(127, 0, 255, 0.7);
 }
+
+#autumn-canvas{
+  position: fixed;
+  inset: 0;
+  width: 100vw; height: 100vh;
+  z-index: 50;            /* выше фона, ниже модалок/меню если они 100+ */
+  pointer-events: none;   /* не мешаем кликам */
+}
+
+.theme-toggle{
+  position: fixed; right: 14px; bottom: 14px;
+  z-index: 120; border: none; border-radius: 999px;
+  padding: 10px 14px; background:#ff4ecb1a; color:#ff4ecb; 
+  backdrop-filter: blur(6px); cursor: pointer;
+}
+@media (prefers-reduced-motion: reduce){
+  #autumn-canvas{ display:none; }
+  .theme-toggle{ display:none; }
+}

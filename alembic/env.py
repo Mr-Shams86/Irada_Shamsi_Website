@@ -21,7 +21,7 @@ from app.database_sync import Base
 
 # from app.database_sync import DATABASE_URL
 from app.models.telegram_review import TelegramReview
-from app.models.comment import CommentDB  # если используется в metadata
+# from app.models.comment import CommentDB  # если используется в metadata
 
 # === Alembic config и логирование ===
 config = context.config
