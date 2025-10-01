@@ -522,20 +522,27 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 })();
 
-// === Realtime Weather (Open-Meteo) ==========================
+
+/* === Realtime Weather (Open-Meteo) для разметки:
+   <div id="weather">
+     <span class="w-icon"></span>
+     <span class="w-temp"></span>
+     <span class="w-place"></span>
+   </div>
+=================================================== */
 (function () {
-  const host = document.getElementById('weather');
-  if (!host) return;
+  const root = document.getElementById('weather');
+  if (!root) return;
+  const elIcon = root.querySelector('.w-icon');
+  const elTemp = root.querySelector('.w-temp');
+  const elCity = root.querySelector('.w-place');
+  if (!elIcon || !elTemp || !elCity) return;
 
-  // Город по умолчанию (Ташкент; можно поменять)
   const FALLBACK = { name: {ru:'Ташкент', en:'Tashkent', uz:'Toshkent'}, lat:41.3111, lon:69.2797 };
-
-  const t = (lang, dict) => dict[lang] ?? dict.en;
   const lang = (document.documentElement.getAttribute('lang') || 'en').slice(0,2);
+  const t = (dict) => dict?.[lang] ?? dict?.en ?? '';
 
-  // Простая карта погодных кодов Open-Meteo → эмодзи/иконка
-  const codeIcon = (code) => {
-    // https://open-meteo.com/en/docs#weathervariables → weathercode
+  const iconOf = (code) => {
     if ([0].includes(code)) return '☀️';
     if ([1].includes(code)) return '🌤️';
     if ([2].includes(code)) return '⛅';
@@ -547,77 +554,76 @@ document.addEventListener('DOMContentLoaded', () => {
     return '🌡️';
   };
 
-  const unitSymbol = (lang) => '°C'; // при желании можно сделать переключатель C/F
+  const render = ({ temp, city, code }) => {
+    elIcon.textContent = iconOf(code);
+    elTemp.textContent = `${Math.round(temp)}°C`;
+    elCity.textContent = city;
+  };
 
-  const cacheKey = (coords) => `weather:${coords.lat.toFixed(2)},${coords.lon.toFixed(2)}`;
-  const loadFromCache = (key) => {
+  const renderError = () => {
+    elIcon.textContent = '⚠️';
+    elTemp.textContent = '--°C';
+    elCity.textContent = t({ru:'Погода недоступна', en:'Weather unavailable', uz:'Ob-havo mavjud emas'});
+  };
+
+  const keyFor = (lat, lon) => `weather:${lat.toFixed(2)},${lon.toFixed(2)}`;
+  const loadCache = (k) => {
     try {
-      const raw = localStorage.getItem(key);
+      const raw = localStorage.getItem(k);
       if (!raw) return null;
       const obj = JSON.parse(raw);
-      if (Date.now() - obj.ts > 10 * 60 * 1000) return null; // 10 минут
+      if (Date.now() - obj.ts > 10*60*1000) return null; // 10 минут
       return obj.data;
     } catch { return null; }
   };
-  const saveToCache = (key, data) => {
-    try { localStorage.setItem(key, JSON.stringify({ ts: Date.now(), data })); } catch {}
+  const saveCache = (k, data) => {
+    try { localStorage.setItem(k, JSON.stringify({ ts: Date.now(), data })); } catch {}
   };
 
-  const render = ({ placeName, temp, code }) => {
-    host.innerHTML = `
-      <span class="w-icon">${codeIcon(code)}</span>
-      <span class="w-temp">${Math.round(temp)}${unitSymbol(lang)}</span>
-      <span class="w-place">${placeName}</span>
-    `;
-  };
-  const renderError = () => {
-    host.innerHTML = `<span class="w-icon">⚠️</span><span>${t(lang, {
-      ru: 'Погода недоступна', en: 'Weather unavailable', uz: 'Ob-havo mavjud emas'
-    })}</span>`;
-  };
+  async function fetchWeather(lat, lon) {
+    const url = `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current_weather=true&timezone=auto&_=${Date.now()}`;
+    const res = await fetch(url, { cache: 'no-store' });
+    if (!res.ok) throw new Error(res.status);
+    const j = await res.json();
+    const cw = j.current_weather;
+    if (!cw) throw new Error('no current_weather');
+    return cw; // {temperature, weathercode, ...}
+  }
 
-  async function fetchWeather(coords, placeName) {
-    const key = cacheKey(coords);
-    const cached = loadFromCache(key);
-    if (cached) {
-      render({ placeName, temp: cached.temperature, code: cached.weathercode });
-      return;
-    }
-    const url = new URL('https://api.open-meteo.com/v1/forecast');
-    url.searchParams.set('latitude', coords.lat);
-    url.searchParams.set('longitude', coords.lon);
-    url.searchParams.set('current_weather', 'true');
-    url.searchParams.set('timezone', 'auto');
-
+  async function update(lat, lon, cityLabel) {
+    const key = keyFor(lat, lon);
+    const cached = loadCache(key);
+    if (cached) { render({ temp: cached.temperature, code: cached.weathercode, city: cityLabel }); return; }
     try {
-      const res = await fetch(url.toString(), { cache: 'no-store' });
-      if (!res.ok) throw new Error(res.status);
-      const data = await res.json();
-      const cw = data.current_weather;
-      if (!cw) throw new Error('no current_weather');
-      saveToCache(key, cw);
-      render({ placeName, temp: cw.temperature, code: cw.weathercode });
-    } catch (e) {
+      const cw = await fetchWeather(lat, lon);
+      saveCache(key, cw);
+      render({ temp: cw.temperature, code: cw.weathercode, city: cityLabel });
+    } catch {
       renderError();
     }
   }
 
   function useFallback() {
-    host.querySelector('.w-loading')?.remove();
-    fetchWeather({ lat: FALLBACK.lat, lon: FALLBACK.lon }, t(lang, FALLBACK.name));
+    update(FALLBACK.lat, FALLBACK.lon, t(FALLBACK.name));
   }
 
-  // 1) Пытаемся взять геолокацию пользователя (с разрешения)
+  // Геолокация → иначе Ташкент
   if ('geolocation' in navigator) {
     navigator.geolocation.getCurrentPosition(
-      (pos) => {
-        const coords = { lat: pos.coords.latitude, lon: pos.coords.longitude };
-        fetchWeather(coords, t(lang, { ru:'Ваше местоположение', en:'Your location', uz:'Sizning joylashuvingiz' }));
-      },
+      (pos) => update(
+        pos.coords.latitude,
+        pos.coords.longitude,
+        t({ru:'Ваше местоположение', en:'Your location', uz:'Sizning joylashuvingiz'})
+      ),
       useFallback,
-      { enableHighAccuracy: false, timeout: 5000, maximumAge: 5*60*1000 }
+      { enableHighAccuracy:false, timeout:7000, maximumAge:600000 }
     );
   } else {
     useFallback();
   }
+
+  // Автообновление каждые 10 минут теми же координатами (фолбэк)
+  setInterval(useFallback, 10*60*1000);
 })();
+
+
