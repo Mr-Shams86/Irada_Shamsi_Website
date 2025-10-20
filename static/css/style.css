@@ -268,6 +268,16 @@ span {
   box-shadow: 0 0 1.5rem var(--main-color);
 }
 
+/* все кликабельные элементы — показываем «руку» */
+.btn,
+button,
+.portfolio-filters .chip,
+.services-box.service-link,
+.modal .close {
+  cursor: pointer;
+}
+
+
 /* === About Section === */
 
 .about {
