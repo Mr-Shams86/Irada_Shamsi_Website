@@ -1,40 +1,53 @@
-import aiohttp
+# bot/services/telegram_review_service.py
 import os
-
+import aiohttp
+import httpx
+import mimetypes
 
 BOT_TOKEN = os.getenv("BOT_TOKEN")
-STATIC_AVATAR_URL = os.getenv("STATIC_AVATAR_URL", "/static/images/review_avatars")
-
-BACKEND_URL = os.getenv("BACKEND_URL")
-
-if not BOT_TOKEN:
-    raise RuntimeError("❌ BOT_TOKEN не установлен в переменных окружения!")
-
-TELEGRAM_API = f"https://api.telegram.org"
-
+BACKEND_URL = os.getenv("BACKEND_URL")  # например: https://irada-shamsi.com  (без / в конце)
+TELEGRAM_API = "https://api.telegram.org"
 
 async def download_telegram_file(telegram_id: int, file_path: str) -> str | None:
     """
-    Скачивает аватарку пользователя и сохраняет в static/images/review_avatars.
-    Возвращает путь photo_url, который можно использовать на сайте.
+    Качаем аватар из Telegram и ЗАГРУЖАЕМ его на backend в /api/telegram-reviews/avatar.
+    Возвращаем относительный URL вида: /static/images/review_avatars/<telegram_id>.<ext>
     """
-    filename = f"{telegram_id}.jpg"
-    url = f"{TELEGRAM_API}/file/bot{BOT_TOKEN}/{file_path}"
+    if not BOT_TOKEN or not BACKEND_URL:
+        print("[⚠️] BOT_TOKEN/BACKEND_URL не заданы")
+        return None
 
-    static_dir = os.getenv("STATIC_DIR", "/app/static")  # по Railway
-    save_path = os.path.join(static_dir, "images", "review_avatars", filename)
+    # Определим расширение и mime
+    ext = os.path.splitext(file_path)[1].lower() or ".jpg"
+    if ext not in (".jpg", ".jpeg", ".png", ".webp"):
+        ext = ".jpg"
+    mime = mimetypes.types_map.get(ext, "image/jpeg")
+
+    tg_file_url = f"{TELEGRAM_API}/file/bot{BOT_TOKEN}/{file_path}"
+    filename = f"{telegram_id}{ext}"
 
     try:
+        # 1) Скачиваем байты из Telegram
         async with aiohttp.ClientSession() as session:
-            async with session.get(url) as resp:
+            async with session.get(tg_file_url) as resp:
                 if resp.status != 200:
-                    print(f"[❌] Не удалось получить файл Telegram: {resp.status}")
+                    print(f"[⚠️] TG download failed: {resp.status} for {tg_file_url}")
                     return None
-                os.makedirs(os.path.dirname(save_path), exist_ok=True)
-                with open(save_path, "wb") as f:
-                    f.write(await resp.read())
+                content = await resp.read()
 
-        return f"{STATIC_AVATAR_URL}/{filename}"
+        # 2) Отправляем на backend (FastAPI-эндпоинт /api/telegram-reviews/avatar)
+        upload_url = f"{BACKEND_URL}/api/telegram-reviews/avatar"
+        files = {"file": (filename, content, mime)}
+        data = {"filename": filename}  # у тебя эндпоинт это ждёт
+
+        async with httpx.AsyncClient(timeout=20.0) as client:
+            r = await client.post(upload_url, files=files, data=data)
+            if r.status_code != 200:
+                print(f"[⚠️] Backend upload failed: {r.status_code} {r.text}")
+                return None
+            j = r.json()
+            return j.get("photo_url")
+
     except Exception as e:
-        print(f"[❌] Ошибка при скачивании файла: {e}")
+        print(f"[⚠️] Avatar pipeline error: {e}")
         return None

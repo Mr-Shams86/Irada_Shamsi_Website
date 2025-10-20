@@ -1011,23 +1011,26 @@
                 {% for review in telegram_reviews %}
                 <div class="telegram-review">
                     <div class="telegram-user">
-                        <img src="{{ (review.photo_url or '/static/images/default-avatar.png') | safe }}"
-                            alt="{{ review.full_name or review.username or 'Anonymous' }}"
+                        <img
                             class="avatar"
-                            loading="lazy"
+                            src="{{ (review.photo_url or '/static/images/default-avatar.png') }}?v={{ review.created_at or review.id }}"
+                            alt="{{ (review.full_name or review.username or 'Anonymous') | e }}"
+                            width="48" height="48"
+                            loading="lazy" decoding="async"
                             onerror="this.onerror=null;this.src='/static/images/default-avatar.png';">
-                        <strong>{{ review.full_name or review.username or 'Anonymous' }}</strong>
+                        <strong>{{ (review.full_name or review.username or 'Anonymous') | e }}</strong>
                     </div>
-                    <div class="telegram-rating">
+
+                    <div class="telegram-rating" aria-label="{{ review.rating }} of 5">
                         {% for _ in range(review.rating) %}
-                            <span class="star">★</span>
+                            <span class="star" aria-hidden="true">★</span>
                         {% endfor %}
                         {% for _ in range(5 - review.rating) %}
-                            <span class="star empty">★</span>
+                            <span class="star empty" aria-hidden="true">★</span>
                         {% endfor %}
                     </div>
-                    
-                    <p class="telegram-text">{{ review.message }}</p>
+
+                    <p class="telegram-text">{{ review.message | e }}</p>
                 </div>
                 {% endfor %}
             {% else %}
