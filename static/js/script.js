@@ -34,17 +34,18 @@ window.onscroll = () => {
 };
 
 /*==================== scroll reveal ====================*/
-ScrollReveal({
-    reset: true,
-    distance: '80px',
-    duration: 2000,
-    delay: 200
+const sr = ScrollReveal({
+  reset: false,          // было true — из-за этого блоки снова скрывались
+  distance: '60px',
+  duration: 900,
+  delay: 120
 });
 
-ScrollReveal().reveal('.home-content, .heading', { origin: 'top' });
-ScrollReveal().reveal('.home-img, .services-container, .portfolio-box, .contact form', { origin: 'bottom' });
-ScrollReveal().reveal('.home-content h1, .about-img', { origin: 'left' });
-ScrollReveal().reveal('.home-content p, .about-content', { origin: 'right' });
+sr.reveal('.home-content, .heading', { origin: 'top' });
+sr.reveal('.home-img, .services-container, .contact form', { origin: 'bottom' });
+// ВАЖНО: .portfolio-box здесь больше НЕ указываем
+// sr.reveal('.portfolio-box', ...) — удалить
+
 
 /*==================== typed.js — многоязычный ====================*/
 
@@ -96,22 +97,20 @@ function closeModal(modalId) {
 
 // Close modal on background click
 document.addEventListener('click', function (event) {
-    const modal = document.querySelector('.modal');
-    if (modal && event.target === modal) {
-        modal.style.display = "none";
-    }
+  const modal = event.target.closest('.modal');
+  if (modal && event.target === modal) {
+    modal.style.display = "none";
+  }
 });
 
 // Close modal on Escape
-
 document.addEventListener('keydown', function (event) {
-    if (event.key === 'Escape') {
-        const modal = document.querySelector('.modal');
-        if (modal) {
-            modal.style.display = "none";
-        }
-    }
+  if (event.key === 'Escape') {
+    document.querySelectorAll('.modal')
+      .forEach(m => { if (getComputedStyle(m).display !== 'none') m.style.display = 'none'; });
+  }
 });
+
 
 
 
@@ -214,6 +213,89 @@ document.querySelectorAll('.lang-switch').forEach(link => {
         updateLanguage(lang);
     });
 });
+
+
+
+/* === Portfolio filters & deep-linking ============================== */
+(function () {
+  const grid = document.querySelector('.portfolio-container');
+  const filters = document.getElementById('portfolio-filters');
+  if (!grid || !filters) return;
+
+  const items   = Array.from(grid.querySelectorAll('.portfolio-box'));
+  const chips   = Array.from(filters.querySelectorAll('.chip'));
+  const services = Array.from(document.querySelectorAll('.services-box.service-link'));
+  const portfolioSection = document.getElementById('portfolio');
+
+  // Разбор нескольких категорий в data-cat: "cut color", "cut,color"
+  function normalizeCats(value) {
+    return (value || '')
+      .split(/[\s,]+/)
+      .map(s => s.trim().toLowerCase())
+      .filter(Boolean);
+  }
+
+function setActiveChip(cat) {
+  const target = (cat || 'all').toLowerCase();
+  chips.forEach(c => {
+    const val = (c.dataset.cat || 'all').toLowerCase();
+    c.classList.toggle('active', val === target);
+  });
+}
+
+function applyFilter(cat) {
+  const target = (cat || 'all').toLowerCase();
+  items.forEach(card => {
+    const cats = normalizeCats(card.dataset.cat || '');
+    const show = target === 'all' || cats.includes(target);
+    card.style.display = show ? '' : 'none';
+  });
+  setActiveChip(target);
+}
+
+
+  // Клики по чипам
+  chips.forEach(chip => {
+    chip.addEventListener('click', () => {
+      const cat = chip.dataset.cat || 'all';
+      const url = new URL(window.location);
+      url.hash = `portfolio?cat=${encodeURIComponent(cat)}`;
+      history.replaceState(null, '', url);
+      applyFilter(cat);
+      portfolioSection?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    });
+  });
+
+  // Клики по карточкам "Мои специализации"
+  services.forEach(box => {
+    box.style.cursor = 'pointer';
+    box.addEventListener('click', () => {
+      const cat = box.dataset.cat || 'all';
+      const url = new URL(window.location);
+      url.hash = `portfolio?cat=${encodeURIComponent(cat)}`;
+      history.replaceState(null, '', url);
+      applyFilter(cat);
+      portfolioSection?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    });
+  });
+
+  // Инициализация из хеша: #portfolio?cat=style
+  function initFromHash() {
+    const hash = (window.location.hash || '').toLowerCase();
+    if (!hash.startsWith('#portfolio')) {
+      applyFilter('all');
+      return;
+    }
+    const q = new URLSearchParams(hash.split('?')[1] || '');
+    const cat = (q.get('cat') || 'all').toLowerCase();
+    applyFilter(cat);
+  }
+
+  window.addEventListener('hashchange', initFromHash);
+  initFromHash();
+})();
+
+
 
 /* Telegram Reviews — подставить default-avatar если отсутствует */
 // Безопасная функция экранирования текста (чтобы защититься от XSS)

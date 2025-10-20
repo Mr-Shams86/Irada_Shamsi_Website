@@ -29,7 +29,7 @@ html {
 body {
   background: var(--bg-color);
   color: var(--text-color);
-  scroll-snap-type: y mandatory; /* Прокрутка по вертикали с привязкой */
+  scroll-snap-type: y proximity; /* Прокрутка по вертикали с привязкой */
   overflow-y: scroll; /* Включаем вертикальную прокрутку */
 }
 
@@ -426,6 +426,36 @@ span {
   transform: scale(1.05); /* Легкое увеличение изображения */
   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3); /* Увеличиваем тень */
 }
+
+/* Chips / filters */
+.portfolio-filters{
+  display:flex;
+  gap:.5rem;
+  flex-wrap:wrap;
+  margin:.75rem 0 1.25rem;
+}
+.portfolio-filters .chip{
+  border:1px solid rgba(255,255,255,.18);
+  background:rgba(255,255,255,.06);
+  color:#fff;
+  padding:.45rem .85rem;
+  border-radius:999px;
+  font-size:.9rem;
+  line-height:1;
+  backdrop-filter: blur(6px);
+  transition:transform .12s ease, background .2s ease, box-shadow .2s ease;
+}
+.portfolio-filters .chip:hover{ transform: translateY(-1px); }
+.portfolio-filters .chip.active{
+  background: linear-gradient(135deg,#8a2be2 0%, #e807bb 100%);
+  box-shadow:0 0 0 3px rgba(232,7,187,.22) inset;
+  border-color: transparent;
+}
+
+/* Сетка не «прыгает», когда прячем карточки */
+.portfolio-container .portfolio-box{ transition:opacity .2s ease; }
+.portfolio-container .portfolio-box[style*="display: none"]{ opacity:0; }
+
 
 /* === Contact Section === */
 
