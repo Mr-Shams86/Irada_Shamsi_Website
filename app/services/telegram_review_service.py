@@ -14,6 +14,7 @@ import json
 CACHE_KEY = "latest_telegram_reviews"
 CACHE_TTL = 60 * 5  # 5 минут
 
+DEFAULT_AVATAR = "/static/images/default-avatar.2025-10-17.png"
 
 async def create_review(
     db: AsyncSession, review_data: TelegramReviewCreate
@@ -60,7 +61,7 @@ async def get_latest_reviews(db: AsyncSession, offset: int = 0, limit: int = 10)
                 "full_name": r.full_name,
                 "rating": r.rating,
                 "message": r.message,
-                "photo_url": r.photo_url,
+                "photo_url": r.photo_url or DEFAULT_AVATAR,
                 "created_at": r.created_at,
             }
             for r in reviews
