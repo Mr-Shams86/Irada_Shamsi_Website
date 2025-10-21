@@ -91,7 +91,7 @@
               "author": {
                 "@type": "Person",
                 "name": "{{ review.username or review.full_name or 'Аноним' }}",
-                "image": "{{ review.photo_url or '/static/images/default-avatar.png' }}"
+                "image": "{{ review.photo_url or '/static/images/default-avatar.2025-10-17.png' }}"
               },
               "datePublished": "{{ review.created_at.strftime('%Y-%m-%d') }}",
               "reviewBody": "{{ review.message | replace('\"', '\\\"') }}",

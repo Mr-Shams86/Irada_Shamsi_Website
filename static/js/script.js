@@ -322,13 +322,13 @@ document.addEventListener('DOMContentLoaded', () => {
     reviews.forEach(img => {
         img.onerror = () => {
             img.onerror = null;
-            img.src = '/static/images/default-avatar.png';
+            img.src = '/static/images/default-avatar.2025-10-17.png';
         };
 
         
         requestAnimationFrame(() => {
             if (!img.complete || img.naturalWidth === 0) {
-                img.src = '/static/images/default-avatar.png';
+                img.src = '/static/images/default-avatar.2025-10-17.png';
             }
         });
     });
@@ -356,10 +356,10 @@ document.addEventListener('DOMContentLoaded', () => {
                         <div class="telegram-user">
                             <img src="${review.photo_url && review.photo_url.startsWith('/') 
                                 ? review.photo_url + '?v=' + Date.now() 
-                                : '/static/images/default-avatar.png'}" 
+                                : '/static/images/default-avatar.2025-10-17.png'}"
                                 alt="${escapeHTML(review.full_name || review.username || 'Anonymous')}" 
                                 class="avatar" 
-                                onerror="this.onerror=null;this.src='/static/images/default-avatar.png';">
+                                onerror="this.onerror=null;this.src='/static/images/default-avatar.2025-10-17.png';">
                             <strong>${escapeHTML(review.full_name || review.username || 'Anonymous')}</strong>
                         </div>
                         <div class="telegram-rating">
