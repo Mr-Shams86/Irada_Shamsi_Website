@@ -6,7 +6,7 @@ const urlParams = new URLSearchParams(window.location.search);
 const token = urlParams.get("token");
 
 // ---- Настройки / хелперы -------
-const DEFAULT_AVATAR = '/static/images/default-avatar.png';
+const DEFAULT_AVATAR = '/static/images/default-avatar.2025-10-17.png';
 
 function isHttp(url) {
   return typeof url === 'string' && /^https?:\/\//i.test(url);
