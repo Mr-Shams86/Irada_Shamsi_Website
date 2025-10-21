@@ -1012,12 +1012,12 @@
                     <div class="telegram-user">
                         <img
                             class="avatar"
-                            src="{{ (review.photo_url or '/static/images/default-avatar.png') }}?v={{ review.created_at or review.id }}"
+                            src="{{ (review.photo_url or '/static/images/default-avatar.2025-10-17.png') }}?v={{ review.created_at or review.id }}"
                             alt="{{ (review.full_name or review.username or 'Anonymous') | e }}"
                             width="48" height="48"
                             loading="lazy" decoding="async"
-                            onerror="this.onerror=null;this.src='/static/images/default-avatar.png';">
-                        <strong>{{ (review.full_name or review.username or 'Anonymous') | e }}</strong>
+                            onerror="this.onerror=null;this.src='/static/images/default-avatar.2025-10-17.png';">
+                        <strong>{{ (review.full_name or review.username or 'Anonymous') | e }}</strong><br>
                     </div>
 
                     <div class="telegram-rating" aria-label="{{ review.rating }} of 5">
