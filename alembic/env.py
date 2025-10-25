@@ -18,10 +18,11 @@ sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..")
 
 # === Импорт базы и моделей из sync-версии ===
 from app.database_sync import Base
-
 # from app.database_sync import DATABASE_URL
+
 from app.models.telegram_review import TelegramReview
-# from app.models.comment import CommentDB  # если используется в metadata
+# from app.models.comment import CommentDB
+from app.models.like import PortfolioLike
 
 # === Alembic config и логирование ===
 config = context.config
