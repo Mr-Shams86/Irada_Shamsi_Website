@@ -708,4 +708,76 @@ document.addEventListener('DOMContentLoaded', () => {
   setInterval(useFallback, 10*60*1000);
 })();
 
+/* ===== Portfolio Likes (server-backed) ===== */
 
+(function () {
+  const grid = document.querySelector('.portfolio-container');
+  if (!grid) return;
+
+  const cards = Array.from(grid.querySelectorAll('.portfolio-box'));
+
+  function idOf(card) {
+    // читаем заранее проставленный data-id
+    return card.getAttribute('data-id')?.trim();
+  }
+
+  function cookieGet(name) {
+    return document.cookie.split('; ').find(r => r.startsWith(name + '='))?.split('=')[1];
+  }
+  function cookieSet(name, value, days=365) {
+    const d = new Date();
+    d.setTime(d.getTime() + days*24*60*60*1000);
+    document.cookie = `${name}=${value};expires=${d.toUTCString()};path=/;SameSite=Lax`;
+  }
+
+  async function fetchCount(id) {
+    const res = await fetch(`/api/likes/${encodeURIComponent(id)}`, { cache: 'no-store' });
+    if (!res.ok) throw new Error(res.status);
+    return (await res.json()).count;
+  }
+  async function send(id, action /* 'up' | 'down' */) {
+    const res = await fetch(`/api/likes/${encodeURIComponent(id)}/${action}`, { method: 'POST' });
+    if (!res.ok) throw new Error(res.status);
+    return (await res.json()).count;
+  }
+
+  // init all cards
+  (async () => {
+    for (const card of cards) {
+      const id = idOf(card);
+      if (!id) continue;
+
+      const btn = card.querySelector('.like-btn');
+      if (!btn) continue;
+
+      const cntEl = btn.querySelector('.like-count');
+      // проставим из сервера
+      try {
+        cntEl.textContent = await fetchCount(id);
+      } catch { /* ignore */ }
+
+      // восстановим состояние из cookie (одно «сердце» на браузер)
+      const liked = cookieGet(`liked:${id}`) === '1';
+      if (liked) btn.classList.add('liked');
+
+      btn.addEventListener('click', async (e) => {
+        e.stopPropagation();
+        const nowLiked = !btn.classList.contains('liked');
+        btn.classList.toggle('liked', nowLiked);
+
+        try {
+          const count = await send(id, nowLiked ? 'up' : 'down');
+          cntEl.textContent = count;
+          cookieSet(`liked:${id}`, nowLiked ? '1' : '0');
+        } catch (err) {
+          // откатим визуально при ошибке
+          btn.classList.toggle('liked', !nowLiked);
+          console.error('likes error:', err);
+        }
+
+        btn.classList.add('burst');
+        setTimeout(() => btn.classList.remove('burst'), 180);
+      });
+    }
+  })();
+})();

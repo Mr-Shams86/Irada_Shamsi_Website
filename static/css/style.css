@@ -955,6 +955,7 @@ section {
   }
 }
 
+/* Стили для отзывов из Telegram на мобильных устройствах */
 @media (max-width: 768px) {
   .telegram-reviews-container {
     display: flex;
@@ -1119,6 +1120,7 @@ section {
   white-space: nowrap;
 }
 
+/* === Telegram Reviews Section === */
 #telegram-reviews {
   margin-top: 3rem;
   padding: 2rem;
@@ -1236,6 +1238,61 @@ section {
   box-shadow: 0 0 22px rgba(127, 0, 255, 0.7);
 }
 
+/* === Like Button for Portfolio Items === */
+.portfolio-box {
+  position: relative;
+}
+
+.like-btn {
+  position: absolute;
+  right: 0.9rem;
+  bottom: 0.9rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.65rem 1rem; /* чуть больше */
+  border-radius: 999px;
+  background: rgba(0, 0, 0, 0.35); /* затемнение подложки */
+  backdrop-filter: blur(10px);
+  cursor: pointer;
+  transition: transform .2s ease, box-shadow .25s ease, background .25s ease;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.35);
+  z-index: 15;
+}
+
+
+.like-btn i {
+  font-size: 1.9rem; /* было 1.6rem */
+  background: linear-gradient(135deg, #ff31f8 0%, #a83bff 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  filter: drop-shadow(0 0 10px rgba(255, 0, 204, 0.5));
+}
+
+
+.like-btn .like-count {
+  font-size: 1.15rem;
+  font-weight: 600;
+  color: #fff;
+  text-shadow: 0 0 6px rgba(0, 0, 0, 0.6);
+}
+
+/* эффект при наведении */
+.like-btn:hover {
+  transform: scale(1.18);
+  box-shadow: 0 0 18px rgba(255, 0, 204, 0.55);
+}
+
+/* вспышка при клике */
+.like-btn.burst {
+  transform: scale(1.35);
+  transition: transform .12s ease;
+}
+
+
+/* === Autumn Theme Toggle & Canvas === */
 #autumn-canvas{
   position: fixed;
   inset: 0;
@@ -1271,6 +1328,3 @@ section {
 .weather-widget #weather-icon{ font-size:16px; opacity:.95; }
 .weather-widget #weather-temp{ font-size:15px; }
 @media (max-width:480px){ .weather-widget #weather-city{ display:none; } }
-
-
-
