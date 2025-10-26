@@ -17,7 +17,7 @@ COPY . .
 RUN chmod +x /app/scripts/start.sh
 
 # Указываем порт
-EXPOSE 8000
+EXPOSE 8080
 
 # Передаём переменные окружения в контейнер
 # ENV DATABASE_URL=${DATABASE_URL}
