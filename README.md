@@ -152,86 +152,94 @@
 ```
 Irada_Shamsi_WebSite/
 .
-├── alembic                             # 📂 Миграции базы данных (Alembic)
-│   ├── env.py                          # ⚙️ Конфигурация Alembic
-│   ├── README                          # 📝 Инфо-файл Alembic
-│   ├── script.py.mako                  # 🧩 Шаблон миграции
-│   └── versions                        # 📂 Файлы миграций по версиям
-│       ├── 2cb11b9e70b4_добавил_рейтинг_в_telegram_reviews.py   # ➕ Миграция: добавлен рейтинг
-│       ├── b71ac99543ae_create_telegram_reviews_table.py        # 🆕 Миграция: таблица отзывов Telegram
-│       ├── d98e6bd40d2b_create_comments_table.py                # 🆕 Миграция: таблица комментариев
-│       └── dac3e4607d2a_fix_telegram_id_to_biginteger.py        # 🛠️ Миграция: исправление типа telegram_id
-├── alembic.ini                        # ⚙️ Основной конфиг Alembic
-├── app                                # 📂 Backend-приложение (FastAPI)
-│   ├── config.py                      # ⚙️ Конфигурация проекта (переменные окружения и пути)
-│   ├── controllers                    # 📂 Контроллеры/роуты FastAPI
-│   │   ├── admin_reviews_controller.py    # 🔐 Роуты для админки модерации отзывов
-│   │   ├── __init__.py                    # 📦 Модуль init
-│   │   ├── root_controller.py             # 🏠 Главная страница сайта
-│   │   └── telegram_review_controller.py  # 📬 Роуты API для отзывов из Telegram
-│   ├── database.py                   # 🛢️ Асинхронное подключение к PostgreSQL
-│   ├── database_sync.py              # 🔁 Синхронное подключение для Alembic миграций
-│   ├── dependencies                  # 📂 Зависимости проекта (например, авторизация)
-│   │   └── admin_auth.py             # 🔐 Базовая админ-аутентификация
-│   ├── files.code-workspace          # 📝 Файл рабочего пространства VS Code
-│   ├── __init__.py                   # 📦 Модуль инициализации приложения
-│   ├── main.py                       # 🚀 Точка запуска FastAPI-приложения
-│   ├── middleware                    # 📂 Middleware для заголовков безопасности
-│   │   ├── csp_middleware.py         # 🔒 CSP — Content Security Policy
-│   │   ├── hsts_middleware.py        # 🔒 HSTS — HTTPS Strict Transport Security
-│   │   ├── __init__.py               # 📦 Модуль
-│   │   ├── x_content_type_options_middleware.py  # 🔐 X-Content-Type-Options заголовок
-│   │   └── x_frame_options_middleware.py         # 🔐 X-Frame-Options защита
-│   ├── models                        # 📂 SQLAlchemy модели
-│   │   ├── __init__.py               # 📦 Модуль
-│   │   └── telegram_review.py        # 🗄️ Модель таблицы отзывов из Telegram
-│   ├── schemas                       # 📂 Pydantic-схемы
-│   │   ├── __init__.py               # 📦 Модуль
-│   │   └── telegram_review.py        # 📄 Схемы сериализации отзывов
-│   ├── services                      # 📂 Бизнес-логика
-│   │   ├── __init__.py               # 📦 Модуль
-│   │   ├── redis_client.py           # 🧠 Клиент Redis
-│   │   └── telegram_review_service.py# 🧠 Логика обработки Telegram-отзывов
-│   └── utils                         # 📂 Вспомогательные утилиты
-│       ├── custom_static.py          # 📁 Кастомный static-файл обработчик
-│       └── __init__.py               # 📦 Модуль
-├── bot                                # 🤖 Папка Telegram-бота
-│   ├── bot_instance.py                # 🤖 Создание экземпляра бота (Aiogram)
-│   ├── config.py                      # ⚙️ Токен бота и BACKEND_URL
-│   ├── Dockerfile                     # 🐳 Dockerfile для Telegram-бота
-│   ├── handlers.py                    # 📬 Обработчики команд/состояний
-│   ├── __init__.py                    # 📦 Модуль
-│   ├── main_bot.py                    # 🚀 Точка входа Telegram-бота
-│   ├── requirements.txt              # 📦 Зависимости бота
+├── alembic                    # 🗃️ Миграции базы данных (Alembic)
+│   ├── env.py                 # ⚙️ Конфигурация Alembic
+│   ├── README                 # ℹ️ Инфо-файл Alembic
+│   ├── script.py.mako         # 🧩 Шаблон миграций
+│   └── versions               # 📁 Файлы миграций по версиям
+│       ├── 2cb11b9e70b4_добавил_рейтинг_в_telegram_reviews.py   # 🆙 Добавлен рейтинг к отзывам
+│       ├── 3bb3623147d3_create_portfolio_likes_table.py        # ❤️ Таблица лайков портфолио
+│       ├── b71ac99543ae_create_telegram_reviews_table.py       # 🧱 Таблица telegram-отзывов
+│       ├── d98e6bd40d2b_create_comments_table.py               # 💬 Таблица комментариев
+│       └── dac3e4607d2a_fix_telegram_id_to_biginteger.py       # 🔧 Исправление типа (BigInteger)
+├── alembic.ini                # 🧱 Основной конфиг Alembic
+├── app                        # 🧠 Backend-приложение (FastAPI)
+│   ├── config.py              # ⚙️ Настройки/переменные окружения
+│   ├── controllers            # 🎛️ Роуты/контроллеры FastAPI
+│   │   ├── admin_reviews_controller.py         # 🛡️ Модерация отзывов
+│   │   ├── __init__.py                          # 📦
+│   │   ├── likes_controller.py                  # ❤️ API лайков
+│   │   ├── root_controller.py                   # 🏠 Корневые/health endpoints
+│   │   └── telegram_review_controller.py        # ✉️ API отзывов из Telegram
+│   ├── database.py            # 🐘 Подключение к PostgreSQL (async)
+│   ├── database_sync.py       # 🔄 Синхронный движок (Alembic/скрипты)
+│   ├── dependencies
+│   │   └── admin_auth.py      # 🔐 Depends: админ-аутентификация
+│   ├── files.code-workspace   # 💼 Workspace VS Code (локально)
+│   ├── __init__.py            # 📦
+│   ├── main.py                # 🚀 Точка входа FastAPI
+│   ├── middleware             # 🧱 Заголовки безопасности
+│   │   ├── csp_middleware.py                    # 🛡️ CSP Policy
+│   │   ├── hsts_middleware.py                   # 🛡️ HSTS
+│   │   ├── __init__.py                          # 📦
+│   │   ├── x_content_type_options_middleware.py # 🛡️ X-Content-Type-Options
+│   │   └── x_frame_options_middleware.py        # 🛡️ X-Frame-Options
+│   ├── models                 # 🗄️ SQLAlchemy-модели
+│   │   ├── __init__.py                          # 📦
+│   │   ├── like.py                               # ❤️ Модель лайка
+│   │   └── telegram_review.py                    # 📝 Модель телеграм-отзыва
+│   ├── schemas                # 🧾 Pydantic-схемы
+│   │   ├── __init__.py                          # 📦
+│   │   └── telegram_review.py                    # 🧾 Схемы отзывов
+│   ├── services               # 🧠 Бизнес-логика
+│   │   ├── __init__.py                          # 📦
+│   │   ├── like_service.py                       # ❤️ Работа с лайками (ограничения/подсчёт)
+│   │   ├── redis_client.py                       # ⚡ Клиент Redis
+│   │   └── telegram_review_service.py            # ✉️ Обработка отзывов
+│   └── utils                  # 🧰 Утилиты
+│       ├── custom_static.py                     # 🗂️ Кастомный StaticFiles
+│       └── __init__.py                          # 📦
+├── bot                        # 🤖 Telegram-бот (Aiogram)
+│   ├── bot_instance.py        # 🤖 Инициализация бота
+│   ├── config.py              # 🔑 Токен/настройки
+│   ├── Dockerfile             # 🐳 Dockerfile бота
+│   ├── handlers.py            # 🧭 Хендлеры команд/состояний
+│   ├── __init__.py            # 📦
+│   ├── main_bot.py            # 🚀 Точка входа бота
+│   ├── requirements.txt       # 📦 Зависимости бота
 │   ├── services
-│   │   └── telegram_review_service.py # 🔁 Отправка отзывов с бота на backend
-│   └── states.py                      # 🧭 FSM-состояния (Aiogram FSMContext)
-├── docker-compose.yml                 # ⚙️ Docker-оркестрация (backend + bot + Redis + DB)
-├── Dockerfile                         # 🐳 Dockerfile для backend (FastAPI)
-├── files.code-workspace               # 📝 VS Code workspace (повтор)
-├── os                                 # ⚠️ Возможно, временная/тестовая папка
-├── README.md                          # 📘 Документация проекта
-├── requirements.txt                   # 📦 Зависимости для FastAPI-приложения
-├── static                             # 📂 Статические ресурсы для сайта
+│   │   └── telegram_review_service.py           # ✉️ Отправка отзывов на backend
+│   └── states.py              # 🧭 FSM (Aiogram)
+├── docker-compose.yml         # 🐳 Оркестрация: backend + bot + Redis + Postgres
+├── Dockerfile                 # 🐳 Dockerfile backend
+├── files.code-workspace       # 💼 Workspace VS Code (корень)
+├── os                         # 📁 Временная/прочая папка (лучше переименовать/убрать)
+├── README.md                  # 📚 Документация проекта
+├── requirements.txt           # 📦 Зависимости backend
+├── scripts                    # 🛠️ Скрипты обслуживания/деплоя
+│   └── start.sh               # ▶️ Стартовый скрипт (запуск/миграции/службы)
+├── static                     # 🌐 Статические ресурсы сайта
 │   ├── css
-│   │   ├── admin_login.css            # 🎨 Стили страницы входа админа
-│   │   ├── admin_reviews.css          # 🎨 Стили админки модерации
-│   │   └── style.css                  # 🎨 Общие стили сайта
+│   │   ├── admin_login.css    # 🎨 Стили входа админа
+│   │   ├── admin_reviews.css  # 🎨 Стили модерации
+│   │   └── style.css          # 🎨 Общие стили
 │   ├── images
-│   │   └── review_avatars             # 🖼️ Аватарки пользователей Telegram
-│   │       └── test.txt               # 📄 Временный/заглушка-файл
+│   │   ├── favicon.ico        # 🧿 Иконка сайта
+│   │   └── review_avatars     # 🖼️ Аватарки пользователей
+│   │       └── test.txt       # 🗒️ Заглушка
 │   ├── js
-│   │   ├── admin_reviews.js           # 🧠 JS-логика модерации отзывов
-│   │   └── script.js                  # 💡 Основной JS для сайта
-│   ├── robots.txt                     # 🤖 SEO-файл для запрета/разрешения индексации
-│   └── sitemap.xml                    # 🗺️ Карта сайта (SEO)
-├── structure.txt                      # 📄 Файл со структурой проекта (этот)
-└── templates                          # 📂 HTML-шаблоны (Jinja2)
-    ├── admin_login.html               # 🔐 Страница входа в админку
-    ├── admin_reviews.html             # 📝 Интерфейс модерации отзывов
-    ├── index-en.html                  # 🌐 Главная страница (англ.)
-    ├── index-ru.html                  # 🌐 Главная страница (рус.)
-    └── index-uz.html                  # 🌐 Главная страница (узбек.)
+│   │   ├── admin_reviews.js   # 🧠 Логика модерации
+│   │   └── script.js          # 💻 Общий JS
+│   ├── robots.txt             # 🤖 Индексация
+│   └── sitemap.xml            # 🗺️ Карта сайта (SEO)
+├── structure.txt              # 🧱 Снимок структуры проекта
+└── templates                  # 🧩 Jinja2-шаблоны
+    ├── admin_login.html       # 🔐 Вход в админку
+    ├── admin_reviews.html     # 🧑‍⚖️ Модерация отзывов
+    ├── index-en.html          # 🌍 Главная (англ.)
+    ├── index-ru.html          # 🇷🇺 Главная (рус.)
+    └── index-uz.html          # 🇺🇿 Главная (узб.)
+
 
 
 ```
