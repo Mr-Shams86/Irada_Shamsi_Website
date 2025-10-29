@@ -399,42 +399,61 @@ button,
   font-size: clamp(2rem, 4vw, 3rem); /* Адаптивный заголовок */
 }
 
+/* ✅ Портфолио */
 .portfolio-container {
   display: grid;
-  grid-template-columns: repeat(4, 1fr); /* Четыре колонки для ПК */
+  grid-template-columns: repeat(5, 1fr); /* Пять колонок для ПК */
   gap: 2rem; /* Отступы между рамками */
   align-items: start; /* Рамки растягиваются только по содержимому */
 }
 
+/* карточка */
 .portfolio-box {
   position: relative;
   overflow: hidden;
   border-radius: 1rem;
   box-shadow: 0 0 1rem var(--bg-color);
   background: var(--bg-color);
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
+
+  /* плавность и «инерция» */
+  transition: transform .25s cubic-bezier(.25,.8,.25,1), 
+              box-shadow .25s cubic-bezier(.25,.8,.25,1),
+              opacity .2s ease;
+  opacity: 1;
   display: flex;
   align-items: center;
   justify-content: center;
   aspect-ratio: 2 / 3;
+
+  border: 1px solid transparent; /* предотвращает микро-сдвиг */
+  will-change: transform, box-shadow;
+  transform: translateZ(0);
+  isolation: isolate; /* создаёт локальный контекст z-index */
 }
 
 .portfolio-box:hover {
-  transform: translateY(-5px); /* Поднимаем рамку */
-  z-index: 1; /* Устанавливаем z-index */
+  transform: translateY(-6px); /* Поднимаем рамку */
+  box-shadow: 0 18px 30px rgba(0, 0, 0, 0.25); /* мягче и глубже */
+  z-index: 2; /* Устанавливаем z-index */
 }
 
+/* изображение */
 .portfolio-box img {
+  display: block;
   width: 100%;
   height: 100%;
-  object-fit: cover; /* 👈 или contain, если без обрезки */
+  object-fit: cover; /* или contain, если без обрезки */
   border-radius: 1rem;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
+
+  transition: transform .45s ease, filter .45s ease;
+  will-change: transform;
+  backface-visibility: hidden;
+  transform: translateZ(0);
 }
 
 .portfolio-box:hover img {
-  transform: scale(1.05); /* Легкое увеличение изображения */
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3); /* Увеличиваем тень */
+  transform: scale(1.03); /* Легкое увеличение изображения */
+  filter: brightness(1.05);
 }
 
 /* Chips / filters */
@@ -462,9 +481,23 @@ button,
   border-color: transparent;
 }
 
-/* Сетка не «прыгает», когда прячем карточки */
-.portfolio-container .portfolio-box{ transition:opacity .2s ease; }
-.portfolio-container .portfolio-box[style*="display: none"]{ opacity:0; }
+.portfolio-filters .chip.active:hover{
+  transform: translateY(-1px);
+  box-shadow:0 0 0 3px rgba(232,7,187,.32) inset;
+}
+
+/* ✅ плавное скрытие карточек при фильтрах */
+.portfolio-box.hide {
+  opacity: 0;
+  transform: scale(0.95);
+  pointer-events: none; /* отключаем взаимодействие */
+}
+
+/* уважение к reduce motion */
+@media (prefers-reduced-motion: reduce){
+  .portfolio-box,
+  .portfolio-box img { transition: none; }
+}
 
 
 /* === Contact Section === */
@@ -612,7 +645,7 @@ button,
   }
 
   .portfolio-container {
-    grid-template-columns: repeat(4, 1fr); /* Три колонки на больших экранах */
+    grid-template-columns: repeat(4, 1fr); /* 4 колонки */
     gap: 2.5rem; /* Расстояние между колонками */
   }
 
@@ -1239,10 +1272,10 @@ section {
 }
 
 /* === Like Button for Portfolio Items === */
-.portfolio-box {
-  position: relative;
-}
+/* карточка — якорь для абсолютного позиционирования */
+.portfolio-box { position: relative; }
 
+/* кнопка поверх всего и кликабельна */
 .like-btn {
   position: absolute;
   right: 0.9rem;
@@ -1251,45 +1284,41 @@ section {
   align-items: center;
   justify-content: center;
   gap: 0.5rem;
-  padding: 0.65rem 1rem; /* чуть больше */
+  padding: 0.65rem 1rem;
   border-radius: 999px;
-  background: rgba(0, 0, 0, 0.35); /* затемнение подложки */
+  background: rgba(0,0,0,.35);
   backdrop-filter: blur(10px);
   cursor: pointer;
   transition: transform .2s ease, box-shadow .25s ease, background .25s ease;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.35);
-  z-index: 15;
+  box-shadow: 0 4px 10px rgba(0,0,0,.35);
+  z-index: 9999;          /* важно: выше любого декора */
+  pointer-events: auto;   /* кликабельна */
 }
-
-
 .like-btn i {
-  font-size: 1.9rem; /* было 1.6rem */
+  font-size: 1.9rem;
   background: linear-gradient(135deg, #ff31f8 0%, #a83bff 100%);
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
-  filter: drop-shadow(0 0 10px rgba(255, 0, 204, 0.5));
+  filter: drop-shadow(0 0 10px rgba(255,0,204,.5));
 }
-
-
 .like-btn .like-count {
   font-size: 1.15rem;
   font-weight: 600;
   color: #fff;
-  text-shadow: 0 0 6px rgba(0, 0, 0, 0.6);
+  text-shadow: 0 0 6px rgba(0,0,0,.6);
+}
+.like-btn:hover { transform: scale(1.18); box-shadow: 0 0 18px rgba(255,0,204,.55); }
+.like-btn.burst { transform: scale(1.35); transition: transform .12s ease; }
+
+/* декорации/частицы/дождь/листья и сама картинка не перехватывают клик */
+.portfolio-box img,
+.rain, .snow, .leaf, .falling, .particles, canvas.effect {
+  pointer-events: none !important;
 }
 
-/* эффект при наведении */
-.like-btn:hover {
-  transform: scale(1.18);
-  box-shadow: 0 0 18px rgba(255, 0, 204, 0.55);
-}
-
-/* вспышка при клике */
-.like-btn.burst {
-  transform: scale(1.35);
-  transition: transform .12s ease;
-}
+/* внутренние элементы кнопки не крадут событие */
+.like-btn > * { pointer-events: none; }
 
 
 /* === Autumn Theme Toggle & Canvas === */

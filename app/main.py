@@ -4,7 +4,6 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
 # from app.middleware import CSPMiddleware
-
 # app.add_middleware(CSPMiddleware)
 
 from app.middleware import (
@@ -17,7 +16,15 @@ from app.controllers.root_controller import router as root_router
 from app.controllers.telegram_review_controller import router as telegram_review_router
 from app.controllers.admin_reviews_controller import router as admin_reviews_router
 from app.controllers.likes_controller import router as likes_router
+
+from app.services.redis_client import redis_client
+
+from contextlib import asynccontextmanager
+
 from app.dependencies import admin_auth
+
+# from app.database import Base
+# from app.database import engine
 
 # from app.utils.custom_static import CustomStaticFiles
 
@@ -26,11 +33,6 @@ from fastapi.staticfiles import StaticFiles
 # from dotenv import load_dotenv
 
 # load_dotenv()
-
-
-# from app.database import Base
-# from app.database import engine
-
 
 # class CSPMiddleware(BaseHTTPMiddleware):
 #     async def dispatch(self, request, call_next):
@@ -46,6 +48,17 @@ BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 
 # Подключение статических файлов
 STATIC_DIR = os.getenv("STATIC_DIR", os.path.join(BASE_DIR, "../static"))
+
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    # startup — ничего не делаем, клиент уже создан лениво
+    yield
+    # shutdown — закрыть соединение
+    try:
+        await redis_client.aclose()
+    except Exception:
+        pass
+
 app = FastAPI(
     title="Irade Shamsi Portfolio API",
     description="API для добавления и просмотра комментариев",
@@ -53,6 +66,7 @@ app = FastAPI(
     docs_url=None if IS_PROD else "/docs",
     redoc_url=None if IS_PROD else "/redoc",
     openapi_url=None if IS_PROD else "/openapi.json",
+    lifespan=lifespan,
 )
 
 app.mount("/static", StaticFiles(directory=STATIC_DIR), name="static")

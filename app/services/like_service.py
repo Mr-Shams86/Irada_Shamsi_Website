@@ -1,33 +1,40 @@
 # app/services/like_service.py
 from sqlalchemy.ext.asyncio import AsyncSession
+from sqlalchemy import select, func
+from sqlalchemy.dialects.postgresql import insert
+
 from app.models.like import PortfolioLike
 
 async def get_count(db: AsyncSession, work_id: str) -> int:
-    row = await db.get(PortfolioLike, work_id)
-    return row.count if row else 0
+    stmt = select(PortfolioLike.count).where(PortfolioLike.id == work_id)
+    val = await db.scalar(stmt)
+    return int(val or 0)
 
 async def up(db: AsyncSession, work_id: str) -> int:
-    row = await db.get(PortfolioLike, work_id)
-    if row:
-        row.count += 1
-    else:
-        row = PortfolioLike(id=work_id, count=1)
-        db.add(row)
+    stmt = (
+        insert(PortfolioLike)
+        .values(id=work_id, count=1)
+        .on_conflict_do_update(
+            index_elements=[PortfolioLike.id],
+            set_={"count": PortfolioLike.count + 1},
+        )
+        .returning(PortfolioLike.count)
+    )
+    new_count = await db.scalar(stmt)
     await db.commit()
-    await db.refresh(row)
-    return row.count
+    return int(new_count)
 
 async def down(db: AsyncSession, work_id: str) -> int:
-    row = await db.get(PortfolioLike, work_id)
-    if not row:
-        return 0
-    if row.count > 0:
-        row.count -= 1
-        await db.commit()
-        await db.refresh(row)
-    return row.count
-
-
-async def add_like(db: AsyncSession, like_id: str) -> int:
-    return await up(db, like_id)
-
+    # создаём запись при первом «down», но не уходим в минус
+    stmt = (
+        insert(PortfolioLike)
+        .values(id=work_id, count=0)
+        .on_conflict_do_update(
+            index_elements=[PortfolioLike.id],
+            set_={"count": func.greatest(PortfolioLike.count - 1, 0)},
+        )
+        .returning(PortfolioLike.count)
+    )
+    new_count = await db.scalar(stmt)
+    await db.commit()
+    return int(new_count)
