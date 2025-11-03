@@ -429,12 +429,75 @@ button,
   will-change: transform, box-shadow;
   transform: translateZ(0);
   isolation: isolate; /* создаёт локальный контекст z-index */
+  padding-bottom: 2.2rem; /* место под лайк и подпись на мобилке */
 }
 
-.portfolio-box:hover {
-  transform: translateY(-6px); /* Поднимаем рамку */
-  box-shadow: 0 18px 30px rgba(0, 0, 0, 0.25); /* мягче и глубже */
-  z-index: 2; /* Устанавливаем z-index */
+/* ===== Подпись карточки (frosted glass + читаемость) ===== */
+.card-caption{
+  position: absolute; left: 0; right: 0; bottom: 0;
+  padding: 1.1rem 1rem 1.2rem;
+  display: flex; flex-direction: column; gap: .35rem;
+
+  /* стеклянная подложка с плавным градиентом вверх */
+  background:
+    linear-gradient(to top,
+    rgba(36, 0, 70, .88) 0%,
+    rgba(138, 43, 226, .66) 52%,
+    rgba(0, 0, 0, 0) 82%
+  );
+  backdrop-filter: saturate(110%) blur(3px);
+  -webkit-backdrop-filter: saturate(110%) blur(3px);
+
+  color: #fff;
+  transform: translateY(10px);
+  opacity: 0;
+  transition: transform .25s cubic-bezier(.25,.8,.25,1), opacity .25s ease;
+  z-index: 3;
+  pointer-events: none;
+}
+
+.portfolio-box:hover .card-caption,
+.portfolio-box:focus-within .card-caption{
+  transform: translateY(0);
+  opacity: 1;
+}
+
+/* ===== Текст подписи ===== */
+.card-title{
+  font-weight: 800;
+  line-height: 1.15;
+  /* адаптив: от 2.4rem на мобайле до 2.7rem на десктопе */
+  font-size: clamp(2.4rem, 2.6rem, 2.7rem);
+  color: #fff;
+
+  /* лёгкая подсветка + тонкий обвод, повышает читабельность на светлых фото */
+  text-shadow:
+    0 0 8px rgba(231,107,255,.32),
+    0 2px 6px rgba(0,0,0,.55);
+  -webkit-text-stroke:.35px rgba(0,0,0,.35); /* аккуратный контур */
+}
+
+.card-desc{
+  font-weight: 600;
+  line-height: 1.35;
+  font-size: clamp(2rem, 2.1rem, 2.2rem);
+  color: rgba(255,255,255,.95);
+  text-shadow:
+    0 1px 4px rgba(0,0,0,.55);
+}
+
+/* чуть ярче при наведении карточки: мягкое «свечение» текста */
+.portfolio-box:hover .card-title,
+.portfolio-box:hover .card-desc{
+  text-shadow:
+    0 0 10px rgba(255,255,255,.60),
+    0 2px 6px rgba(0,0,0,.55);
+}
+
+
+/* чтобы кнопка лайка не перекрывалась подписью */
+.portfolio-box .like-btn{
+  position:absolute; right:.6rem; bottom:.6rem; z-index:4;
 }
 
 /* изображение */
@@ -543,39 +606,132 @@ button,
   cursor: pointer;
 }
 
-/* === Footer === */
-
-.footer {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  flex-wrap: wrap;
-  padding: 2rem 9%;
+/* === Footer (unified) === */
+.footer{
   background: var(--second-bg-color);
+  color: rgba(255, 255, 255, 0.85);
+  border-top: 1px solid rgba(255,255,255,.06);
 }
 
-.footer-text p {
-  font-size: 1.6rem;
-}
-
-.footer-iconTop a {
-  display: inline-flex;
-  justify-content: center;
+/* контейнер */
+.footer-inner{
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem 9%;
+  display: flex;
   align-items: center;
-  padding: 0.8rem;
+  justify-content: space-between;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+/* текст слева */
+.footer-text{ line-height: 1.6; }
+.footer-text p{ font-size: 1.6rem; }
+
+/* ссылка-автор и любые ссылки в футере */
+.footer-link{
+  color: var(--text-color);
+  text-decoration: none;
+  transition: color .25s ease;
+}
+.footer-link:hover{ color: var(--main-color); }
+
+/* версия */
+.version{
+  color: rgba(255,255,255,.55);
+  font-size: .9rem;
+}
+
+/* --- Соцсети --- */
+.footer-right {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.footer-right a {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border: 2px solid var(--main-color);
+  border-radius: 50%;
+  color: var(--text-color);
+  font-size: 1.4rem;
+  transition: all .25s ease;
+  box-shadow: 0 0 8px rgba(235, 77, 208, 0.2);
+}
+
+.footer-right a:hover {
   background: var(--main-color);
-  border-radius: 0.8rem;
-  transition: 0.5s ease;
+  color: var(--bg-color);
+  transform: translateY(-2px);
+  box-shadow: 
+    0 0 10px rgba(235, 77, 208, 0.6),
+    0 0 25px rgba(235, 77, 208, 0.4),
+    inset 0 0 10px rgba(255,255,255,0.2);
 }
 
-.footer-iconTop a:hover {
-  box-shadow: 0 0 1rem var(--main-color);
+/* кнопка "вверх" */
+.footer-iconTop a{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
+  background: transparent;             /* теперь прозрачная */
+  color: var(--main-color);
+  border: 2px solid var(--main-color); /* 💜 контур как у соцсетей */
+  font-size: 1.4rem;
+  box-shadow: 0 0 6px rgba(235, 77, 208, 0.25);
+  transition: all .25s ease;
+}
+.footer-iconTop a:hover{
+  background: var(--main-color);
+  color: var(--bg-color);
+  transform: translateY(-3px) scale(1.1);
+  box-shadow: 
+    0 0 10px rgba(235, 77, 208, 0.8),
+    0 0 25px rgba(235, 77, 208, 0.5),
+    0 0 40px rgba(235, 77, 208, 0.3);
 }
 
-.footer-iconTop a i {
-  font-size: 2.4rem;
-  color: var(--second-bg-color);
+/* телефон */
+.footer-phone{
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  margin-top: .7rem;
+  font-size: 1.15rem; /* ↑ увеличен шрифт */
+  color: rgba(255,255,255,.85);
 }
+.footer-phone a{
+  color: var(--main-color);
+  font-weight: 600;
+  text-decoration: none;
+  font-size: 1.25rem; /* ↑ акцент на номере */
+}
+.footer-phone a:hover{ 
+  text-decoration: underline; 
+}
+
+/* Подпись под номером */
+.phone-label {
+  margin-top: .25rem;
+  font-size: .95rem;
+  color: rgba(255,255,255,.65);
+  font-style: italic;
+}
+
+/* адаптив */
+@media (max-width: 640px){
+  .footer-inner{ justify-content: center; text-align: center; }
+  .footer-right{ width: 100%; justify-content: center; }
+}
+
 
 /* === Media Queries === */
 
@@ -665,6 +821,7 @@ button,
 }
 
 @media (max-width: 768px) {
+  .card-caption{ transform:none; opacity:1; pointer-events:auto; }
   #menu-icon {
     display: block;
   }
@@ -1357,3 +1514,5 @@ section {
 .weather-widget #weather-icon{ font-size:16px; opacity:.95; }
 .weather-widget #weather-temp{ font-size:15px; }
 @media (max-width:480px){ .weather-widget #weather-city{ display:none; } }
+
+

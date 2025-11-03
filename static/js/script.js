@@ -134,7 +134,11 @@ const translations = {
         // ✅ Комментарии
         "comments.reviews": "Отзывы:",
         // ✅ добавляем
-        "telegram.review": "Оставить отзыв через Telegram"
+        "telegram.review": "Оставить отзыв через Telegram",
+
+        // ✅ Футер
+        "footer.copyright":
+        "© 2025 Автор: <a href='https://t.me/Mr_Shams_1986' target='_blank'>๛Samer Shams๖</a> | Все права защищены | <span class='version'>v1.3.0</span>",
     },
 
     en: {
@@ -154,7 +158,12 @@ const translations = {
 
         // ✅ Комментарии
         "comments.reviews": "Reviews:",
-        "telegram.review": "Leave a review via Telegram"
+        // ✅ добавляем
+        "telegram.review": "Leave a review via Telegram",
+
+        // ✅ Футер
+        "footer.copyright":
+        "© 2025 Author: <a href='https://t.me/Mr_Shams_1986' target='_blank'>๛Samer Shams๖</a> | All rights reserved | <span class='version'>v1.3.0</span>",
     },
 
     uz: {
@@ -174,8 +183,12 @@ const translations = {
 
         // ✅ Комментарии
         "comments.reviews": "Fikrlar:",
-        "telegram.review": "Telegram orqali sharh qoldiring"
-    }
+        // ✅ добавляем
+        "telegram.review": "Telegram orqali sharh qoldiring",
+        // ✅ Футер
+        "footer.copyright":
+        "© 2025 Muallif: <a href='https://t.me/Mr_Shams_1986' target='_blank'>๛Samer Shams๖</a> | Barcha huquqlar himoyalangan | <span class='version'>v1.3.0</span>"
+    },
 };
 
 // Язык по умолчанию
@@ -780,4 +793,41 @@ document.addEventListener('DOMContentLoaded', () => {
       });
     }
   })();
+})();
+
+// === Card captions from data-title/data-desc =====================
+(function () {
+  const cards = document.querySelectorAll('.portfolio-box');
+  if (!cards.length) return;
+
+  cards.forEach(card => {
+    // если подпись уже есть в HTML — пропускаем
+    if (card.querySelector('.card-caption')) return;
+
+    const title = card.dataset.title?.trim();
+    const desc  = card.dataset.desc?.trim();
+    if (!title && !desc) return;
+
+    const cap = document.createElement('figcaption');
+    cap.className = 'card-caption';
+    if (title){
+      const h = document.createElement('h4');
+      h.className = 'card-title';
+      h.textContent = title;
+      cap.appendChild(h);
+    }
+    if (desc){
+      const p = document.createElement('p');
+      p.className = 'card-desc';
+      p.textContent = desc;
+      cap.appendChild(p);
+    }
+    // вставляем перед кнопкой лайка, чтобы лайк был поверх
+    const likeBtn = card.querySelector('.like-btn');
+    if (likeBtn) {
+      card.insertBefore(cap, likeBtn);
+    } else {
+      card.appendChild(cap);
+    }
+  });
 })();
