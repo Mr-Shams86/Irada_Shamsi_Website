@@ -1,54 +1,54 @@
-# Irada Shamsi Portfolio Website
+# 💇‍♀️ Irada Shamsi Portfolio Website
 
-## 🌟 **Описание проекта**
+## 🌟 **Project Description**
 
-**Этот проект представляет собой портфолио веб-сайт профессионального парикмахера-колориста с интеграцией Telegram-бота для оценок и сбора отзывов клиентов, а также системой лайков для визуального взаимодействия пользователей с галереей работ.**
-**Проект включает административную панель, публичный сайт и Telegram-бот, работающие как единая экосистема.**
+**This project is a portfolio website for a professional hair stylist and colorist with an integrated Telegram bot for collecting client reviews and ratings, as well as a “Likes” system that allows users to visually interact with the portfolio gallery.**
+**The project includes an admin panel, a public website, and a Telegram bot that work together as a unified ecosystem.**
 
-**Ключевые функции сайта:**
+**Key website features:**
 
-- Главная страница с информацией о специалисте.
-- Скрытая Админ панель для модерации отзывов
-- Раздел "Обо мне" с подробным описанием опыта и услуг.
-- Галерея работ (портфолио) с системой лайков 💜.
-- Раздел отзывов клиентов через Telegram с оценками и комментариями.
-- Поддержка API для работы с отзывами.
-
----
-
-## 🔧 **Функциональные возможности**
-
-- 🎨 Адаптивный дизайн (desktop/mobile)
-- 🌐 Многоязычная поддержка (EN, RU, UZ)
-- ⚫ Персонализация содержимого (галерея работ)
-- 💜 Система лайков для портфолио:
--    Пользователи могут ставить лайки к фото работ.
--    Лайки сохраняются на сервере и остаются при обновлении страницы.
--    Визуальные эффекты при нажатии (анимация "вспышки").
--    Кнопка адаптируется под мобильные устройства.
-- 🤖 Telegram-бот для сбора отзывов и оценок от клиентов
-- 📬 Интеграция отзывов Telegram прямо на сайт
-- 📝 Модерация отзывов через admin-панель
-- 🔄 API для управления отзывами
-- 🚀 Docker + GitHub Actions для CI/CD
-- ⚡ Redis для кеширования отзывов
-- 🗄️ PostgreSQL + Alembic для базы данных
+- Homepage with information about the specialist
+- Hidden admin panel for moderating reviews
+- “About Me” section with detailed experience and services
+- Portfolio gallery with a 💜 Likes system
+- Client reviews submitted via Telegram, including ratings and comments
+- API support for working with reviews
 
 ---
 
-## 🛠️ **Используемые технологии**
+## 🔧 **Main Functionality**
+
+- 🎨 Responsive design (desktop & mobile)
+- 🌐 Multilingual support (EN, RU, UZ)
+- ⚫ Personalized content (portfolio gallery)
+- 💜 Portfolio Like system:
+- Users can like photos of works
+- Likes are stored on the server and persist after page reload
+- Visual effects on tap/click (pulse/flash animation)
+- Fully optimized for mobile devices
+- 🤖 Telegram bot for collecting reviews & ratings
+- 📬 Telegram reviews are integrated directly into the website
+- 📝 Review moderation through admin panel
+- 🔄 API for managing reviews
+- 🚀 Docker + GitHub Actions (CI/CD)
+- ⚡ Redis for caching reviews
+- 🗄️ PostgreSQL + Alembic for database management
+
+---
+
+## 🛠️ **Tech Stack**
 
 **Frontend:**
 
 - HTML
 
-- CSS (включая кастомные анимации для лайков ❤️)
+- CSS (including custom animations for likes ❤️)
 
-- JavaScript (взаимодействие с API лайков и отзывов)
+- JavaScript (integration with Likes & Reviews API)
 
-**Backend:**
+- Backend
 
-- Python (FastAPI).
+- Python (FastAPI)
 
 - PostgreSQL
 
@@ -58,11 +58,11 @@
 
 - Pydantic
 
-- Jinja2 (шаблонизатор для HTML)
+- Jinja2 (HTML templating)
 
 - Uvicorn
 
-**DevOps:**
+- DevOps
 
 - Docker / Docker Compose
 
@@ -70,9 +70,11 @@
 
 - GitHub Actions
 
-**Security:**
+- Security
 
-- Middleware: HSTS
+- Middleware:
+
+- HSTS
 
 - X-Frame-Options
 
@@ -80,181 +82,181 @@
 
 - CORS
 
-## 💜 Система лайков (Portfolio Likes)
 
-- Добавлена новая интерактивная функция, позволяющая пользователям выражать одобрение понравившимся работам.
-- Особенности:
+## 💜 Likes System (Portfolio Likes)
 
-- Лайки сохраняются в базе данных (portfolio_likes);
+* A new interactive feature allows users to express appreciation for portfolio works.
 
-- Каждый элемент портфолио имеет уникальный data-id;
+# Details:
 
-- Поддерживается синхронизация с сервером через /api/likes;
+- Likes are stored in the database (portfolio_likes)
 
-- Реализованы анимации и визуальные эффекты (CSS + JS);
+- Each portfolio item has a unique data-id
 
-- Cookie фиксирует, какие работы уже лайкнуты пользователем;
+- Synchronization with the backend via /api/likes
 
-- Работает стабильно даже после редеплоя и обновления страницы.
+- Animated visual feedback (CSS + JS)
 
-## 🤖 Telegram-бот
+- Cookie is used to track already liked items
 
-**В проект входит Telegram-бот для сбора отзывов пользователей с последующей модерацией и публикацией на сайте.**
+- Works correctly even after page reload or redeployment
+
+
+## 🤖 Telegram Bot
+
+**The project includes a Telegram bot that collects user reviews, which are then moderated and published on the website.**
 
 - Aiogram
-
-- FSM (машина состояний)
-
+- FSM (Finite State Machine)
 - Docker
 
 ---
 
-## 🔐 **Использование API**
+## 🔐 API Usage
 
-### Доступные эндпоинты:
+# Available endpoints
 
-- default:
+# Default
 
-- **GET /api**: Главная страница API
+-  * GET /api — API home page
 
-- **GET/**: Главная страница
+-  * GET / — Website home page
 
-- Admin:
+# Admin
 
-- **GET/admin/login**: Login Get
+-  * GET /admin/login — Login page
 
-- **POST/admin/login**: Login Post
+-  * POST /admin/login — Login request
 
-- **GET/admin/logout**: Logout
+-  * GET /admin/logout — Logout
 
-- Telegram Reviews
+# Telegram Reviews
 
-- **POST/api/telegram-reviews/**: Add Review
+-  * POST /api/telegram-reviews/ — Add a new review
 
-- **GET/api/telegram-reviews/**: List Review
+-  * GET /api/telegram-reviews/ — Get list of reviews
 
-- Admin Panel:
+# Admin Panel
 
-- **GET/admin/reviews/**:
+-  * GET /admin/reviews/ — Admin reviews page
 
-- **GET/admin/reviews/list**: Get Reviews For Moderation:
+-  * GET /admin/reviews/list — Get reviews for moderation
 
-- **POST/admin/reviews/{review_id}/approve**: Approve Review:
+-  * POST /admin/reviews/{review_id}/approve — Approve review
 
-- **DELETE/admin/reviews/clear-all**: Delete all Review:
+-  * DELETE /admin/reviews/clear-all — Delete all reviews
 
-- **DELETE/admin/reviews/{review_id}**: Delete Review:
+-  * DELETE /admin/reviews/{review_id} — Delete a single review
 
 ---
 
-## 🏢 **Структура проекта**
+## 🏢 **Project Structure**
 
 ```
 Irada_Shamsi_WebSite/
 .
-├── alembic                    # 🗃️ Миграции базы данных (Alembic)
-│   ├── env.py                 # ⚙️ Конфигурация Alembic
-│   ├── README                 # ℹ️ Инфо-файл Alembic
-│   ├── script.py.mako         # 🧩 Шаблон миграций
-│   └── versions               # 📁 Файлы миграций по версиям
-│       ├── 2cb11b9e70b4_добавил_рейтинг_в_telegram_reviews.py   # 🆙 Добавлен рейтинг к отзывам
-│       ├── 3bb3623147d3_create_portfolio_likes_table.py        # ❤️ Таблица лайков портфолио
-│       ├── b71ac99543ae_create_telegram_reviews_table.py       # 🧱 Таблица telegram-отзывов
-│       ├── d98e6bd40d2b_create_comments_table.py               # 💬 Таблица комментариев
-│       └── dac3e4607d2a_fix_telegram_id_to_biginteger.py       # 🔧 Исправление типа (BigInteger)
-├── alembic.ini                # 🧱 Основной конфиг Alembic
-├── app                        # 🧠 Backend-приложение (FastAPI)
-│   ├── config.py              # ⚙️ Настройки/переменные окружения
-│   ├── controllers            # 🎛️ Роуты/контроллеры FastAPI
-│   │   ├── admin_reviews_controller.py         # 🛡️ Модерация отзывов
+├── alembic                    # 🗃️ Database migrations (Alembic)
+│   ├── env.py                 # ⚙️ Alembic configuration
+│   ├── README                 # ℹ️ Alembic info file
+│   ├── script.py.mako         # 🧩 Migration template
+│   └── versions               # 📁 Versioned migration files
+│       ├── 2cb11b9e70b4_add_rating_to_telegram_reviews.py     # 🆙 Added rating to reviews
+│       ├── 3bb3623147d3_create_portfolio_likes_table.py       # ❤️ Portfolio likes table
+│       ├── b71ac99543ae_create_telegram_reviews_table.py      # 🧱 Telegram reviews table
+│       ├── d98e6bd40d2b_create_comments_table.py              # 💬 Comments table
+│       └── dac3e4607d2a_fix_telegram_id_to_biginteger.py      # 🔧 Fixed type (BigInteger)
+├── alembic.ini                # 🧱 Main Alembic config
+├── app                        # 🧠 Backend application (FastAPI)
+│   ├── config.py              # ⚙️ Settings / environment variables
+│   ├── controllers            # 🎛️ FastAPI routes / controllers
+│   │   ├── admin_reviews_controller.py         # 🛡️ Review moderation
 │   │   ├── __init__.py                          # 📦
-│   │   ├── likes_controller.py                  # ❤️ API лайков
-│   │   ├── root_controller.py                   # 🏠 Корневые/health endpoints
-│   │   └── telegram_review_controller.py        # ✉️ API отзывов из Telegram
-│   ├── database.py            # 🐘 Подключение к PostgreSQL (async)
-│   ├── database_sync.py       # 🔄 Синхронный движок (Alembic/скрипты)
+│   │   ├── likes_controller.py                  # ❤️ Likes API
+│   │   ├── root_controller.py                   # 🏠 Root / health endpoints
+│   │   └── telegram_review_controller.py        # ✉️ Telegram reviews API
+│   ├── database.py            # 🐘 PostgreSQL connection (async)
+│   ├── database_sync.py       # 🔄 Sync engine (Alembic / scripts)
 │   ├── dependencies
-│   │   └── admin_auth.py      # 🔐 Depends: админ-аутентификация
-│   ├── files.code-workspace   # 💼 Workspace VS Code (локально)
+│   │   └── admin_auth.py      # 🔐 Depends: admin authentication
+│   ├── files.code-workspace   # 💼 VS Code workspace (local)
 │   ├── __init__.py            # 📦
-│   ├── main.py                # 🚀 Точка входа FastAPI
-│   ├── middleware             # 🧱 Заголовки безопасности
+│   ├── main.py                # 🚀 FastAPI entry point
+│   ├── middleware             # 🧱 Security headers
 │   │   ├── csp_middleware.py                    # 🛡️ CSP Policy
 │   │   ├── hsts_middleware.py                   # 🛡️ HSTS
 │   │   ├── __init__.py                          # 📦
 │   │   ├── x_content_type_options_middleware.py # 🛡️ X-Content-Type-Options
 │   │   └── x_frame_options_middleware.py        # 🛡️ X-Frame-Options
-│   ├── models                 # 🗄️ SQLAlchemy-модели
+│   ├── models                 # 🗄️ SQLAlchemy models
 │   │   ├── __init__.py                          # 📦
-│   │   ├── like.py                               # ❤️ Модель лайка
-│   │   └── telegram_review.py                    # 📝 Модель телеграм-отзыва
-│   ├── schemas                # 🧾 Pydantic-схемы
+│   │   ├── like.py                               # ❤️ Like model
+│   │   └── telegram_review.py                    # 📝 Telegram review model
+│   ├── schemas                # 🧾 Pydantic schemas
 │   │   ├── __init__.py                          # 📦
-│   │   └── telegram_review.py                    # 🧾 Схемы отзывов
-│   ├── services               # 🧠 Бизнес-логика
+│   │   └── telegram_review.py                    # 🧾 Review schemas
+│   ├── services               # 🧠 Business logic
 │   │   ├── __init__.py                          # 📦
-│   │   ├── like_service.py                       # ❤️ Работа с лайками (ограничения/подсчёт)
-│   │   ├── redis_client.py                       # ⚡ Клиент Redis
-│   │   └── telegram_review_service.py            # ✉️ Обработка отзывов
-│   └── utils                  # 🧰 Утилиты
-│       ├── custom_static.py                     # 🗂️ Кастомный StaticFiles
+│   │   ├── like_service.py                       # ❤️ Like processing (limits/counts)
+│   │   ├── redis_client.py                       # ⚡ Redis client
+│   │   └── telegram_review_service.py            # ✉️ Reviews handling
+│   └── utils                  # 🧰 Utilities
+│       ├── custom_static.py                     # 🗂️ Custom StaticFiles
 │       └── __init__.py                          # 📦
-├── bot                        # 🤖 Telegram-бот (Aiogram)
-│   ├── bot_instance.py        # 🤖 Инициализация бота
-│   ├── config.py              # 🔑 Токен/настройки
-│   ├── Dockerfile             # 🐳 Dockerfile бота
-│   ├── handlers.py            # 🧭 Хендлеры команд/состояний
+├── bot                        # 🤖 Telegram bot (Aiogram)
+│   ├── bot_instance.py        # 🤖 Bot initialization
+│   ├── config.py              # 🔑 Token / settings
+│   ├── Dockerfile             # 🐳 Bot Dockerfile
+│   ├── handlers.py            # 🧭 Command / state handlers
 │   ├── __init__.py            # 📦
-│   ├── main_bot.py            # 🚀 Точка входа бота
-│   ├── requirements.txt       # 📦 Зависимости бота
+│   ├── main_bot.py            # 🚀 Bot entry point
+│   ├── requirements.txt       # 📦 Bot dependencies
 │   ├── services
-│   │   └── telegram_review_service.py           # ✉️ Отправка отзывов на backend
+│   │   └── telegram_review_service.py           # ✉️ Send reviews to backend
 │   └── states.py              # 🧭 FSM (Aiogram)
-├── docker-compose.yml         # 🐳 Оркестрация: backend + bot + Redis + Postgres
-├── Dockerfile                 # 🐳 Dockerfile backend
-├── files.code-workspace       # 💼 Workspace VS Code (корень)
-├── os                         # 📁 Временная/прочая папка (лучше переименовать/убрать)
-├── README.md                  # 📚 Документация проекта
-├── requirements.txt           # 📦 Зависимости backend
-├── scripts                    # 🛠️ Скрипты обслуживания/деплоя
-│   └── start.sh               # ▶️ Стартовый скрипт (запуск/миграции/службы)
-├── static                     # 🌐 Статические ресурсы сайта
+├── docker-compose.yml         # 🐳 Orchestration: backend + bot + Redis + Postgres
+├── Dockerfile                 # 🐳 Backend Dockerfile
+├── files.code-workspace       # 💼 VS Code workspace (root)
+├── os                         # 📁 Temporary / misc folder (better to rename/remove)
+├── README.md                  # 📚 Project documentation
+├── requirements.txt           # 📦 Backend dependencies
+├── scripts                    # 🛠️ Service / deploy scripts
+│   └── start.sh               # ▶️ Start script (run/migrations/services)
+├── static                     # 🌐 Website static assets
 │   ├── css
-│   │   ├── admin_login.css    # 🎨 Стили входа админа
-│   │   ├── admin_reviews.css  # 🎨 Стили модерации
-│   │   └── style.css          # 🎨 Общие стили
+│   │   ├── admin_login.css    # 🎨 Admin login styles
+│   │   ├── admin_reviews.css  # 🎨 Moderation styles
+│   │   └── style.css          # 🎨 Global styles
 │   ├── images
-│   │   ├── favicon.ico        # 🧿 Иконка сайта
-│   │   └── review_avatars     # 🖼️ Аватарки пользователей
-│   │       └── test.txt       # 🗒️ Заглушка
+│   │   ├── favicon.ico        # 🧿 Site icon
+│   │   └── review_avatars     # 🖼️ User avatars
+│   │       └── test.txt       # 🗒️ Placeholder
 │   ├── js
-│   │   ├── admin_reviews.js   # 🧠 Логика модерации
-│   │   └── script.js          # 💻 Общий JS
-│   ├── robots.txt             # 🤖 Индексация
-│   └── sitemap.xml            # 🗺️ Карта сайта (SEO)
-├── structure.txt              # 🧱 Снимок структуры проекта
-└── templates                  # 🧩 Jinja2-шаблоны
-    ├── admin_login.html       # 🔐 Вход в админку
-    ├── admin_reviews.html     # 🧑‍⚖️ Модерация отзывов
-    ├── index-en.html          # 🌍 Главная (англ.)
-    ├── index-ru.html          # 🇷🇺 Главная (рус.)
-    └── index-uz.html          # 🇺🇿 Главная (узб.)
-
+│   │   ├── admin_reviews.js   # 🧠 Moderation logic
+│   │   └── script.js          # 💻 Global JS
+│   ├── robots.txt             # 🤖 Indexing
+│   └── sitemap.xml            # 🗺️ Site map (SEO)
+├── structure.txt              # 🧱 Project structure snapshot
+└── templates                  # 🧩 Jinja2 templates
+    ├── admin_login.html       # 🔐 Admin login
+    ├── admin_reviews.html     # 🧑‍⚖️ Reviews moderation
+    ├── index-en.html          # 🌍 Homepage (EN)
+    ├── index-ru.html          # 🇷🇺 Homepage (RU)
+    └── index-uz.html          # 🇺🇿 Homepage (UZ)
 
 
 ```
 
 ---
 
-## 🔗 Ссылки
+## 🔗 Links
 
-- [Сайт проекта](https://irada-shamsi.com)
+- [Website](https://irada-shamsi.com)
 
-- [GitHub репозиторий](https://github.com/Mr-Shams86/Irada_Shamsi_Website)
+- [GitHub Repository](https://github.com/Mr-Shams86/Irada_Shamsi_Website)
 
-- [Telegram-бот для отзывов](https://t.me/IradaFeedbackBot)
+- [Telegram Feedback Bot](https://t.me/IradaFeedbackBot)
 
-## 📢 **Контакты**
+## 📢 **Contacts**
 
 - **Email**: sammertime763@gmail.com
 
@@ -262,6 +264,6 @@ Irada_Shamsi_WebSite/
 
 ---
 
-## 📚 **Лицензия**
+## 📚 **License**
 
 - MIT License
