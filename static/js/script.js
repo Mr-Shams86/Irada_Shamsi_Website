@@ -398,6 +398,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 });
 
+/*
 // === Autumn FX (leaves + gentle rain) ======================================
 (() => {
   const cnv = document.getElementById('autumn-canvas');
@@ -615,6 +616,140 @@ document.addEventListener('DOMContentLoaded', () => {
     resize();
     requestAnimationFrame(tick);
   });
+})();
+*/
+
+// === Winter FX (snow) ======================================================
+(() => {
+  const cnv = document.getElementById('autumn-canvas'); // тот же canvas
+  if (!cnv) return;
+
+  const ctx = cnv.getContext('2d');
+  let DPR = Math.min(window.devicePixelRatio || 1, 2);
+  let W = 0, H = 0, running = true;
+
+  const cfg = {
+    snow: {
+      enabled: true,
+      density: 0.1,         // сколько снега
+      size: [2, 5],         // радиус снежинок (px)
+      fall: [0.01, 0.03],   // скорость по Y (px/мс)
+      wind: [-0.03, 0.03]   // ветер по X (px/мс)
+    }
+  };
+
+  // уважение к prefers-reduced-motion
+  const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (prefersReduced) {
+    cfg.snow.enabled = false;
+  }
+
+  let flakes = [];
+
+  function rnd(a, b) { return a + Math.random() * (b - a); }
+
+  function adjustCount(arr, n, factory) {
+    while (arr.length < n) arr.push(factory());
+    while (arr.length > n) arr.pop();
+  }
+
+  function makeFlake() {
+    const r  = rnd(cfg.snow.size[0], cfg.snow.size[1]) * DPR;
+    const vy = rnd(cfg.snow.fall[0], cfg.snow.fall[1]) * (H / 600); // чуть зависит от высоты
+    const vx = rnd(cfg.snow.wind[0], cfg.snow.wind[1]) * (W / 1200);
+
+    return {
+      x: rnd(0, W),
+      y: rnd(-H * 0.3, 0),
+      r,
+      vx,
+      vy,
+      alpha: rnd(0.4, 1),
+      da: rnd(-0.0003, 0.0003) // лёгкое мерцание
+    };
+  }
+
+  function resize() {
+    DPR = Math.min(window.devicePixelRatio || 1, 2);
+    W = Math.floor(window.innerWidth * DPR);
+    H = Math.floor(window.innerHeight * DPR);
+    cnv.width = W;
+    cnv.height = H;
+    cnv.style.width = '100%';
+    cnv.style.height = '100%';
+
+    const areaMP = (W * H) / (1000 * 1000); // мегапиксели
+    const targetFlakes = cfg.snow.enabled
+      ? Math.max(80, (areaMP * 450 * cfg.snow.density) | 0)
+      : 0;
+
+    adjustCount(flakes, targetFlakes, makeFlake);
+  }
+  window.addEventListener('resize', resize, { passive: true });
+  resize();
+
+  let last = performance.now();
+  function tick(t) {
+    if (!running) return;
+    const dt = Math.min(40, t - last);
+    last = t;
+
+    ctx.clearRect(0, 0, W, H);
+
+    if (cfg.snow.enabled) {
+      ctx.fillStyle = 'rgba(255, 255, 255, 0.9)';
+      for (const f of flakes) {
+        f.x += f.vx * dt;
+        f.y += f.vy * dt;
+        f.alpha += f.da * dt;
+        if (f.alpha < 0.2 || f.alpha > 1) f.da *= -1;
+
+        // респаун
+        if (f.y > H + 20 || f.x < -20 || f.x > W + 20) {
+          Object.assign(f, makeFlake());
+          f.y = -10;
+        }
+
+        ctx.globalAlpha = f.alpha;
+        ctx.beginPath();
+        ctx.arc(f.x, f.y, f.r, 0, Math.PI * 2);
+        ctx.fill();
+      }
+      ctx.globalAlpha = 1;
+    }
+
+    // если FPS проседает — чуть уменьшаем плотность
+    if (dt > 30 && cfg.snow.density > 0.4) {
+      cfg.snow.density -= 0.05;
+      resize();
+    }
+
+    requestAnimationFrame(tick);
+  }
+  requestAnimationFrame(tick);
+
+  // пауза на background-вкладке
+  document.addEventListener('visibilitychange', () => {
+    running = (document.visibilityState === 'visible');
+    if (running) {
+      last = performance.now();
+      requestAnimationFrame(tick);
+    }
+  });
+
+  // Кнопка включения/выключения (используем старую кнопку)
+  const btn = document.getElementById('toggle-autumn');
+  if (btn) {
+    // переименуем визуально
+    btn.textContent = '❄ Snow';
+    btn.addEventListener('click', () => {
+      cfg.snow.enabled = !cfg.snow.enabled;
+      cnv.style.display = cfg.snow.enabled ? 'block' : 'none';
+      if (cfg.snow.enabled) {
+        resize();
+      }
+    });
+  }
 })();
 
 
