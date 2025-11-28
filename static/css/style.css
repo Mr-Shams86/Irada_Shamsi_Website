@@ -1506,8 +1506,8 @@ section {
 .like-btn > * { pointer-events: none; }
 
 
-/* === Autumn Theme Toggle & Canvas === */
-#autumn-canvas{
+/* === Snow Theme Toggle & Canvas === */
+#snow-canvas{
   position: fixed;
   inset: 0;
   width: 100vw; height: 100vh;
@@ -1522,7 +1522,7 @@ section {
   backdrop-filter: blur(6px); cursor: pointer;
 }
 @media (prefers-reduced-motion: reduce){
-  #autumn-canvas{ display:none; }
+  #snow-canvas{ display:none; }
   .theme-toggle{ display:none; }
 }
 

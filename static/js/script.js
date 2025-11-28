@@ -621,7 +621,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 // === Winter FX (snow) ======================================================
 (() => {
-  const cnv = document.getElementById('autumn-canvas'); // тот же canvas
+  const cnv = document.getElementById('snow-canvas'); // тот же canvas
   if (!cnv) return;
 
   const ctx = cnv.getContext('2d');
@@ -632,7 +632,7 @@ document.addEventListener('DOMContentLoaded', () => {
     snow: {
       enabled: true,
       density: 0.1,         // сколько снега
-      size: [2, 5],         // радиус снежинок (px)
+      size: [3, 7],         // радиус снежинок (px)
       fall: [0.05, 0.05],   // скорость по Y (px/мс)
       wind: [-0.03, 0.03]   // ветер по X (px/мс)
     }
@@ -688,6 +688,44 @@ document.addEventListener('DOMContentLoaded', () => {
   window.addEventListener('resize', resize, { passive: true });
   resize();
 
+  // === Рисуем узорчатую снежинку вместо кружка ==========================
+  function drawFlake(f) {
+    const r = f.r;                 // "радиус" снежинки (уже с учётом DPR)
+    const arms = 6;                // количество лучей
+    const branchLen = r * 0.4;     // длина боковых веточек
+
+    ctx.save();
+    ctx.translate(f.x, f.y);
+    ctx.lineWidth = Math.max(0.7 * DPR, r * 0.18);
+    ctx.strokeStyle = 'rgba(190, 230, 255, 1)';
+
+    for (let i = 0; i < arms; i++) {
+      const angle = (Math.PI * 2 * i) / arms;
+      ctx.save();
+      ctx.rotate(angle);
+
+      // основной луч
+      ctx.beginPath();
+      ctx.moveTo(0, 0);
+      ctx.lineTo(0, -r);
+      ctx.stroke();
+
+      // боковые ответвления примерно посередине луча
+      const midY = -r * 0.55;
+      ctx.beginPath();
+      ctx.moveTo(0, midY);
+      ctx.lineTo(-branchLen, midY - branchLen * 0.5);
+      ctx.moveTo(0, midY);
+      ctx.lineTo(branchLen, midY - branchLen * 0.5);
+      ctx.stroke();
+
+      ctx.restore();
+    }
+
+    ctx.restore();
+  }
+  // ======================================================================
+
   let last = performance.now();
   function tick(t) {
     if (!running) return;
@@ -697,26 +735,24 @@ document.addEventListener('DOMContentLoaded', () => {
     ctx.clearRect(0, 0, W, H);
 
     if (cfg.snow.enabled) {
-      ctx.fillStyle = 'rgba(133, 209, 241, 0.9)';
-      for (const f of flakes) {
-        f.x += f.vx * dt;
-        f.y += f.vy * dt;
-        f.alpha += f.da * dt;
-        if (f.alpha < 0.2 || f.alpha > 1) f.da *= -1;
+  for (const f of flakes) {
+    f.x += f.vx * dt;
+    f.y += f.vy * dt;
+    f.alpha += f.da * dt;
+    if (f.alpha < 0.2 || f.alpha > 1) f.da *= -1;
 
-        // респаун
-        if (f.y > H + 20 || f.x < -20 || f.x > W + 20) {
-          Object.assign(f, makeFlake());
-          f.y = -10;
-        }
-
-        ctx.globalAlpha = f.alpha;
-        ctx.beginPath();
-        ctx.arc(f.x, f.y, f.r, 0, Math.PI * 2);
-        ctx.fill();
-      }
-      ctx.globalAlpha = 1;
+    // респаун
+    if (f.y > H + 20 || f.x < -20 || f.x > W + 20) {
+      Object.assign(f, makeFlake());
+      f.y = -10;
     }
+
+    ctx.globalAlpha = f.alpha;
+    drawFlake(f);           // <- РИСУЕМ УЗОРЧАТУЮ СНЕЖИНКУ
+  }
+  ctx.globalAlpha = 1;
+}
+
 
     // если FPS проседает — чуть уменьшаем плотность
     if (dt > 30 && cfg.snow.density > 0.4) {
@@ -738,10 +774,10 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   // Кнопка включения/выключения (используем старую кнопку)
-  const btn = document.getElementById('toggle-autumn');
+  const btn = document.getElementById('toggle-snow');
   if (btn) {
     // переименуем визуально
-    btn.textContent = '❄ Snow';
+    btn.textContent = '❄️ Snow';
     btn.addEventListener('click', () => {
       cfg.snow.enabled = !cfg.snow.enabled;
       cnv.style.display = cfg.snow.enabled ? 'block' : 'none';
