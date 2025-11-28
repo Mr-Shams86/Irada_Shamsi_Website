@@ -633,7 +633,7 @@ document.addEventListener('DOMContentLoaded', () => {
       enabled: true,
       density: 0.1,         // сколько снега
       size: [2, 5],         // радиус снежинок (px)
-      fall: [0.01, 0.03],   // скорость по Y (px/мс)
+      fall: [0.05, 0.05],   // скорость по Y (px/мс)
       wind: [-0.03, 0.03]   // ветер по X (px/мс)
     }
   };
@@ -697,7 +697,7 @@ document.addEventListener('DOMContentLoaded', () => {
     ctx.clearRect(0, 0, W, H);
 
     if (cfg.snow.enabled) {
-      ctx.fillStyle = 'rgba(255, 255, 255, 0.9)';
+      ctx.fillStyle = 'rgba(133, 209, 241, 0.9)';
       for (const f of flakes) {
         f.x += f.vx * dt;
         f.y += f.vy * dt;

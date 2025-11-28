@@ -14,6 +14,7 @@
 
 :root {
   --header-height: 10rem; /* Высота шапки */
+  --garland-height: 10rem;
   --bg-color: #1f242d;
   --second-bg-color: #323946;
   --text-color: #fff;
@@ -89,6 +90,33 @@ section {
 .navbar a:hover,
 .navbar a.active {
   color: var(--main-color);
+}
+
+.garland {
+  position: fixed;
+  top: var(--header-height); /* сразу под хедером */
+  left: 0;
+  width: 100%;
+  height: var(--garland-height);
+
+  background-image: url("/static/images/garland.png");
+  background-repeat: repeat-x;
+  background-size: contain;
+  background-position: center top;
+
+  z-index: 90;          /* меньше, чем у модалок, но можно ≈ 90 */
+  pointer-events: none; /* чтобы не мешала кликам по секции под ней */
+}
+
+/* лёгкое сияние, по желанию */
+@keyframes garlandGlow {
+  0%   { filter: brightness(1); }
+  50%  { filter: brightness(1.2) saturate(1.15); }
+  100% { filter: brightness(1); }
+}
+
+.garland {
+  animation: garlandGlow 3s ease-in-out infinite;
 }
 
 /* Language Switcher */
