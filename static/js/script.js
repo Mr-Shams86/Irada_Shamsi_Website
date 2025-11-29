@@ -35,7 +35,7 @@ window.onscroll = () => {
 
 /*==================== scroll reveal ====================*/
 const sr = ScrollReveal({
-  reset: false,          // было true — из-за этого блоки снова скрывались
+  reset: false,          
   distance: '60px',
   duration: 900,
   delay: 120
@@ -191,8 +191,20 @@ const translations = {
     },
 };
 
-// Язык по умолчанию
-let currentLanguage = localStorage.getItem('lang') || new URLSearchParams(window.location.search).get('lang') || 'ru';
+// Определяем язык из URL и localStorage
+let urlLang = new URLSearchParams(window.location.search).get('lang');
+let savedLang = localStorage.getItem('lang');
+
+// Приоритеты:
+// 1) ?lang=xx в URL
+// 2) сохранённый язык
+// 3) fallback = 'en'
+let currentLanguage = urlLang || savedLang || 'en';
+
+// Если язык пришёл из URL — сохраняем его
+if (urlLang) {
+    localStorage.setItem('lang', urlLang);
+}
 
 
 // Обновление текста на странице
@@ -328,7 +340,7 @@ const escapeHTML = (str) => {
 // Инициализация интерфейса при загрузке страницы
 document.addEventListener('DOMContentLoaded', () => {
     updateLanguage(currentLanguage);
-    updateTypedText(currentLanguage); // запускаем typed.js с текущим языком
+// updateTypedText(currentLanguage); // запускаем typed.js с текущим языком
 
     // Подставляем default-avatar, если фото не загрузилось
     const reviews = document.querySelectorAll('#telegram-reviews img.avatar');
