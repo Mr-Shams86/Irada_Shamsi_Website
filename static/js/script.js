@@ -112,8 +112,6 @@ document.addEventListener('keydown', function (event) {
 });
 
 
-
-
 // Хранение переводов
 const translations = {
     ru: {
@@ -191,21 +189,11 @@ const translations = {
     },
 };
 
-// Определяем язык из URL и localStorage
-let urlLang = new URLSearchParams(window.location.search).get('lang');
-let savedLang = localStorage.getItem('lang');
-
-// Приоритеты:
-// 1) ?lang=xx в URL
-// 2) сохранённый язык
-// 3) fallback = 'en'
-let currentLanguage = urlLang || savedLang || 'en';
-
-// Если язык пришёл из URL — сохраняем его
-if (urlLang) {
-    localStorage.setItem('lang', urlLang);
-}
-
+// Язык по умолчанию
+let currentLanguage = 
+    localStorage.getItem('lang') || 
+    new URLSearchParams(window.location.search).get('lang') 
+    || 'ru';
 
 // Обновление текста на странице
 function updateLanguage(lang) {
@@ -239,7 +227,10 @@ document.querySelectorAll('.lang-switch').forEach(link => {
     });
 });
 
-
+// при загрузке страницы сразу запускаем перевод
+document.addEventListener('DOMContentLoaded', () => {
+    updateLanguage(currentLanguage);
+});
 
 /* === Portfolio filters & deep-linking ============================== */
 (function () {
