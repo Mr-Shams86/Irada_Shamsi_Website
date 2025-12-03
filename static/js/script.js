@@ -190,10 +190,8 @@ const translations = {
 };
 
 // Язык по умолчанию
-let currentLanguage = 
-    localStorage.getItem('lang') || 
-    new URLSearchParams(window.location.search).get('lang') 
-    || 'ru';
+let currentLanguage = localStorage.getItem('lang') || new URLSearchParams(window.location.search).get('lang') || 'ru';
+
 
 // Обновление текста на странице
 function updateLanguage(lang) {
@@ -225,11 +223,6 @@ document.querySelectorAll('.lang-switch').forEach(link => {
         localStorage.setItem('lang', lang);
         updateLanguage(lang);
     });
-});
-
-// при загрузке страницы сразу запускаем перевод
-document.addEventListener('DOMContentLoaded', () => {
-    updateLanguage(currentLanguage);
 });
 
 /* === Portfolio filters & deep-linking ============================== */
@@ -331,7 +324,7 @@ const escapeHTML = (str) => {
 // Инициализация интерфейса при загрузке страницы
 document.addEventListener('DOMContentLoaded', () => {
     updateLanguage(currentLanguage);
-// updateTypedText(currentLanguage); // запускаем typed.js с текущим языком
+    updateTypedText(currentLanguage); // запускаем typed.js с текущим языком
 
     // Подставляем default-avatar, если фото не загрузилось
     const reviews = document.querySelectorAll('#telegram-reviews img.avatar');
