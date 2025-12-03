@@ -115,6 +115,16 @@ document.addEventListener('keydown', function (event) {
 // Хранение переводов
 const translations = {
     ru: {
+        // ✅ Navbar
+        "nav.home": "Главная",
+        "nav.about": "Обо мне",
+        "nav.services": "Услуги",
+        "nav.portfolio": "Портфолио",
+        "nav.comments": "Отзывы",
+        "nav.contact": "Контакты",
+
+        // ✅ Строки секции services
+        "about.title": "Обо мне",
         "haircuts.title": "Стрижки",
         "haircuts.description": "Выполняю современные стрижки любой сложности, учитывая индивидуальные пожелания клиента.",
         "coloring.title": "Окрашивание",
@@ -140,6 +150,16 @@ const translations = {
     },
 
     en: {
+        // ✅ Navbar
+        "nav.home": "Home",
+        "nav.about": "About",
+        "nav.services": "Services",
+        "nav.portfolio": "Portfolio",
+        "nav.comments": "Reviews",
+        "nav.contact": "Contact",
+
+        // ✅ Строки секции services
+        "about.title": "About Me",
         "haircuts.title": "Haircuts",
         "haircuts.description": "Provide modern haircuts of any complexity, considering the individual preferences of the client.",
         "coloring.title": "Coloring",
@@ -165,6 +185,16 @@ const translations = {
     },
 
     uz: {
+        // ✅ Navbar
+        "nav.home": "Bosh sahifa",
+        "nav.about": "Men haqimda",
+        "nav.services": "Xizmatlar",
+        "nav.portfolio": "Portfel",
+        "nav.comments": "Fikrlar",
+        "nav.contact": "Aloqa",
+
+        // ✅ Строки секции services
+        "about.title": "Men haqimda",
         "haircuts.title": "Soch olish",
         "haircuts.description": "Mijozning istaklariga mos har qanday murakkablikdagi zamonaviy soch turmaklarini bajaraman.",
         "coloring.title": "Rang berish",
