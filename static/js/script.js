@@ -220,40 +220,37 @@ const translations = {
 };
 
 // Язык по умолчанию
-let currentLanguage = localStorage.getItem('lang') || new URLSearchParams(window.location.search).get('lang') || 'ru';
+const params = new URLSearchParams(window.location.search);
+let currentLanguage = params.get('lang') || 'ru';
 
+if (!['ru', 'en', 'uz'].includes(currentLanguage)) {
+    currentLanguage = 'ru';
+}
 
 // Обновление текста на странице
 function updateLanguage(lang) {
     currentLanguage = lang;
 
-     // Перевод текста с data-translate
+    // Перевод текста
     document.querySelectorAll("[data-translate]").forEach(el => {
         const key = el.getAttribute("data-translate");
         const translation = translations[currentLanguage][key];
-        if (translation) {
-            el.innerText = translation;
-        }
+        if (translation) el.innerText = translation;
     });
 
-    // ✅ Переключаем активную кнопку языка
-    document.querySelectorAll('.lang-switch').forEach(link => {
-        link.classList.toggle('active', link.getAttribute('data-lang') === currentLanguage);
+    // Подсветка кнопки языка (если добавишь data-lang)
+    document.querySelectorAll("[data-lang]").forEach(btn => {
+        btn.classList.toggle("active", btn.getAttribute("data-lang") === currentLanguage);
     });
 
-    // ✅ Обновляем анимацию typed.js
-    updateTypedText(lang);
+    // Обновляем typed.js
+    updateTypedText(currentLanguage);
 }
 
-// Обработчик переключения языка
-document.querySelectorAll('.lang-switch').forEach(link => {
-    link.addEventListener('click', (e) => {
-        e.preventDefault();
-        const lang = link.getAttribute('data-lang');
-        localStorage.setItem('lang', lang);
-        updateLanguage(lang);
-    });
+document.addEventListener('DOMContentLoaded', () => {
+    updateLanguage(currentLanguage);
 });
+
 
 /* === Portfolio filters & deep-linking ============================== */
 (function () {

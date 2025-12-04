@@ -168,10 +168,13 @@
         
         <!-- Language Switcher -->
         <div class="language-switcher">
-            <a href="/?lang=en" {% if request.query_params.get('lang') == 'en' %}class="active"{% endif %}>EN</a>
-            <a href="/?lang=ru" {% if request.query_params.get('lang') == 'ru' %}class="active"{% endif %}>RU</a>
-            <a href="/?lang=uz" {% if request.query_params.get('lang') == 'uz' %}class="active"{% endif %}>UZ</a>
-        </div>        
+            <a href="/?lang=en" data-lang="en"
+                {% if request.query_params.get('lang') == 'en' %}class="active"{% endif %}>EN</a>
+            <a href="/?lang=ru" data-lang="ru"
+                {% if request.query_params.get('lang') == 'ru' %}class="active"{% endif %}>RU</a>
+            <a href="/?lang=uz" data-lang="uz"
+                {% if request.query_params.get('lang') == 'uz' %}class="active"{% endif %}>UZ</a>
+        </div>       
 
     </header>
 
